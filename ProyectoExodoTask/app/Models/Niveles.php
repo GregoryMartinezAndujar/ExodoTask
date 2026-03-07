@@ -9,4 +9,8 @@ class Niveles extends Model
 {
     /** @use HasFactory<\Database\Factories\NivelesFactory> */
     use HasFactory;
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
