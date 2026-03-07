@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Tareas;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,10 @@ class NotasTareasFactory extends Factory
      */
     public function definition(): array
     {
+        $tarea = Tareas::all();
         return [
-            //
+            'a_text' => fake()->text(),
+            'a_tarea_id' => $tarea->random()->id,
         ];
     }
 }

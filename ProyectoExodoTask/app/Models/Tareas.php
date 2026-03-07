@@ -11,13 +11,13 @@ class Tareas extends Model
     use HasFactory;
 
     //Creacion de las cardinalidades en la base de datos 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'a_user_id');
     }
     public function grupoTareas()
     {
-        return $this->belongsTo(GruposDeTareas::class);
+        return $this->belongsTo(GruposDeTareas::class, 'a_grupo_id');
     }
     public function notas()
     {

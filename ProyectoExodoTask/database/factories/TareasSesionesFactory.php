@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\SesionesDeEstudio;
+use App\Models\Tareas;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,11 @@ class TareasSesionesFactory extends Factory
      */
     public function definition(): array
     {
+        $tarea = Tareas::all();
+        $sesion = SesionesDeEstudio::all();
         return [
-            //
+            'a_tarea_id' => $tarea->random()->id,
+            'a_sesion_estudio_id' => $sesion->random()->id,
         ];
     }
 }

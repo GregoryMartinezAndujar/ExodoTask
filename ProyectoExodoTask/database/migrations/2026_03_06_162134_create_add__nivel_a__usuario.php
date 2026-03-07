@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('a_niveles_id')->nullable();
+            $table->unsignedBigInteger('a_nivel_id')->nullable();
 
-            $table->foreign('a_niveles_id')->references('id')->on('niveles')
+            $table->foreign('a_nivel_id')->references('id')->on('niveles')
                 ->onDelete('set null')
                 ->onUpdate('cascade');
         });

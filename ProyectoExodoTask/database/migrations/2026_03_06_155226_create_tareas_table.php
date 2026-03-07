@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('tareas', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('a_nombre');
             $table->string('a_descripcion');
             $table->time('a_horas');
-            $table->unsignedBigInteger('user_id');
-
-            $table->foreign('user_id')->references('id')->on('users')
+            $table->unsignedBigInteger('a_user_id');
+            $table->timestamps();
+            $table->foreign('a_user_id')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

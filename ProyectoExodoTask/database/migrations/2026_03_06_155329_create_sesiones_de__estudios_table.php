@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('sesiones_de_estudios', function (Blueprint $table) {
             $table->id();
-            $table->time('a_tiempo_invertido');
+            $table->bigInteger('a_tiempo_invertido');
             $table->boolean('a_finalizada');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('a_user_id');
 
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')
+            $table->foreign('a_user_id')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

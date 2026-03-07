@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,12 @@ class TareasFactory extends Factory
      */
     public function definition(): array
     {
+        $usuarios = User::all();
         return [
-            //
+            'a_nombre' => fake()->text(),
+            'a_descripcion' =>  fake()->realText(),
+            'a_horas' =>  fake()->time(),
+            'a_user_id' => $usuarios->random()->id,
         ];
     }
 }

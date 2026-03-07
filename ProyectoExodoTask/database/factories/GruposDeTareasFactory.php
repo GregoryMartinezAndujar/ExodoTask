@@ -17,7 +17,7 @@ class GruposDeTareasFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'a_nombre' => fake()->name(),
         ];
     }
 }

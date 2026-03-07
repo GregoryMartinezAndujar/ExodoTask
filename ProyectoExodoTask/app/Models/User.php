@@ -50,7 +50,7 @@ class User extends Authenticatable
     //Creacion de las cardinalidades en la base de datos 
     public function nivel()
     {
-        return $this->belongsTo(Niveles::class);
+        return $this->belongsTo(Niveles::class, 'a_nivel_id');
     }
     public function tareas()
     {
