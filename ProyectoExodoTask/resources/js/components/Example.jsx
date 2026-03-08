@@ -1,18 +1,25 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
+import React, { useEffect, useState } from "react";
 
 function Example() {
-    return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">Example Component</div>
+    const [users, setUsers] = useState([]);
 
-                        <div className="card-body">I'm an klk component!</div>
-                    </div>
-                </div>
-            </div>
+    useEffect(() => {
+        fetch("/api/users")
+            .then((res) => res.json())
+            .then((data) => setUsers(data));
+    }, []);
+
+    return (
+        <div>
+            <h1>Usuarios</h1>
+            <ul>
+                {users.map((user) => (
+                    <li key={user.id}>
+                        {user.a_name} — {user.a_email}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
