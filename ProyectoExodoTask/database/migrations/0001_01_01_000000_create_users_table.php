@@ -28,12 +28,12 @@ return new class extends Migration
         });
 
         Schema::create('sessions', function (Blueprint $table) {
-            $table->string('a_id')->primary();
-            $table->foreignId('a_user_id')->nullable()->index();
-            $table->string('a_ip_address', 45)->nullable();
-            $table->text('a_user_agent')->nullable();
-            $table->longText('a_payload');
-            $table->integer('a_last_activity')->index();
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
         });
     }
 
