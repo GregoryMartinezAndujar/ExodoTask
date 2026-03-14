@@ -1,25 +1,24 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head } from "@inertiajs/react";
+import Tareas from "@/components/Tareas";
 
-export default function Dashboard() {
+export default function Dashboard({ tareas }) {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
-                </h2>
+                <div className="flex items-center space-x-3">
+                    <h2 className="text-4xl sm:text-5xl lg:text-6xl  text-gray-800">
+                        Tareas
+                    </h2>
+                </div>
             }
         >
             <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            You're logged in!
-                        </div>
-                    </div>
-                </div>
+            <div>
+                {tareas.map((tarea) => (
+                    <Tareas key={tarea.id} tarea={tarea} />
+                ))}
             </div>
         </AuthenticatedLayout>
     );

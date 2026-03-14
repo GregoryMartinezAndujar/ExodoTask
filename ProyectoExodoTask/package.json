@@ -26,6 +26,7 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "dayjs": "^1.11.20",
         "react-router-dom": "^7.13.1"
     }
 }

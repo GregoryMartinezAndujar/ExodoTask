@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tareas;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,9 +14,12 @@ class TareasController extends Controller
      */
     public function index()
     {
-       return Inertia::render('Usuario/Index',[
-        
-       ]);
+        return Inertia::render('Usuario/Index', [
+            'tareas' => Tareas::with('user:id,name')
+                ->latest()
+                ->get()
+
+        ]);
     }
 
 
@@ -25,7 +29,16 @@ class TareasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validar datos
+        $validated = $request->validate([
+            'a_nombre' => 'required|string|max:100',
+            'a_descripcion' => 'required|string|max:200',
+            'a_horas' => 'required|integer',
+        ]);
+
+        $request->user()->tareas()->create($validated);
+
+        return redirect(route('tareas.index'));
     }
 
     /**

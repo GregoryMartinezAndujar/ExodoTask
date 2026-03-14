@@ -9,6 +9,12 @@ class Tareas extends Model
 {
     /** @use HasFactory<\Database\Factories\TareasFactory> */
     use HasFactory;
+    protected $fillable = [
+        'a_nombre',
+        'a_descripcion',
+        'a_horas',
+        'a_user_id',
+    ];
 
     //Creacion de las cardinalidades en la base de datos 
     public function user()
