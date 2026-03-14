@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\GrupoDeTareas;
+use App\Http\Controllers\GrupoDeTareasController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TareasController;
 use App\Models\Tareas;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+
 
 Route::get('/', function () {
     return Inertia::render('login', [
@@ -18,7 +22,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
-        'tareas' => Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get()
+        'tareas' => Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -30,7 +34,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('tareas', TareasController::class)->only(['index', 'update', 'destroy', 'store'])
     ->middleware(['auth'])
 ;
-Route::resource('gruposdetareas', TareasController::class)->only(['index', 'update', 'destroy', 'store'])
+Route::resource('gruposdetareas', GrupoDeTareasController::class,)->only(['index', 'update', 'destroy', 'store', 'create'])
     ->middleware(['auth'])
 ;
 

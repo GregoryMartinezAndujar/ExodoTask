@@ -4,7 +4,7 @@ import InputError from "@/components/InputError";
 import PrimaryButton from "@/components/PrimaryButton";
 import { useForm, Head } from "@inertiajs/react";
 import DangerButton from "@/components/DangerButton";
-export default function Index({ auth, tareas }) {
+export default function Index({ auth }) {
     const { data, setData, post, processing, reset, errors } = useForm({
         a_nombre: "",
         a_descripcion: "",

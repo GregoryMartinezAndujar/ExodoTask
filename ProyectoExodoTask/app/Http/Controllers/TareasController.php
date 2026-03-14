@@ -14,12 +14,7 @@ class TareasController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Usuario/Index', [
-            'tareas' => Tareas::with('user:id,name')
-                ->latest()
-                ->get()
-
-        ]);
+        return Inertia::render('Usuario/Index', []);
     }
 
 

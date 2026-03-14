@@ -43,15 +43,15 @@ export default function AuthenticatedLayout({ header, children }) {
                         Crear Tareas
                     </NavLink>
                     <NavLink
-                        href={route("tareas.index")}
-                        active={route().current("tareas.index")}
+                        href={route("gruposdetareas.create")}
+                        active={route().current("gruposdetareas.create")}
                     >
                         Crear Grupos
                     </NavLink>
                     <hr></hr>
                     <NavLink
-                        href={route("tareas.index")}
-                        active={route().current("tareas.index")}
+                        href={route("gruposdetareas.index")}
+                        active={route().current("gruposdetareas.index")}
                     >
                         Ver Grupos
                     </NavLink>
@@ -126,8 +126,8 @@ export default function AuthenticatedLayout({ header, children }) {
                         Crear Tareas
                     </NavLink>
                     <NavLink
-                        href={route("tareas.index")}
-                        active={route().current("tareas.index")}
+                        href={route("gruposdetareas.index")}
+                        active={route().current("gruposdetareas.index")}
                     >
                         Crear Grupos
                     </NavLink>

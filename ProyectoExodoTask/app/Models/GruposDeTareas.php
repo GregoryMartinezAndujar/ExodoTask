@@ -9,8 +9,11 @@ class GruposDeTareas extends Model
 {
     /** @use HasFactory<\Database\Factories\GruposDeTareasFactory> */
     use HasFactory;
-    public function users()
+    protected $fillable = [
+        'a_nombre',
+    ];
+    public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

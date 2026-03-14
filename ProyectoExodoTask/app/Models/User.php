@@ -56,6 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tareas::class, 'a_user_id');
     }
+    public function grupos()
+    {
+        return $this->hasMany(GruposDeTareas::class, 'a_user_id');
+    }
     public function sesiones()
     {
         return $this->hasMany(SesionesDeEstudio::class);

@@ -5,6 +5,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import NavLink from "@/Components/NavLink";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -84,6 +85,7 @@ export default function Login({ status, canResetPassword }) {
                     <PrimaryButton className="ms-4" disabled={processing}>
                         Log in
                     </PrimaryButton>
+
                     {/* {canResetPassword && (
                         <Link
                             href={route("password.request")}
@@ -94,6 +96,12 @@ export default function Login({ status, canResetPassword }) {
                     )} */}
                 </div>
             </form>
+            <Link
+                href={route("register")}
+                className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+            >
+                Register
+            </Link>
         </GuestLayout>
     );
 }
