@@ -2,7 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import Tareas from "@/components/Tareas";
 
-export default function Dashboard({ tareas }) {
+export default function Dashboard({ tareas, currentRoute }) {
     return (
         <AuthenticatedLayout
             header={
@@ -13,11 +13,11 @@ export default function Dashboard({ tareas }) {
                 </div>
             }
         >
-            <Head title="Dashboard" />
+            <Head title="Página Principal" />
 
             <div>
                 {tareas.map((tarea) => (
-                    <Tareas key={tarea.id} tarea={tarea} />
+                    <Tareas key={tarea.id} tarea={tarea} ruta={currentRoute} />
                 ))}
             </div>
         </AuthenticatedLayout>

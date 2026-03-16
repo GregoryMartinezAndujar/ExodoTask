@@ -27,6 +27,7 @@ class GrupoDeTareasController extends Controller
     {
         return Inertia::render('Usuario/Grupos', [
             'tareas' => Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
+            'currentRoute' => request()->route()->getName(),
         ]);
     }
 
@@ -35,11 +36,14 @@ class GrupoDeTareasController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $validated = $request->validate([
             'a_nombre' => 'required|string|max:100',
         ]);
 
-        $request->user()->grupos()->create($validated);
+        $grupo = $request->user()->grupos()->create($validated);
+        Tareas::whereIn('id', $request->tareas)
+            ->update(['a_grupo_id' => $grupo->id]);
 
         return redirect(route('tareas.index'));
     }

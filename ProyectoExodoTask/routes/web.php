@@ -20,18 +20,14 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-        'tareas' => Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::resource('tareas', TareasController::class)->only(['index', 'update', 'destroy', 'store'])
+Route::resource('tareas', TareasController::class)->only(['index', 'update', 'destroy', 'store', 'create'])
     ->middleware(['auth'])
 ;
 Route::resource('gruposdetareas', GrupoDeTareasController::class,)->only(['index', 'update', 'destroy', 'store', 'create'])

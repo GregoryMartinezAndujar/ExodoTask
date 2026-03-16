@@ -14,7 +14,11 @@ class TareasController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Usuario/Index', []);
+
+        return Inertia::render('Dashboard', [
+            'tareas' => Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
+            'currentRoute' => request()->route()->getName(),
+        ]);
     }
 
 
@@ -32,7 +36,7 @@ class TareasController extends Controller
         ]);
 
         $request->user()->tareas()->create($validated);
-
+        
         return redirect(route('tareas.index'));
     }
 
@@ -41,7 +45,12 @@ class TareasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $tarea = Tareas::findOrFail($id);
+        $tarea->update([
+            'a_completada' => $request->a_completada,
+        ]);
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -49,6 +58,12 @@ class TareasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $tarea = Tareas::findOrFail($id);
+        $tarea->delete();
+        return redirect(route('tareas.index'));
+    }
+    public function create()
+    {
+        return Inertia::render('Usuario/Index', []);
     }
 }

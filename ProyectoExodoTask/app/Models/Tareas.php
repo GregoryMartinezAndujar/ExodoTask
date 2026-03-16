@@ -14,6 +14,10 @@ class Tareas extends Model
         'a_descripcion',
         'a_horas',
         'a_user_id',
+        'a_completada',
+    ];
+    protected $casts = [
+        'a_completada' => 'boolean',
     ];
 
     //Creacion de las cardinalidades en la base de datos 

@@ -1,19 +1,31 @@
-import React from "react";
+import React, { use, useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import InputError from "@/components/InputError";
 import PrimaryButton from "@/components/PrimaryButton";
 import { useForm, Head } from "@inertiajs/react";
 import DangerButton from "@/components/DangerButton";
 import Tareas from "@/components/Tareas";
-export default function Index({ auth, tareas }) {
+export default function Index({ auth, tareas, currentRoute }) {
     const { data, setData, post, processing, reset, errors } = useForm({
         a_nombre: "",
+        tareas: [],
     });
 
     const submit = (e) => {
         e.preventDefault();
         post(route("gruposdetareas.store"), { onSuccess: () => reset() });
     };
+
+    // const [tareasGrupo, setTareasGrupo] = useState([]);
+
+    function handleAgregarTarea(tareaId) {
+        console.log("Tarea agregada al grupo:", tareaId);
+        setData("tareas", (prevTareas) =>
+            prevTareas.includes(tareaId)
+                ? prevTareas
+                : [...prevTareas, tareaId],
+        );
+    }
 
     return (
         <AuthenticatedLayout
@@ -60,10 +72,16 @@ export default function Index({ auth, tareas }) {
                     </DangerButton>
                 </form>
             </div>
-
-            {tareas.map((tarea) => (
-                <Tareas key={tarea.id} tarea={tarea} />
-            ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {tareas.map((tarea) => (
+                    <Tareas
+                        key={tarea.id}
+                        tarea={tarea}
+                        ruta={currentRoute}
+                        onAddTarea={handleAgregarTarea}
+                    />
+                ))}
+            </div>
         </AuthenticatedLayout>
     );
 }

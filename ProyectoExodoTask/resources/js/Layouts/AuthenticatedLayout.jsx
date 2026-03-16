@@ -30,15 +30,15 @@ export default function AuthenticatedLayout({ header, children }) {
                 {/* Navegación */}
                 <nav className="flex flex-col space-y-3">
                     <NavLink
-                        href={route("dashboard")}
-                        active={route().current("dashboard")}
+                        href={route("tareas.index")}
+                        active={route().current("tareas.index")}
                     >
                         Ver Tareas
                     </NavLink>
 
                     <NavLink
-                        href={route("tareas.index")}
-                        active={route().current("tareas.index")}
+                        href={route("tareas.create")}
+                        active={route().current("tareas.create")}
                     >
                         Crear Tareas
                     </NavLink>

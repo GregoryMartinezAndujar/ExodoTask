@@ -82,7 +82,10 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4 flex items-center justify-end">
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                    <PrimaryButton
+                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] bg-[#FF2D20] focus-visible:ring-opacity-75 text-white border-2 border-[#FF2D20] mt-4 block text-center text-sm font-semibold focus-visible:ring-offset-2"
+                        disabled={processing}
+                    >
                         Log in
                     </PrimaryButton>
 
@@ -98,7 +101,7 @@ export default function Login({ status, canResetPassword }) {
             </form>
             <Link
                 href={route("register")}
-                className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] bg-[#FF2D20] focus-visible:ring-opacity-75 text-white border-2 border-[#FF2D20] mt-4 block text-center text-sm font-semibold focus-visible:ring-offset-2"
             >
                 Register
             </Link>

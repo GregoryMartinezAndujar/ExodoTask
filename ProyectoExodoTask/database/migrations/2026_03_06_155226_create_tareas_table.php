@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('a_nombre');
             $table->string('a_descripcion');
             $table->time('a_horas');
+            $table->boolean('a_completada')->default(false);
             $table->unsignedBigInteger('a_user_id');
             $table->timestamps();
-            
+
             $table->foreign('a_user_id')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
