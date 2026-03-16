@@ -12,15 +12,15 @@ use Inertia\Inertia;
 
 
 Route::get('/', function () {
-    return Inertia::render('login', [
-        // 'canLogin' => Route::has('login'),
+    return Inertia::render('Auth/Login', [
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->middleware('guest');
 
-Route::get('/dashboard', function () {})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [TareasController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

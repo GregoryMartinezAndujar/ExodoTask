@@ -30,8 +30,8 @@ export default function AuthenticatedLayout({ header, children }) {
                 {/* Navegación */}
                 <nav className="flex flex-col space-y-3">
                     <NavLink
-                        href={route("tareas.index")}
-                        active={route().current("tareas.index")}
+                        href={route("dashboard")}
+                        active={route().current("dashboard")}
                     >
                         Ver Tareas
                     </NavLink>
@@ -55,12 +55,12 @@ export default function AuthenticatedLayout({ header, children }) {
                     >
                         Ver Grupos
                     </NavLink>
-                    <NavLink
+                    {/* <NavLink
                         href={route("tareas.index")}
                         active={route().current("tareas.index")}
                     >
                         Sesiones De Estudio
-                    </NavLink>
+                    </NavLink> */}
                     <NavLink
                         href={route("profile.edit")}
                         active={route().current("profile.edit")}

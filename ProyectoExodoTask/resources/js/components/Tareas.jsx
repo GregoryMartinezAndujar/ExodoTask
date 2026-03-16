@@ -31,7 +31,7 @@ const Tarea = ({ tarea, ruta, onAddTarea }) => {
                 {tarea.a_descripcion}
             </p>
             {/* BOTONES RESPONSIVE */}
-            {ruta === "tareas.index" && (
+            {ruta === "dashboard" && (
                 <div className="flex flex-col sm:flex-row sm:space-x-3 gap-2 mt-4">
                     <PrimaryButton
                         className="w-full sm:w-auto"
