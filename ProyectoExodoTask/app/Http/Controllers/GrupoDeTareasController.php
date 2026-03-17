@@ -36,16 +36,28 @@ class GrupoDeTareasController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $validated = $request->validate([
             'a_nombre' => 'required|string|max:100',
+            'tareasIds' => 'array',
+            'tareasIds.*' => 'integer|exists:tareas,id',
         ]);
 
-        $grupo = $request->user()->grupos()->create($validated);
-        Tareas::whereIn('id', $request->tareas)
-            ->update(['a_grupo_id' => $grupo->id]);
+        $tareasIds = $request->input('tareasIds', []); 
+        $grupo = $request->user()->grupos()->create([
+            'a_nombre' => $validated['a_nombre'],
+        ]);
 
-        return redirect(route('tareas.index'));
+
+        $tareasIds = $request->input('tareasIds', []); 
+
+
+       Tareas::whereIn('id', $tareasIds)
+         ->where('a_user_id', auth()->id())   
+        ->update(['a_grupo_id' => $grupo->id]);
+
+
+        return redirect(route('dashboard'));
     }
 
     /**

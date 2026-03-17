@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\GruposDeTareas;
 use App\Models\Tareas;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Psy\Util\Str;
 
 class TareasController extends Controller
 {
@@ -20,9 +22,6 @@ class TareasController extends Controller
             'currentRoute' => request()->route()->getName(),
         ]);
     }
-
-
-
     /**
      * Store a newly created resource in storage.
      */
@@ -37,7 +36,7 @@ class TareasController extends Controller
 
         $request->user()->tareas()->create($validated);
         
-        return redirect(route('tareas.index'));
+        return redirect(route('dashboard'));
     }
 
     /**
@@ -45,10 +44,16 @@ class TareasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $tarea = Tareas::findOrFail($id);
-        $tarea->update([
-            'a_completada' => $request->a_completada,
-        ]);
+        $tarea =  Tareas::where('id', $id)
+             ->where('a_user_id', auth()->id())
+             ->firstOrFail();
+
+        $tarea->update($request->only([
+            'a_nombre',
+            'a_descripcion',
+            'a_horas',
+            'a_completada'
+        ]));
 
         return redirect()->route('dashboard');
     }
@@ -58,12 +63,46 @@ class TareasController extends Controller
      */
     public function destroy(string $id)
     {
-        $tarea = Tareas::findOrFail($id);
+        $tarea =  Tareas::where('id', $id)
+             ->where('a_user_id', auth()->id())
+             ->firstOrFail();
         $tarea->delete();
-        return redirect(route('tareas.index'));
+        return redirect(route('dashboard'));
     }
+
     public function create()
     {
         return Inertia::render('Usuario/Index', []);
+    }
+
+
+
+    public function edit(string $id)
+    {
+        $tarea = Tareas::where('id', $id)
+             ->where('a_user_id', auth()->id())
+             ->firstOrFail();
+
+        return Inertia::render('Usuario/EditarTareas', [
+            'tarea' => $tarea,
+            'currentRoute' => request()->route()->getName(),
+        ]);
+
+    }
+
+    public function tareasPorGrupo(String $grupo)
+    {
+        $grupo = GruposDeTareas::where('id', $grupo)
+             ->where('a_user_id', auth()->id())
+             ->firstOrFail();
+        $tareas = Tareas::where('a_grupo_id', $grupo->id)
+             ->where('a_user_id', auth()->id())
+             ->get();
+             
+        return Inertia::render('Usuario/VerTaraesGrupo', [
+            'grupo' => $grupo,
+            'tareas' => $tareas,
+            'currentRoute' => request()->route()->getName(),
+        ]);
     }
 }

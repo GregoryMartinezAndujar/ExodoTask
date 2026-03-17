@@ -20,18 +20,21 @@ Route::get('/', function () {
 })->middleware('guest');
 
 Route::get('/dashboard', [TareasController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/editar-tarea/{id}', [TareasController::class, 'edit'])->middleware(['auth', 'verified'])->name('EditarTareas');
 
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); 
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::resource('tareas', TareasController::class)->only(['index', 'update', 'destroy', 'store', 'create'])
-    ->middleware(['auth'])
+Route::resource('tareas', TareasController::class)->only(['index', 'update', 'destroy', 'store', 'create', 'edit'])
+    ->middleware(['auth', 'verified'])
 ;
 Route::resource('gruposdetareas', GrupoDeTareasController::class,)->only(['index', 'update', 'destroy', 'store', 'create'])
-    ->middleware(['auth'])
+    ->middleware(['auth', 'verified'])
 ;
 
+
+Route::get('/tareas-por-grupo/{grupo}', [TareasController::class, 'tareasPorGrupo'])->middleware(['auth', 'verified'])->name('grupos.tareas');
 require __DIR__ . '/auth.php';

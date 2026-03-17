@@ -120,30 +120,30 @@ export default function AuthenticatedLayout({ header, children }) {
                     </NavLink>
 
                     <NavLink
-                        href={route("tareas.index")}
-                        active={route().current("tareas.index")}
+                        href={route("tareas.create")}
+                        active={route().current("tareas.create")}
                     >
                         Crear Tareas
                     </NavLink>
                     <NavLink
-                        href={route("gruposdetareas.index")}
-                        active={route().current("gruposdetareas.index")}
+                        href={route("gruposdetareas.create")}
+                        active={route().current("gruposdetareas.create")}
                     >
                         Crear Grupos
                     </NavLink>
                     <hr></hr>
                     <NavLink
-                        href={route("tareas.index")}
-                        active={route().current("tareas.index")}
+                        href={route("gruposdetareas.index")}
+                        active={route().current("gruposdetareas.index")}
                     >
                         Ver Grupos
                     </NavLink>
-                    <NavLink
+                    {/* <NavLink
                         href={route("tareas.index")}
                         active={route().current("tareas.index")}
                     >
-                        Ver Sesiones De Estudio
-                    </NavLink>
+                        Sesiones De Estudio
+                    </NavLink> */}
                     <NavLink
                         href={route("profile.edit")}
                         active={route().current("profile.edit")}
@@ -152,6 +152,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     </NavLink>
                     <NavLink
                         href={route("logout")}
+                        method="post"
                         active={route().current("logout")}
                     >
                         Cerrar sesión
@@ -175,7 +176,7 @@ export default function AuthenticatedLayout({ header, children }) {
                 {/* Header Desktop */}
                 {header && (
                     <header>
-                        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                        <div className="max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                             {header}
                         </div>
                     </header>

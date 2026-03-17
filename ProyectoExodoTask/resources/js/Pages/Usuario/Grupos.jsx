@@ -8,7 +8,7 @@ import Tareas from "@/components/Tareas";
 export default function Index({ auth, tareas, currentRoute }) {
     const { data, setData, post, processing, reset, errors } = useForm({
         a_nombre: "",
-        tareas: [],
+        tareasIds: [],
     });
 
     const submit = (e) => {
@@ -20,11 +20,8 @@ export default function Index({ auth, tareas, currentRoute }) {
 
     function handleAgregarTarea(tareaId) {
         console.log("Tarea agregada al grupo:", tareaId);
-        setData("tareas", (prevTareas) =>
-            prevTareas.includes(tareaId)
-                ? prevTareas
-                : [...prevTareas, tareaId],
-        );
+        setData("tareasIds", [...data.tareasIds, tareaId]);
+        console.log("Tareas seleccionadas para el grupo:", data.tareasIds);
     }
 
     return (

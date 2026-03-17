@@ -4,10 +4,16 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import PrimaryButton from "./PrimaryButton";
 import DangerButton from "./DangerButton";
 import { useForm, Head } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
+
 dayjs.extend(relativeTime);
 
 const Tarea = ({ tarea, ruta, onAddTarea }) => {
-    const { data, put, destroy } = useForm({
+    const {
+        data,
+        patch,
+        delete: destroy,
+    } = useForm({
         a_completada: tarea.a_completada,
     });
     console.log(ruta);
@@ -36,7 +42,7 @@ const Tarea = ({ tarea, ruta, onAddTarea }) => {
                     <PrimaryButton
                         className="w-full sm:w-auto"
                         onClick={() => {
-                            put(route("tareas.update", tarea.id), {
+                            patch(route("tareas.update", tarea.id), {
                                 onBefore: () => {
                                     data.a_completada = !data.a_completada;
                                 },
@@ -46,7 +52,12 @@ const Tarea = ({ tarea, ruta, onAddTarea }) => {
                         Completar
                     </PrimaryButton>
 
-                    <PrimaryButton className="w-full sm:w-auto">
+                    <PrimaryButton
+                        className="w-full sm:w-auto"
+                        onClick={() =>
+                            router.get(route("tareas.edit", tarea.id))
+                        }
+                    >
                         Editar
                     </PrimaryButton>
 
