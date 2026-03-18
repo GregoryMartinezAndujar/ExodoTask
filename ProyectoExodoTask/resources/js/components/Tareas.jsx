@@ -123,15 +123,6 @@ const Tarea = ({
                         Editar
                     </PrimaryButton>
 
-                    <PrimaryButton
-                        className="w-full sm:w-auto"
-                        onClick={() =>
-                            router.get(route("tareas.edit", tarea.id))
-                        }
-                    >
-                        Añadir a un Grupo
-                    </PrimaryButton>
-
                     <DangerButton
                         className="w-full sm:w-auto bg-[#A90000] hover:bg-red-700"
                         onClick={async () => {
@@ -144,7 +135,7 @@ const Tarea = ({
                     </DangerButton>
                 </div>
             )}
-            {ruta === "gruposdetareas.create" && (
+            {ruta === "gruposdetareas" && (
                 <div className="flex flex-col sm:flex-row sm:space-x-3 gap-2 mt-4">
                     <PrimaryButton
                         className="w-full sm:w-auto hover:bg-[#A90000]"

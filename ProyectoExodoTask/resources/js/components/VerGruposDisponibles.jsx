@@ -27,6 +27,12 @@ const VerGrupos = ({ grupo }) => {
                 >
                     Ver Tareas del Grupo
                 </PrimaryButton>
+                <PrimaryButton
+                    className="w-full sm:w-auto"
+                    onClick={() => router.get(route("dashboard", grupo.id))}
+                >
+                    Añadir Tareas al Grupo
+                </PrimaryButton>
             </div>
         </div>
     );
