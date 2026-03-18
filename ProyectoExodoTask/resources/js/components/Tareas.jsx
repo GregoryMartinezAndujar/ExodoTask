@@ -9,7 +9,14 @@ import { eliminarTarea, completarTarea, descompletarTarea } from "./Alerts";
 
 dayjs.extend(relativeTime);
 
-const Tarea = ({ tarea, ruta, onAddTarea, onRemoveTarea, prioridades }) => {
+const Tarea = ({
+    tarea,
+    ruta,
+    onAddTarea,
+    onRemoveTarea,
+    prioridades,
+    grupos,
+}) => {
     const [tareasConBorde, setTareasConBorde] = useState(false);
 
     const {
@@ -66,7 +73,12 @@ const Tarea = ({ tarea, ruta, onAddTarea, onRemoveTarea, prioridades }) => {
             )}
             {/* Título */}
             <p className="text-lg sm:text-xl lg:text-2xl mt-3 ">
-                {tarea.a_nombre}
+                {tarea.a_nombre} &nbsp;|&nbsp; {tarea.a_horas} horas
+                &nbsp;|&nbsp;{" "}
+                {tarea.a_grupo_id
+                    ? grupos.find((grupo) => grupo.id === tarea.a_grupo_id)
+                          ?.a_nombre
+                    : "Sin Grupo"}
             </p>
             {/* Descripción */}
             <p className="text-gray-600 mt-1 text-lg sm:text-xl ">

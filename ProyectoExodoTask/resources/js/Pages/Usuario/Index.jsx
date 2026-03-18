@@ -20,7 +20,7 @@ export default function Index({ auth }) {
         <AuthenticatedLayout
             auth={auth}
             header={
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl  text-gray-800">
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl  pl-4">
                     Creación de Tareas
                 </h2>
             }

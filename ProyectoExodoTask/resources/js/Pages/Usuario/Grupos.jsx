@@ -5,7 +5,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import { useForm, Head } from "@inertiajs/react";
 import DangerButton from "@/components/DangerButton";
 import Tareas from "@/components/Tareas";
-export default function Index({ auth, tareas, currentRoute }) {
+export default function Index({ auth, tareas, currentRoute, grupos }) {
     const { data, setData, post, processing, reset, errors } = useForm({
         a_nombre: "",
         tareasIds: [],
@@ -86,6 +86,7 @@ export default function Index({ auth, tareas, currentRoute }) {
                         ruta={currentRoute}
                         onAddTarea={handleAgregarTarea}
                         onRemoveTarea={handleEliminarTarea}
+                        grupos={grupos}
                     />
                 ))}
             </div>

@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
-const eliminarTareaGrupo = () => {
-    Swal.fire({
+
+const eliminarTareaGrupo = async () => {
+    const result = await Swal.fire({
         title: "¿Eliminar tarea del grupo?",
         text: "Esta acción no se puede deshacer",
         icon: "warning",
@@ -8,10 +9,8 @@ const eliminarTareaGrupo = () => {
         confirmButtonText: "Sí, eliminar",
         cancelButtonText: "Cancelar",
         confirmButtonColor: "#A90000",
-    }).then((result) => {
-        if (result.isConfirmed) {
-        }
     });
+    return result.isConfirmed;
 };
 const eliminarTarea = async () => {
     const result = await Swal.fire({
@@ -36,9 +35,9 @@ const completarTarea = async () => {
         cancelButtonText: "Cancelar",
         confirmButtonColor: "#A90000",
     });
-
     return result.isConfirmed;
 };
+
 const descompletarTarea = async () => {
     const result = await Swal.fire({
         title: "Se marcará como no completada",
@@ -48,7 +47,6 @@ const descompletarTarea = async () => {
         cancelButtonText: "Cancelar",
         confirmButtonColor: "#A90000",
     });
-
     return result.isConfirmed;
 };
 

@@ -19,9 +19,11 @@ class TareasController extends Controller
     {
         $tareas = Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get();
         $prioridades = Prioridad::all();
+        $grupos = GruposDeTareas::where('a_user_id', auth()->id())->get();
         return Inertia::render('Dashboard', [
             'tareas' => $tareas,
             'prioridades' => $prioridades,
+            'grupos' => $grupos,
             'currentRoute' => request()->route()->getName(),
         ]);
     }

@@ -27,6 +27,7 @@ class GrupoDeTareasController extends Controller
     {
         return Inertia::render('Usuario/Grupos', [
             'tareas' => Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
+            'grupos' => GruposDeTareas::where('a_user_id', auth()->id())->get(),
             'currentRoute' => request()->route()->getName(),
         ]);
     }
