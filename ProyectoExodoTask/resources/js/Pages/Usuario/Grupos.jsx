@@ -20,7 +20,16 @@ export default function Index({ auth, tareas, currentRoute }) {
 
     function handleAgregarTarea(tareaId) {
         console.log("Tarea agregada al grupo:", tareaId);
-        setData("tareasIds", [...data.tareasIds, tareaId]);
+        if (!data.tareasIds.includes(tareaId)) {
+            data.tareasIds.push(tareaId);
+        }
+
+        console.log("Tareas seleccionadas para el grupo:", data.tareasIds);
+    }
+
+    function handleEliminarTarea(tareaId) {
+        console.log("Tarea eliminada del grupo:", tareaId);
+        data.tareasIds = data.tareasIds.filter((id) => id !== tareaId);
         console.log("Tareas seleccionadas para el grupo:", data.tareasIds);
     }
 
@@ -76,6 +85,7 @@ export default function Index({ auth, tareas, currentRoute }) {
                         tarea={tarea}
                         ruta={currentRoute}
                         onAddTarea={handleAgregarTarea}
+                        onRemoveTarea={handleEliminarTarea}
                     />
                 ))}
             </div>

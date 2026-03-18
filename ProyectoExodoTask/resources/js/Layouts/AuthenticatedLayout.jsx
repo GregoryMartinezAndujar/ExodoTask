@@ -176,7 +176,7 @@ export default function AuthenticatedLayout({ header, children }) {
                 {/* Header Desktop */}
                 {header && (
                     <header>
-                        <div className="max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                        <div className="flex items-center justify-between w-full">
                             {header}
                         </div>
                     </header>

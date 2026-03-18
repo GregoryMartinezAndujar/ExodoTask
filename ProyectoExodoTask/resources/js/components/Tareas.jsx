@@ -5,10 +5,13 @@ import PrimaryButton from "./PrimaryButton";
 import DangerButton from "./DangerButton";
 import { useForm, Head } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
+import { eliminarTarea, completarTarea, descompletarTarea } from "./Alerts";
 
 dayjs.extend(relativeTime);
 
-const Tarea = ({ tarea, ruta, onAddTarea, prioridades }) => {
+const Tarea = ({ tarea, ruta, onAddTarea, onRemoveTarea, prioridades }) => {
+    const [tareasConBorde, setTareasConBorde] = useState(false);
+
     const {
         data,
         patch,
@@ -19,7 +22,16 @@ const Tarea = ({ tarea, ruta, onAddTarea, prioridades }) => {
     });
     console.log(ruta);
     return (
-        <div className="transition rounded-xl p-6 shadow-sm border mb-4 bg-gray-50 hover:bg-gray-100">
+        <div
+            className={
+                `transition rounded-xl p-6 shadow-sm mb-4 hover:bg-gray-100 ` +
+                (ruta === "gruposdetareas.create"
+                    ? tareasConBorde
+                        ? "border-4 border-[#A90000] bg-gray-50"
+                        : "border-2 border bg-gray-50"
+                    : "border-2 border bg-gray-50")
+            }
+        >
             <small className="text-gray-500 sm:text-xl">
                 Fue creada hace:{dayjs(tarea.created_at).fromNow()}
                 &nbsp;|&nbsp; Última actualización:
@@ -65,12 +77,26 @@ const Tarea = ({ tarea, ruta, onAddTarea, prioridades }) => {
                 <div className="flex flex-col sm:flex-row sm:space-x-3 gap-2 mt-4">
                     <PrimaryButton
                         className="w-full sm:w-auto"
-                        onClick={() => {
-                            patch(route("tareas.update", tarea.id), {
-                                onBefore: () => {
-                                    data.a_completada = !data.a_completada;
-                                },
-                            });
+                        onClick={async () => {
+                            if (!data.a_completada) {
+                                if (await completarTarea()) {
+                                    patch(route("tareas.update", tarea.id), {
+                                        onBefore: () => {
+                                            data.a_completada =
+                                                !data.a_completada;
+                                        },
+                                    });
+                                }
+                            } else {
+                                if (await descompletarTarea()) {
+                                    patch(route("tareas.update", tarea.id), {
+                                        onBefore: () => {
+                                            data.a_completada =
+                                                !data.a_completada;
+                                        },
+                                    });
+                                }
+                            }
                         }}
                     >
                         Completar
@@ -96,9 +122,11 @@ const Tarea = ({ tarea, ruta, onAddTarea, prioridades }) => {
 
                     <DangerButton
                         className="w-full sm:w-auto bg-[#A90000] hover:bg-red-700"
-                        onClick={() =>
-                            destroy(route("tareas.destroy", tarea.id))
-                        }
+                        onClick={async () => {
+                            if (await eliminarTarea()) {
+                                destroy(route("tareas.destroy", tarea.id));
+                            }
+                        }}
                     >
                         Eliminar
                     </DangerButton>
@@ -110,10 +138,20 @@ const Tarea = ({ tarea, ruta, onAddTarea, prioridades }) => {
                         className="w-full sm:w-auto hover:bg-[#A90000]"
                         onClick={() => {
                             onAddTarea(tarea.id);
+                            setTareasConBorde(true);
                         }}
                     >
                         Añadir al Grupo
                     </PrimaryButton>
+                    <DangerButton
+                        className="w-full sm:w-auto hover:bg-[#A90000]"
+                        onClick={() => {
+                            onRemoveTarea(tarea.id);
+                            setTareasConBorde(false);
+                        }}
+                    >
+                        Eliminar del Grupo
+                    </DangerButton>
                 </div>
             )}
         </div>
