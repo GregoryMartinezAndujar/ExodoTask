@@ -15,6 +15,8 @@ class Tareas extends Model
         'a_horas',
         'a_user_id',
         'a_completada',
+        'a_grupo_id',
+        'a_prioridad_id',
     ];
     protected $casts = [
         'a_completada' => 'boolean',
@@ -32,5 +34,9 @@ class Tareas extends Model
     public function notas()
     {
         return $this->hasMany(NotasTareas::class);
+    }
+    public function prioridad()
+    {
+        return $this->belongsTo(Prioridad::class);
     }
 }

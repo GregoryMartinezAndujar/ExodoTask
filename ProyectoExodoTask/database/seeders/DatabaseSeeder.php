@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\GruposDeTareas;
 use App\Models\Niveles;
+use App\Models\Prioridad;
 use App\Models\SesionesDeEstudio;
 use App\Models\Tareas;
 use App\Models\TareasSesiones;
@@ -48,5 +49,8 @@ class DatabaseSeeder extends Seeder
         SesionesDeEstudio::factory(10)->create();
         
         TareasSesiones::factory(10)->create();
+
+        Prioridad::factory(5)->create();
+
     }
 }

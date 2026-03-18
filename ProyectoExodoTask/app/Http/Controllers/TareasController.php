@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\GruposDeTareas;
+use App\Models\Prioridad;
 use App\Models\Tareas;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,9 +17,11 @@ class TareasController extends Controller
      */
     public function index()
     {
-
+        $tareas = Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get();
+        $prioridades = Prioridad::all();
         return Inertia::render('Dashboard', [
-            'tareas' => Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
+            'tareas' => $tareas,
+            'prioridades' => $prioridades,
             'currentRoute' => request()->route()->getName(),
         ]);
     }
@@ -47,12 +50,13 @@ class TareasController extends Controller
         $tarea =  Tareas::where('id', $id)
              ->where('a_user_id', auth()->id())
              ->firstOrFail();
-
+      
         $tarea->update($request->only([
             'a_nombre',
             'a_descripcion',
             'a_horas',
-            'a_completada'
+            'a_completada',
+            'a_prioridad_id'
         ]));
 
         return redirect()->route('dashboard');
@@ -98,7 +102,7 @@ class TareasController extends Controller
         $tareas = Tareas::where('a_grupo_id', $grupo->id)
              ->where('a_user_id', auth()->id())
              ->get();
-             
+
         return Inertia::render('Usuario/VerTaraesGrupo', [
             'grupo' => $grupo,
             'tareas' => $tareas,
