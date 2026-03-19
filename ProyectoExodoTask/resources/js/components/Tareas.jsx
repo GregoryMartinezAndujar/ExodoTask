@@ -111,7 +111,7 @@ const Tarea = ({
                             }
                         }}
                     >
-                        Completar
+                        {data.a_completada ? "Descompletar" : "Completar"}
                     </PrimaryButton>
 
                     <PrimaryButton
@@ -135,7 +135,7 @@ const Tarea = ({
                     </DangerButton>
                 </div>
             )}
-            {ruta === "gruposdetareas" && (
+            {ruta === "gruposdetareas.create" && (
                 <div className="flex flex-col sm:flex-row sm:space-x-3 gap-2 mt-4">
                     <PrimaryButton
                         className="w-full sm:w-auto hover:bg-[#A90000]"

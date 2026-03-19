@@ -50,6 +50,19 @@ const descompletarTarea = async () => {
     return result.isConfirmed;
 };
 
+const eliminarGrupo = async () => {
+    const result = await Swal.fire({
+        title: "¿Eliminar grupo?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#A90000",
+    });
+    return result.isConfirmed;
+};
+
 export default eliminarTareaGrupo;
 
-export { eliminarTarea, completarTarea, descompletarTarea };
+export { eliminarTarea, completarTarea, descompletarTarea, eliminarGrupo };

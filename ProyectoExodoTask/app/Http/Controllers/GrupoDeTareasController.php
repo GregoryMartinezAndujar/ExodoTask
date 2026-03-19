@@ -44,21 +44,21 @@ class GrupoDeTareasController extends Controller
             'tareasIds.*' => 'integer|exists:tareas,id',
         ]);
 
-        $tareasIds = $request->input('tareasIds', []); 
+        $tareasIds = $request->input('tareasIds', []);
         $grupo = $request->user()->grupos()->create([
             'a_nombre' => $validated['a_nombre'],
         ]);
 
 
-        $tareasIds = $request->input('tareasIds', []); 
+        $tareasIds = $request->input('tareasIds', []);
 
 
-       Tareas::whereIn('id', $tareasIds)
-         ->where('a_user_id', auth()->id())   
-        ->update(['a_grupo_id' => $grupo->id]);
+        Tareas::whereIn('id', $tareasIds)
+            ->where('a_user_id', auth()->id())
+            ->update(['a_grupo_id' => $grupo->id]);
 
 
-        return redirect(route('dashboard'));
+        return redirect(route('gruposdetareas.index'))->with('success', 'Grupo de tareas creado exitosamente.');
     }
 
     /**
@@ -90,6 +90,14 @@ class GrupoDeTareasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $grupo = GruposDeTareas::where('id', $id)->where('a_user_id', auth()->id())->firstOrFail();
+
+        Tareas::where('a_grupo_id', $grupo->id)
+            ->where('a_user_id', auth()->id())
+            ->update(['a_grupo_id' => null]);
+
+        $grupo->delete();
+
+        return redirect(route('gruposdetareas.index'))->with('success', 'Grupo de tareas eliminado exitosamente.');
     }
 }
