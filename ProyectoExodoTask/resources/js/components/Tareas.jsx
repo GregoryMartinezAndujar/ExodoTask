@@ -5,6 +5,7 @@ import PrimaryButton from "./PrimaryButton";
 import DangerButton from "./DangerButton";
 import { useForm, Head } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
+import Dropdown from "./Dropdown";
 import { eliminarTarea, completarTarea, descompletarTarea } from "./Alerts";
 
 dayjs.extend(relativeTime);
@@ -50,26 +51,36 @@ const Tarea = ({
             ) : (
                 <span className="text-red-600">Pendiente</span>
             )}
-            &nbsp;|&nbsp;
+            &nbsp;&nbsp;
             {ruta === "dashboard" && (
-                <select
-                    value={tarea.a_prioridad_id || ""}
-                    className="bg-gray-200 text-gray-700 py-1 rounded w-fit"
-                    disabled={data.a_completada}
-                    onChange={(e) => {
-                        patch(route("tareas.update", tarea.id), {
-                            onBefore: () => {
-                                data.a_prioridad_id = parseInt(e.target.value);
-                            },
-                        });
-                    }}
-                >
-                    {prioridades.map((prioridad) => (
-                        <option key={prioridad.id} value={prioridad.id}>
-                            {prioridad.a_nombre}
-                        </option>
-                    ))}
-                </select>
+                <Dropdown>
+                    <Dropdown.Trigger>
+                        <button className="bg-white border border-gray-300 rounded-lg px-3 py-1.5 shadow-sm flex items-center gap-2">
+                            {prioridades.find(
+                                (p) => p.id === tarea.a_prioridad_id,
+                            )?.a_nombre || "Seleccionar"}
+                            <span className="text-gray-500">▼</span>
+                        </button>
+                    </Dropdown.Trigger>
+
+                    <Dropdown.Content contentClasses="bg-white py-2 rounded-lg shadow-lg">
+                        {prioridades.map((prioridad) => (
+                            <div
+                                key={prioridad.id}
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700"
+                                onClick={() => {
+                                    patch(route("tareas.update", tarea.id), {
+                                        onBefore: () => {
+                                            data.a_prioridad_id = prioridad.id;
+                                        },
+                                    });
+                                }}
+                            >
+                                {prioridad.a_nombre}
+                            </div>
+                        ))}
+                    </Dropdown.Content>
+                </Dropdown>
             )}
             {/* Título */}
             <p className="text-lg sm:text-xl lg:text-2xl mt-3 ">
