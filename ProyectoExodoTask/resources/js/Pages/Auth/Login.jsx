@@ -21,31 +21,38 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <div className="min-h-screen flex flex-col font-exodo bg-gray-50">
+        <div className="min-h-screen flex flex-col font-exodo bg-gradient-to-b from-white-100 to-red-800 md:bg-gray-50 shadow-inner">
             <Head title="Log in" />
 
             <div className="flex flex-col md:flex-row flex-grow">
-                {/* IZQUIERDA */}
-                <div className="w-full md:w-2/3 bg-gray-100 flex flex-col items-center justify-center px-10 py-16 gap-8 shadow-inner hidden md:flex">
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl text-gray-800 font-semibold text-center leading-tight">
+                {/* IZQUIERDA (solo desktop) */}
+                <div className="hidden md:flex w-2/3 bg-gray-100 flex-col items-center justify-center px-10 py-16 gap-8 shadow-inner">
+                    <h1 className="text-5xl lg:text-6xl text-gray-800 text-center leading-tight">
                         Bienvenido a ExodoTask
                     </h1>
 
-                    <div className="hidden md:flex opacity-90">
+                    <div className="opacity-90">
                         <ApplicationLogo />
                     </div>
                 </div>
 
-                {/* DERECHA */}
-                <div className="w-full md:w-1/3 flex items-center justify-center px-10 py-16">
-                    <div className="w-full max-w-md bg-white p-8 rounded-3xl shadow-xl border border-gray-200">
+                {/* DERECHA / MÓVIL */}
+                <div className="w-full md:w-1/3 flex items-center justify-center px-6 py-12">
+                    <div
+                        className="
+                    w-full max-w-md 
+                    bg-white/70 backdrop-blur-xl 
+                    p-8 rounded-3xl shadow-2xl border border-gray-200
+                    animate-[fadeIn_0.4s_ease-out]
+                "
+                    >
                         {status && (
                             <div className="mb-4 text-xl font-medium text-green-600">
                                 {status}
                             </div>
                         )}
 
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl text-gray-800 mb-10 font-semibold text-center">
+                        <h1 className="text-4xl text-gray-800 mb-10 text-center">
                             Iniciar sesión
                         </h1>
 
@@ -55,7 +62,7 @@ export default function Login({ status, canResetPassword }) {
                                 <InputLabel
                                     htmlFor="email"
                                     value="Email"
-                                    className="text-2xl sm:text-3xl"
+                                    className="text-xl"
                                 />
 
                                 <TextInput
@@ -63,7 +70,7 @@ export default function Login({ status, canResetPassword }) {
                                     type="email"
                                     name="email"
                                     value={data.email}
-                                    className="mt-2 block w-full text-xl py-3 rounded-xl border-gray-300"
+                                    className="mt-2 block w-full text-base py-2 rounded-lg border-gray-300 focus:ring-[#A90000]"
                                     autoComplete="username"
                                     isFocused={true}
                                     onChange={(e) =>
@@ -82,7 +89,7 @@ export default function Login({ status, canResetPassword }) {
                                 <InputLabel
                                     htmlFor="password"
                                     value="Contraseña"
-                                    className="text-2xl sm:text-3xl"
+                                    className="text-xl"
                                 />
 
                                 <TextInput
@@ -90,7 +97,7 @@ export default function Login({ status, canResetPassword }) {
                                     type="password"
                                     name="password"
                                     value={data.password}
-                                    className="mt-2 block w-full text-xl py-3 rounded-xl border-gray-300"
+                                    className="mt-2 block w-full text-base py-2 rounded-lg border-gray-300 focus:ring-[#A90000]"
                                     autoComplete="current-password"
                                     onChange={(e) =>
                                         setData("password", e.target.value)
@@ -112,14 +119,15 @@ export default function Login({ status, canResetPassword }) {
                                         setData("remember", e.target.checked)
                                     }
                                 />
-                                <span className="ms-2 text-xl text-gray-600">
+                                <span className="ms-2 text-lg text-gray-600">
                                     Recordarme
                                 </span>
                             </div>
 
                             {/* BOTÓN LOGIN */}
                             <button
-                                className="w-full rounded-3xl px-3 py-3 text-white bg-[#A90000] hover:bg-[#A90000]/90 transition text-2xl border-[3px] border-black shadow-md"
+                                className="w-full rounded-lg px-3 py-2 text-white bg-[#A90000] hover:bg-[#8A0000] 
+               transition text-base border border-black shadow-sm active:scale-[0.97]"
                                 disabled={processing}
                             >
                                 Iniciar sesión
@@ -129,7 +137,8 @@ export default function Login({ status, canResetPassword }) {
                         {/* REGISTER */}
                         <Link
                             href={route("register")}
-                            className="mt-6 w-full inline-block rounded-3xl px-3 py-3 text-white bg-[#A90000] hover:bg-[#A90000]/90 transition text-center text-2xl border-[3px] border-black shadow-md"
+                            className="w-full rounded-lg px-3 py-2 text-white bg-[#A90000] hover:bg-[#8A0000] 
+               transition text-base border border-black shadow-sm active:scale-[0.97] block text-center mt-4"
                         >
                             ¿No tienes cuenta?
                         </Link>

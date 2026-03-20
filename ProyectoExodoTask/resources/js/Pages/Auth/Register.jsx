@@ -1,6 +1,5 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
@@ -21,48 +20,50 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col font-exodo">
+        <div className="min-h-screen flex flex-col font-exodo bg-gradient-to-b from-white-100 to-red-800 md:bg-gray-50 shadow-inner">
             <Head title="Register" />
 
             <div className="flex flex-col md:flex-row flex-grow">
-                {/* IZQUIERDA */}
-                <div className="w-full md:w-2/3 bg-gray-100 flex flex-col items-center justify-center p-10 gap-4">
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl text-gray-800">
+                {/* IZQUIERDA (solo desktop) */}
+                <div className="hidden md:flex w-2/3 bg-gray-100 flex-col items-center justify-center px-10 py-16 gap-8 shadow-inner">
+                    <h1 className="text-5xl lg:text-6xl text-gray-800 text-center leading-tight">
                         Crea tu cuenta en ExodoTask
                     </h1>
 
-                    <div className="hidden md:flex">
+                    <div className="opacity-90">
                         <ApplicationLogo />
                     </div>
                 </div>
 
-                {/* DERECHA */}
-                <div className="w-full md:w-1/3 flex items-center justify-center p-10">
-                    <div className="w-full max-w-md">
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl text-gray-800 mb-6">
-                            Registrarse
-                        </h1>
-
-                        <form onSubmit={submit}>
+                {/* DERECHA / MÓVIL */}
+                <div className="w-full md:w-1/3 flex items-center justify-center px-6 py-12">
+                    <div
+                        className="
+                            w-full max-w-md 
+                            bg-white/70 backdrop-blur-xl 
+                            p-8 rounded-3xl shadow-2xl border border-gray-200
+                            animate-[fadeIn_0.4s_ease-out]
+                        "
+                    >
+                        <form onSubmit={submit} className="space-y-6">
                             {/* NAME */}
                             <div>
                                 <InputLabel
                                     htmlFor="name"
                                     value="Nombre"
-                                    className="text-2xl sm:text-3xl"
+                                    className="text-xl"
                                 />
 
                                 <TextInput
                                     id="name"
                                     name="name"
                                     value={data.name}
-                                    className="mt-1 block w-full text-xl py-3"
+                                    className="mt-2 block w-full text-base py-2 rounded-lg border-gray-300 focus:ring-[#A90000]"
                                     autoComplete="name"
                                     isFocused={true}
                                     onChange={(e) =>
                                         setData("name", e.target.value)
                                     }
-                                    required
                                 />
 
                                 <InputError
@@ -72,11 +73,11 @@ export default function Register() {
                             </div>
 
                             {/* EMAIL */}
-                            <div className="mt-4">
+                            <div>
                                 <InputLabel
                                     htmlFor="email"
                                     value="Email"
-                                    className="text-2xl sm:text-3xl"
+                                    className="text-xl"
                                 />
 
                                 <TextInput
@@ -84,12 +85,11 @@ export default function Register() {
                                     type="email"
                                     name="email"
                                     value={data.email}
-                                    className="mt-1 block w-full text-xl py-3"
+                                    className="mt-2 block w-full text-base py-2 rounded-lg border-gray-300 focus:ring-[#A90000]"
                                     autoComplete="username"
                                     onChange={(e) =>
                                         setData("email", e.target.value)
                                     }
-                                    required
                                 />
 
                                 <InputError
@@ -99,11 +99,11 @@ export default function Register() {
                             </div>
 
                             {/* PASSWORD */}
-                            <div className="mt-4">
+                            <div>
                                 <InputLabel
                                     htmlFor="password"
                                     value="Contraseña"
-                                    className="text-2xl sm:text-3xl"
+                                    className="text-xl"
                                 />
 
                                 <TextInput
@@ -111,12 +111,11 @@ export default function Register() {
                                     type="password"
                                     name="password"
                                     value={data.password}
-                                    className="mt-1 block w-full text-xl py-3"
+                                    className="mt-2 block w-full text-base py-2 rounded-lg border-gray-300 focus:ring-[#A90000]"
                                     autoComplete="new-password"
                                     onChange={(e) =>
                                         setData("password", e.target.value)
                                     }
-                                    required
                                 />
 
                                 <InputError
@@ -126,11 +125,11 @@ export default function Register() {
                             </div>
 
                             {/* CONFIRM PASSWORD */}
-                            <div className="mt-4">
+                            <div>
                                 <InputLabel
                                     htmlFor="password_confirmation"
                                     value="Confirmar contraseña"
-                                    className="text-2xl sm:text-3xl"
+                                    className="text-xl"
                                 />
 
                                 <TextInput
@@ -138,7 +137,7 @@ export default function Register() {
                                     type="password"
                                     name="password_confirmation"
                                     value={data.password_confirmation}
-                                    className="mt-1 block w-full text-xl py-3"
+                                    className="mt-2 block w-full text-base py-2 rounded-lg border-gray-300 focus:ring-[#A90000]"
                                     autoComplete="new-password"
                                     onChange={(e) =>
                                         setData(
@@ -146,7 +145,6 @@ export default function Register() {
                                             e.target.value,
                                         )
                                     }
-                                    required
                                 />
 
                                 <InputError
@@ -156,20 +154,20 @@ export default function Register() {
                             </div>
 
                             {/* BOTÓN REGISTER */}
-                            <div className="mt-6">
-                                <button
-                                    className="w-full rounded-3xl px-3 py-3 text-white bg-[#A90000] hover:bg-[#A90000]/90 transition text-2xl border-[3px] border-black"
-                                    disabled={processing}
-                                >
-                                    Registrarse
-                                </button>
-                            </div>
+                            <button
+                                className="w-full rounded-lg px-3 py-2 text-white bg-[#A90000] hover:bg-[#8A0000] 
+                                           transition text-base border border-black shadow-sm active:scale-[0.97]"
+                                disabled={processing}
+                            >
+                                Registrarse
+                            </button>
                         </form>
 
                         {/* LOGIN */}
                         <Link
                             href={route("login")}
-                            className="mt-4 w-full inline-block rounded-3xl px-3 py-3 text-white bg-[#A90000] hover:bg-[#A90000]/90 transition text-center text-2xl border-[3px] border-black"
+                            className="w-full rounded-lg px-3 py-2 text-white bg-[#A90000] hover:bg-[#8A0000] 
+                                       transition text-base border border-black shadow-sm active:scale-[0.97] block text-center mt-4"
                         >
                             ¿Ya tienes cuenta?
                         </Link>
@@ -178,7 +176,7 @@ export default function Register() {
             </div>
 
             {/* FOOTER */}
-            <footer className="h-[8.33vh] bg-[#A90000] text-white flex items-center justify-center text-sm">
+            <footer className="h-[8.33vh] bg-[#A90000] text-white flex items-center justify-center text-sm tracking-wide shadow-inner">
                 © {new Date().getFullYear()} ExodoTask — Todos los derechos
                 reservados
             </footer>
