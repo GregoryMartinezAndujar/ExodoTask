@@ -21,7 +21,7 @@ class TareasFactory extends Factory
         return [
             'a_nombre' => fake()->text(),
             'a_descripcion' =>  fake()->realText(),
-            'a_horas' =>  fake()->time(),
+            'a_horas' =>  fake()->numberBetween(1, 10),
             'a_user_id' => $usuarios->random()->id,
         ];
     }

@@ -9,26 +9,25 @@ export default function AuthenticatedLayout({ header, children }) {
     const [open, setOpen] = useState(false);
 
     return (
-        <div className="min-h-screen bg-white-100 flex font-exodo">
+        <div className="min-h-screen bg-white flex font-exodo">
             {/* SIDEBAR — Desktop */}
-            <aside className="hidden md:flex w-64 bg-[#7C0303] p-6 flex-col">
-                {/* Logo — SOLO DESKTOP */}
-                <div className="mb-8 hidden md:flex">
+            <aside className="hidden md:flex w-64 bg-[#7C0303] p-6 flex-col shadow-xl">
+                {/* Logo */}
+                <div className="mb-10 flex justify-center">
                     <Link href="/" className="flex items-center">
                         {/* <ApplicationLogo className="h-14 w-auto" /> */}
                     </Link>
                 </div>
 
                 {/* Usuario */}
-                <div className="mb-8 ">
-                    <p className="text-white text-3xl sm:text-4xl lg:text-2xl">
-                        {" "}
+                <div className="mb-10">
+                    <p className="text-white text-3xl  leading-tight">
                         {user.name}
                     </p>
                 </div>
 
                 {/* Navegación */}
-                <nav className="flex flex-col space-y-3">
+                <nav className="flex flex-col space-y-4">
                     <NavLink
                         href={route("dashboard")}
                         active={route().current("dashboard")}
@@ -42,31 +41,30 @@ export default function AuthenticatedLayout({ header, children }) {
                     >
                         Crear Tareas
                     </NavLink>
+
                     <NavLink
                         href={route("gruposdetareas.create")}
                         active={route().current("gruposdetareas.create")}
                     >
                         Crear Grupos
                     </NavLink>
-                    <hr></hr>
+
+                    <hr className="border-white/40" />
+
                     <NavLink
                         href={route("gruposdetareas.index")}
                         active={route().current("gruposdetareas.index")}
                     >
                         Ver Grupos
                     </NavLink>
-                    {/* <NavLink
-                        href={route("tareas.index")}
-                        active={route().current("tareas.index")}
-                    >
-                        Sesiones De Estudio
-                    </NavLink> */}
+
                     <NavLink
                         href={route("profile.edit")}
                         active={route().current("profile.edit")}
                     >
                         Perfil
                     </NavLink>
+
                     <NavLink
                         href={route("logout")}
                         method="post"
@@ -87,16 +85,16 @@ export default function AuthenticatedLayout({ header, children }) {
 
             {/* SIDEBAR — Mobile */}
             <aside
-                className={`fixed top-0 left-0 h-full w-64  border-r p-6 z-50 transform transition-transform md:hidden bg-[#7C0303]  ${
+                className={`fixed top-0 left-0 h-full w-64 bg-[#7C0303] p-6 z-50 transform transition-transform md:hidden shadow-xl ${
                     open ? "translate-x-0" : "-translate-x-full"
                 }`}
             >
-                {/* Header móvil (sin logo) */}
+                {/* Header móvil */}
                 <div className="mb-8 flex justify-between items-center">
-                    <h2 className="text-lg text-white">Menú</h2>
+                    <h2 className="text-lg text-white font-semibold">Menú</h2>
                     <button
                         onClick={() => setOpen(false)}
-                        className="text-white-600 text-2xl"
+                        className="text-white text-2xl"
                     >
                         ✕
                     </button>
@@ -104,14 +102,13 @@ export default function AuthenticatedLayout({ header, children }) {
 
                 {/* Usuario */}
                 <div className="mb-8">
-                    <p className="text-white text-2xl sm:text-2xl lg:text-2xl">
-                        {" "}
+                    <p className="text-white text-2xl font-semibold leading-tight">
                         {user.name}
                     </p>
                 </div>
 
                 {/* Navegación */}
-                <nav className="flex flex-col space-y-3">
+                <nav className="flex flex-col space-y-4">
                     <NavLink
                         href={route("dashboard")}
                         active={route().current("dashboard")}
@@ -125,31 +122,30 @@ export default function AuthenticatedLayout({ header, children }) {
                     >
                         Crear Tareas
                     </NavLink>
+
                     <NavLink
                         href={route("gruposdetareas.create")}
                         active={route().current("gruposdetareas.create")}
                     >
                         Crear Grupos
                     </NavLink>
-                    <hr></hr>
+
+                    <hr className="border-white/40" />
+
                     <NavLink
                         href={route("gruposdetareas.index")}
                         active={route().current("gruposdetareas.index")}
                     >
                         Ver Grupos
                     </NavLink>
-                    {/* <NavLink
-                        href={route("tareas.index")}
-                        active={route().current("tareas.index")}
-                    >
-                        Sesiones De Estudio
-                    </NavLink> */}
+
                     <NavLink
                         href={route("profile.edit")}
                         active={route().current("profile.edit")}
                     >
                         Perfil
                     </NavLink>
+
                     <NavLink
                         href={route("logout")}
                         method="post"
@@ -161,8 +157,8 @@ export default function AuthenticatedLayout({ header, children }) {
             </aside>
 
             {/* CONTENIDO PRINCIPAL */}
-            <div className="flex-1">
-                {/* Header móvil con botón hamburguesa */}
+            <div className="flex-1 flex flex-col">
+                {/* Header móvil */}
                 <div className="md:hidden p-4 bg-white border-b shadow flex items-center">
                     <button
                         onClick={() => setOpen(true)}
@@ -170,12 +166,11 @@ export default function AuthenticatedLayout({ header, children }) {
                     >
                         ☰
                     </button>
-                    {/* <h1 className="text-lg">{header}</h1> */}
                 </div>
 
                 {/* Header Desktop */}
                 {header && (
-                    <header>
+                    <header className="bg-white border-b shadow-sm p-4">
                         <div className="flex items-center justify-between w-full">
                             {header}
                         </div>

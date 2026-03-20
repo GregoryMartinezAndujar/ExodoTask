@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('a_nombre');
             $table->string('a_descripcion');
-            $table->time('a_horas');
+            $table->integer('a_horas');
             $table->boolean('a_completada')->default(false);
             $table->unsignedBigInteger('a_user_id');
             $table->timestamps();
