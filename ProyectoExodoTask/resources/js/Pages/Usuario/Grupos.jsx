@@ -71,7 +71,15 @@ export default function Index({ auth, tareas, currentRoute, grupos }) {
 
                     {/* Botón */}
                     <DangerButton
-                        className="w-full sm:w-auto mt-2 hover:bg-indigo-700 text-white"
+                        className="
+                                w-full sm:w-auto 
+                                text-base 
+                                px-5 py-2
+                                rounded-xl
+                                transition-all 
+                                hover:scale-[1.02]
+                                bg-[#A90000]
+                            "
                         disabled={processing}
                     >
                         Crear

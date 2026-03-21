@@ -23,32 +23,58 @@ const VerGrupos = ({ grupo }) => {
         // tareasIds: [],
     });
     return (
-        <div className="bg-gray-50 hover:bg-gray-100 transition rounded-xl p-6 shadow-sm border">
-            <small className="text-gray-500 sm:text-xl">
-                {dayjs(grupo.created_at).fromNow()}
-            </small>
+        <div
+            className="
+        w-full
+        bg-white
+        border border-gray-200
+        rounded-xl
+        p-4
+        flex flex-col sm:flex-row sm:items-center sm:justify-between
+        shadow-sm
+        hover:shadow-md
+        transition-all
+        duration-300
+    "
+        >
+            {/* Columna izquierda */}
+            <div>
+                <p className="text-lg text-gray-900">
+                    {grupo.a_nombre}
+                </p>
 
-            <p className="text-lg sm:text-xl lg:text-2xl mt-3">
-                {grupo.a_nombre}
-            </p>
+                <small className="text-gray-500 text-sm">
+                    {dayjs(grupo.created_at).fromNow()}
+                </small>
+            </div>
 
-            <div className="flex flex-col sm:flex-row sm:space-x-3 gap-2 mt-4">
+            {/* Columna derecha */}
+            <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0">
                 <PrimaryButton
-                    className="w-full sm:w-auto"
-                    onClick={() => {
-                        router.get(route("grupos.tareas", grupo.id));
-                    }}
+                    className="
+                text-white
+                transition-all
+            "
+                    onClick={() => router.get(route("grupos.tareas", grupo.id))}
                 >
                     Ver Tareas
                 </PrimaryButton>
+
                 <PrimaryButton
-                    className="w-full sm:w-auto"
+                    className="
+                text-white
+                transition-all
+            "
                     onClick={() => router.get(route("dashboard", grupo.id))}
                 >
                     Añadir Tareas
                 </PrimaryButton>
+
                 <DangerButton
-                    className="w-full sm:w-auto"
+                    className="
+                text-white
+                transition-all
+            "
                     onClick={async () => {
                         if (await eliminarGrupo()) {
                             destroy(route("gruposdetareas.destroy", grupo.id));

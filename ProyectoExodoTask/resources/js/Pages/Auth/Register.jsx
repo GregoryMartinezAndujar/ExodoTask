@@ -41,11 +41,11 @@ export default function Register() {
                         className="
                             w-full max-w-md 
                             bg-white/70 backdrop-blur-xl 
-                            p-8 rounded-3xl shadow-2xl border border-gray-200
+                            p-8 rounded-3xl shadow-2xl border border-white-200
                             animate-[fadeIn_0.4s_ease-out]
                         "
                     >
-                        <form onSubmit={submit} className="space-y-6">
+                        <form onSubmit={submit} className="space-y-2">
                             {/* NAME */}
                             <div>
                                 <InputLabel
@@ -155,8 +155,16 @@ export default function Register() {
 
                             {/* BOTÓN REGISTER */}
                             <button
-                                className="w-full rounded-lg px-3 py-2 text-white bg-[#A90000] hover:bg-[#8A0000] 
-                                           transition text-base border border-black shadow-sm active:scale-[0.97]"
+                                className="
+        w-full rounded-xl px-4 py-2
+        text-white font-medium
+        bg-gradient-to-br from-[#B30000] to-[#8A0000]
+        shadow-[0_4px_12px_rgba(0,0,0,0.25)]
+        hover:shadow-[0_6px_18px_rgba(0,0,0,0.35)]
+        hover:brightness-110
+        active:scale-[0.97]
+        transition-all duration-300
+    "
                                 disabled={processing}
                             >
                                 Registrarse
@@ -166,8 +174,17 @@ export default function Register() {
                         {/* LOGIN */}
                         <Link
                             href={route("login")}
-                            className="w-full rounded-lg px-3 py-2 text-white bg-[#A90000] hover:bg-[#8A0000] 
-                                       transition text-base border border-black shadow-sm active:scale-[0.97] block text-center mt-4"
+                            className="
+        w-full rounded-xl px-4 py-2
+        text-white font-medium
+        bg-gradient-to-br from-[#B30000] to-[#8A0000]
+        shadow-[0_4px_12px_rgba(0,0,0,0.25)]
+        hover:shadow-[0_6px_18px_rgba(0,0,0,0.35)]
+        hover:brightness-110
+        active:scale-[0.97]
+        transition-all duration-300
+        block text-center mt-3
+    "
                         >
                             ¿Ya tienes cuenta?
                         </Link>

@@ -1,7 +1,6 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import InputError from "@/components/InputError";
-import PrimaryButton from "@/components/PrimaryButton";
 import { useForm, Head } from "@inertiajs/react";
 import DangerButton from "@/components/DangerButton";
 
@@ -21,7 +20,7 @@ export default function Index({ auth }) {
         <AuthenticatedLayout
             auth={auth}
             header={
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl pl-4 tracking-tight">
+                <h2 className="text-3xl sm:text-4xl pl-4 tracking-tight">
                     Creación de Tareas
                 </h2>
             }
@@ -30,23 +29,33 @@ export default function Index({ auth }) {
             <Head title="Tareas" />
 
             {/* CONTENEDOR PRINCIPAL */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 {/* FORMULARIO */}
                 <form
                     onSubmit={submit}
                     className="
-        bg-white/90 backdrop-blur-sm
-        p-4 sm:p-8 
-        rounded-2xl 
-        shadow-lg 
-        border border-gray-200
-        space-y-6
-        transition-all duration-300
-    "
+                        bg-white/80 backdrop-blur-md
+                        p-5 sm:p-7 
+                        rounded-2xl 
+                        shadow-md 
+                        border border-gray-200
+                        space-y-6
+                        transition-all duration-300
+                    "
                 >
+                    {/* TÍTULO DEL FORMULARIO */}
+                    <div className="space-y-1">
+                        <h3 className="text-xl sm:text-2xl tracking-tight text-gray-900">
+                            Nueva tarea
+                        </h3>
+                        <p className="text-gray-500 text-sm">
+                            Añade una nueva tarea a tu lista.
+                        </p>
+                    </div>
+
                     {/* Nombre */}
-                    <div className="space-y-2">
-                        <label className="text-lg sm:text-xl text-gray-700">
+                    <div className="space-y-1">
+                        <label className="text-base text-gray-700 font-medium">
                             Nombre
                         </label>
                         <input
@@ -55,18 +64,18 @@ export default function Index({ auth }) {
                                 setData("a_nombre", e.target.value)
                             }
                             type="text"
-                            placeholder="Nombre de la tarea"
+                            placeholder="Ej: Implementar login"
                             className="
-                w-full 
-                text-base sm:text-lg
-                border-gray-300 
-                rounded-xl 
-                shadow-sm 
-                px-3 py-2 sm:px-4 sm:py-2
-                focus:border-[#A90000] 
-                focus:ring focus:ring-[#A90000]/40
-                transition-all
-            "
+                                w-full 
+                                text-sm sm:text-base
+                                border-gray-300 
+                                rounded-xl 
+                                shadow-sm 
+                                px-3 py-2
+                                focus:border-[#A90000] 
+                                focus:ring focus:ring-[#A90000]/40
+                                transition-all
+                            "
                         />
                         <InputError
                             message={errors.a_nombre}
@@ -75,8 +84,8 @@ export default function Index({ auth }) {
                     </div>
 
                     {/* Descripción */}
-                    <div className="space-y-2">
-                        <label className="text-lg sm:text-xl text-gray-700">
+                    <div className="space-y-1">
+                        <label className="text-base text-gray-700 font-medium">
                             Descripción
                         </label>
                         <textarea
@@ -84,19 +93,19 @@ export default function Index({ auth }) {
                             onChange={(e) =>
                                 setData("a_descripcion", e.target.value)
                             }
-                            placeholder="Descripción de la tarea"
-                            rows="4"
+                            placeholder="Describe brevemente la tarea"
+                            rows="3"
                             className="
-                w-full 
-                text-base sm:text-lg
-                border-gray-300 
-                rounded-xl 
-                shadow-sm 
-                px-1 py-1 sm:px-1 sm:py-1
-                focus:border-[#A90000] 
-                focus:ring focus:ring-[#A90000]/40
-                transition-all
-            "
+                                w-full 
+                                text-sm sm:text-base
+                                border-gray-300 
+                                rounded-xl 
+                                shadow-sm 
+                                px-3 py-2
+                                focus:border-[#A90000] 
+                                focus:ring focus:ring-[#A90000]/40
+                                transition-all
+                            "
                         ></textarea>
                         <InputError
                             message={errors.a_descripcion}
@@ -105,26 +114,26 @@ export default function Index({ auth }) {
                     </div>
 
                     {/* Horas */}
-                    <div className="space-y-2">
-                        <label className="text-lg sm:text-xl text-gray-700">
+                    <div className="space-y-1">
+                        <label className="text-base text-gray-700 font-medium">
                             Horas estimadas
                         </label>
                         <input
                             value={data.a_horas}
                             onChange={(e) => setData("a_horas", e.target.value)}
                             type="number"
-                            placeholder="Horas estimadas"
+                            placeholder="Ej: 3"
                             className="
-                w-full 
-                text-base sm:text-lg
-                border-gray-300 
-                rounded-xl 
-                shadow-sm 
-                px-3 py-2 sm:px-4 sm:py-2
-                focus:border-[#A90000] 
-                focus:ring focus:ring-[#A90000]/40
-                transition-all
-            "
+                                w-full 
+                                text-sm sm:text-base
+                                border-gray-300 
+                                rounded-xl 
+                                shadow-sm 
+                                px-3 py-2
+                                focus:border-[#A90000] 
+                                focus:ring focus:ring-[#A90000]/40
+                                transition-all
+                            "
                         />
                         <InputError
                             message={errors.a_horas}
@@ -133,19 +142,20 @@ export default function Index({ auth }) {
                     </div>
 
                     {/* Botón */}
-                    <div>
+                    <div className="pt-2">
                         <DangerButton
                             className="
-                w-full sm:w-auto 
-                text-base sm:text-xl 
-                px-4 py-2 sm:px-6 sm:py-1
-                rounded-xl
-                transition-all 
-                hover:scale-[1.03]
-            "
+                                w-full sm:w-auto 
+                                text-base 
+                                px-5 py-2
+                                rounded-xl
+                                transition-all 
+                                hover:scale-[1.02]
+                                bg-[#A90000]
+                            "
                             disabled={processing}
                         >
-                            Crear
+                            Crear tarea
                         </DangerButton>
                     </div>
                 </form>

@@ -52,12 +52,11 @@ export default function Login({ status, canResetPassword }) {
                             </div>
                         )}
 
-                        <h1 className="text-4xl text-gray-800 mb-10 text-center">
+                        <h1 className="text-4xl text-gray-800 text-center drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
                             Iniciar sesión
                         </h1>
 
-                        <form onSubmit={submit} className="space-y-6">
-                            {/* EMAIL */}
+                        <form onSubmit={submit} className="space-y-4">
                             <div>
                                 <InputLabel
                                     htmlFor="email"
@@ -126,8 +125,16 @@ export default function Login({ status, canResetPassword }) {
 
                             {/* BOTÓN LOGIN */}
                             <button
-                                className="w-full rounded-lg px-3 py-2 text-white bg-[#A90000] hover:bg-[#8A0000] 
-               transition text-base border border-black shadow-sm active:scale-[0.97]"
+                                className="
+        w-full rounded-xl px-4 py-2
+        text-white font-medium
+        bg-gradient-to-br from-[#B30000] to-[#8A0000]
+        shadow-[0_4px_12px_rgba(0,0,0,0.25)]
+        hover:shadow-[0_6px_18px_rgba(0,0,0,0.35)]
+        hover:brightness-110
+        active:scale-[0.97]
+        transition-all duration-300
+    "
                                 disabled={processing}
                             >
                                 Iniciar sesión
@@ -137,8 +144,17 @@ export default function Login({ status, canResetPassword }) {
                         {/* REGISTER */}
                         <Link
                             href={route("register")}
-                            className="w-full rounded-lg px-3 py-2 text-white bg-[#A90000] hover:bg-[#8A0000] 
-               transition text-base border border-black shadow-sm active:scale-[0.97] block text-center mt-4"
+                            className="
+        w-full rounded-xl px-4 py-2
+        text-white font-medium
+        bg-gradient-to-br from-[#B30000] to-[#8A0000]
+        shadow-[0_4px_12px_rgba(0,0,0,0.25)]
+        hover:shadow-[0_6px_18px_rgba(0,0,0,0.35)]
+        hover:brightness-110
+        active:scale-[0.97]
+        transition-all duration-300
+        block text-center mt-3
+    "
                         >
                             ¿No tienes cuenta?
                         </Link>
