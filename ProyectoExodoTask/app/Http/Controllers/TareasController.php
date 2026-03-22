@@ -123,8 +123,13 @@ class TareasController extends Controller
         return redirect()->back()->with('success', 'Tarea eliminada del grupo exitosamente.');
     }
 
-    public function tareasComenzar()
+    public function tareasComenzar(String $tareaId)
     {
-        return Inertia::render('Cronometro', []);
+        $tarea = Tareas::where('id', $tareaId)
+            ->where('a_user_id', auth()->id())
+            ->firstOrFail();
+        return Inertia::render('Cronometro', [
+            'tarea' => $tarea,
+        ]);
     }
 }

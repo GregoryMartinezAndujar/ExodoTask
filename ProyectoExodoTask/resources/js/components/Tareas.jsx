@@ -165,19 +165,22 @@ const Tarea = ({
                                 >
                                     Editar
                                 </PrimaryButton>
-                                <PrimaryButton
-                                    className="w-full text-sm py-1.5"
-                                    onClick={() =>
-                                        router.get(
-                                            route(
-                                                "tareas.cronometro",
-                                                tarea.id,
-                                            ),
-                                        )
-                                    }
-                                >
-                                    Comenzar
-                                </PrimaryButton>
+                                {!tarea.a_completada && (
+                                    <PrimaryButton
+                                        className="w-full text-sm py-1.5"
+                                        onClick={() =>
+                                            router.get(
+                                                route(
+                                                    "tareas.cronometro",
+                                                    tarea.id,
+                                                ),
+                                            )
+                                        }
+                                    >
+                                        Comenzar
+                                    </PrimaryButton>
+                                )}
+
                                 {grupos.length == 0 &&
                                     ruta === "grupos.tareas" && (
                                         <DangerButton

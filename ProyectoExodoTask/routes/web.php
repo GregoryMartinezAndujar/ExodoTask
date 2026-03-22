@@ -39,6 +39,6 @@ Route::resource('gruposdetareas', GrupoDeTareasController::class,)->only(['index
 // Rutas adicionales para tareas por grupo y eliminación de tarea del grupo
 Route::get('/tareas-por-grupo/{grupo}', [TareasController::class, 'tareasPorGrupo'])->middleware(['auth', 'verified'])->name('grupos.tareas');
 Route::get('/eliminar-tarea-del-grupo/{tarea}', [TareasController::class, 'eliminarTareaDelGrupo'])->middleware(['auth', 'verified'])->name('tareas.eliminarDelGrupo');
-Route::get('/cronometro', [TareasController::class, "tareasComenzar"])->middleware(['auth', 'verified'])->name('tareas.cronometro');
+Route::get('/cronometro{tarea}', [TareasController::class, "tareasComenzar"])->middleware(['auth', 'verified'])->name('tareas.cronometro');
 Route::get('/editar-grupo/{id}', [GrupoDeTareasController::class, 'edit'])->middleware(['auth', 'verified'])->name('editar.grupo');
 require __DIR__ . '/auth.php';
