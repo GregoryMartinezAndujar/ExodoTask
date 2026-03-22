@@ -1,7 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import Tareas from "@/components/Tareas";
-import ApplicationLogo from "@/components/ApplicationLogo";
 import { useState } from "react";
 export default function Dashboard({
     tareas,

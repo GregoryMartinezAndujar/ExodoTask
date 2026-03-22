@@ -17,6 +17,7 @@ class GrupoDeTareasController extends Controller
     {
         return Inertia::render('GruposDisponibles', [
             'grupos' => GruposDeTareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
+            'tareas' => Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
         ]);
     }
 
@@ -75,7 +76,10 @@ class GrupoDeTareasController extends Controller
     public function edit(string $id)
     {
 
-        $tareas = Tareas::where('a_grupo_id', null)->where('a_user_id', auth()->id())->latest()->get();
+        $tareas = Tareas::where('a_user_id', auth()->id())
+            ->latest()
+            ->get();
+
         return Inertia::render('Usuario/EditarGrupos', [
             'grupo' => GruposDeTareas::where('id', $id)->where('a_user_id', auth()->id())->firstOrFail(),
             'tareas' => $tareas,

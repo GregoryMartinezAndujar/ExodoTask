@@ -7,8 +7,14 @@ import Tareas from "@/components/Tareas";
 export default function Index({ auth, tareas, currentRoute, grupo }) {
     const { data, setData, patch, processing, reset, errors } = useForm({
         a_nombre: grupo.a_nombre,
-        tareasIds: [],
+        tareasIds: tareas
+            .filter((tarea) => tarea.a_grupo_id === grupo.id)
+            .map((tarea) => tarea.id),
     });
+
+    const [tareasSinGrupo, setTareasSinGrupo] = useState(
+        tareas.filter((tarea) => tarea.a_grupo_id === null),
+    );
 
     const submit = (e) => {
         e.preventDefault();
@@ -86,7 +92,7 @@ export default function Index({ auth, tareas, currentRoute, grupo }) {
                 </form>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {tareas.map((tarea) => (
+                {tareasSinGrupo.map((tarea) => (
                     <Tareas
                         key={tarea.id}
                         tarea={tarea}

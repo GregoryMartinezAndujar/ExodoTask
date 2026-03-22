@@ -4,7 +4,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { useForm, Head } from "@inertiajs/react";
 
-export default function GruposDisponibles({ grupos, auth }) {
+export default function GruposDisponibles({ grupos, auth, tareas }) {
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -20,7 +20,7 @@ export default function GruposDisponibles({ grupos, auth }) {
 
             <div className="space-y-4">
                 {grupos.map((grupo) => (
-                    <VerGrupos key={grupo.id} grupo={grupo} />
+                    <VerGrupos key={grupo.id} grupo={grupo} tareas={tareas} />
                 ))}
             </div>
         </AuthenticatedLayout>

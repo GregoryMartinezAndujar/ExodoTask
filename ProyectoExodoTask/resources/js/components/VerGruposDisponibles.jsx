@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PrimaryButton from "./PrimaryButton";
@@ -9,7 +9,7 @@ import { useForm, Head } from "@inertiajs/react";
 import { eliminarGrupo } from "./Alerts";
 dayjs.extend(relativeTime);
 
-const VerGrupos = ({ grupo }) => {
+const VerGrupos = ({ grupo, tareas }) => {
     const {
         data,
         setData,
@@ -22,6 +22,11 @@ const VerGrupos = ({ grupo }) => {
         // a_nombre: "",
         // tareasIds: [],
     });
+
+    const [tareasDelGrupo, setTareasDelGrupo] = useState(
+        tareas.filter((tarea) => tarea.a_grupo_id === grupo.id),
+    );
+
     return (
         <div
             className="
@@ -46,7 +51,9 @@ const VerGrupos = ({ grupo }) => {
                     Actualizado hace: {dayjs(grupo.updated_at).fromNow()}
                 </small>
             </div>
-
+            <div className="w-24 h-12 flex items-center justify-center rounded-full bg-red-100 text-black text-xl">
+                <p>{tareasDelGrupo.length} tareas</p>
+            </div>
             {/* Columna derecha */}
             <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0">
                 <PrimaryButton
