@@ -26,6 +26,12 @@ const VerGrupos = ({ grupo, tareas }) => {
     const [tareasDelGrupo, setTareasDelGrupo] = useState(
         tareas.filter((tarea) => tarea.a_grupo_id === grupo.id),
     );
+    const tareasCompeltadasGrupo = tareasDelGrupo.filter(
+        (tarea) => tarea.a_completada === true,
+    );
+    const tareasPendientesGrupo = tareasDelGrupo.filter(
+        (tarea) => tarea.a_completada === false,
+    );
 
     return (
         <div
@@ -51,9 +57,16 @@ const VerGrupos = ({ grupo, tareas }) => {
                     Actualizado hace: {dayjs(grupo.updated_at).fromNow()}
                 </small>
             </div>
-            <div className="w-24 h-12 flex items-center justify-center rounded-full bg-red-100 text-black text-xl">
+            <div className="w-24 h-12 flex items-center justify-center rounded-full bg-blue-100 text-black text-xl">
                 <p>{tareasDelGrupo.length} tareas</p>
             </div>
+            <div className="w-fit h-12 flex items-center justify-center rounded-full bg-green-100 text-black text-xl py-1 px-2">
+                <p>{tareasCompeltadasGrupo.length} Completadas</p>
+            </div>
+            <div className="w-fit h-12 flex items-center justify-center rounded-full bg-red-100 text-black text-xl py-1 px-2">
+                <p>{tareasPendientesGrupo.length} Pendientes</p>
+            </div>
+
             {/* Columna derecha */}
             <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0">
                 <PrimaryButton
