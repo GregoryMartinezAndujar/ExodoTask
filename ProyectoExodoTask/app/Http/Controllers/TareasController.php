@@ -122,4 +122,9 @@ class TareasController extends Controller
 
         return redirect()->back()->with('success', 'Tarea eliminada del grupo exitosamente.');
     }
+
+    public function tareasComenzar()
+    {
+        return Inertia::render('Cronometro', []);
+    }
 }

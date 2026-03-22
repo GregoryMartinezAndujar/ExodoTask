@@ -16,7 +16,7 @@ export default function Dashboard({
         (tarea) => tarea.a_completada === false,
     ).length;
 
-    const [verSegunEstado, setVerSegunEstado] = useState(false);
+    const [verSegunEstado, setVerSegunEstado] = useState(null);
 
     const tareasFiltradas =
         verSegunEstado === true

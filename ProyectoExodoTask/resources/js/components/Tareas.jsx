@@ -114,7 +114,7 @@ const Tarea = ({
 
                     {/* BOTONES ESCRITORIO */}
                     <div className="hidden sm:flex gap-2">
-                        {ruta === "dashboard" && (
+                        {(ruta === "dashboard" || ruta === "grupos.tareas") && (
                             <>
                                 <PrimaryButton
                                     className="text-sm py-1.5"
@@ -165,27 +165,41 @@ const Tarea = ({
                                 >
                                     Editar
                                 </PrimaryButton>
-                                {grupos.length == 0 && (
-                                    <DangerButton
-                                        className="w-full text-sm py-1.5"
-                                        onClick={async () => {
-                                            {
-                                                if (
-                                                    await eliminarTareaDelGrupo()
-                                                ) {
-                                                    router.get(
-                                                        route(
-                                                            "tareas.eliminarDelGrupo",
-                                                            tarea.id,
-                                                        ),
-                                                    );
+                                <PrimaryButton
+                                    className="w-full text-sm py-1.5"
+                                    onClick={() =>
+                                        router.get(
+                                            route(
+                                                "tareas.cronometro",
+                                                tarea.id,
+                                            ),
+                                        )
+                                    }
+                                >
+                                    Comenzar
+                                </PrimaryButton>
+                                {grupos.length == 0 &&
+                                    ruta === "grupos.tareas" && (
+                                        <DangerButton
+                                            className="w-full text-sm py-1.5"
+                                            onClick={async () => {
+                                                {
+                                                    if (
+                                                        await eliminarTareaDelGrupo()
+                                                    ) {
+                                                        router.get(
+                                                            route(
+                                                                "tareas.eliminarDelGrupo",
+                                                                tarea.id,
+                                                            ),
+                                                        );
+                                                    }
                                                 }
-                                            }
-                                        }}
-                                    >
-                                        eliminar del grupo
-                                    </DangerButton>
-                                )}
+                                            }}
+                                        >
+                                            eliminar del grupo
+                                        </DangerButton>
+                                    )}
                                 <DangerButton
                                     className="text-sm py-1.5 bg-[#A90000] hover:bg-red-700"
                                     onClick={async () => {
@@ -314,7 +328,15 @@ const Tarea = ({
                             >
                                 Editar
                             </PrimaryButton>
-                            {grupos.length == 0 && (
+                            <PrimaryButton
+                                className="w-full text-sm py-1.5"
+                                onClick={() =>
+                                    router.get(route("tareas.edit", tarea.id))
+                                }
+                            >
+                                Comenzar
+                            </PrimaryButton>
+                            {ruta == "grupo.tarea" && (
                                 <DangerButton
                                     className="w-full text-sm py-1.5"
                                     onClick={async () => {

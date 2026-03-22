@@ -2,7 +2,8 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm, Head } from "@inertiajs/react";
 import Tareas from "@/components/Tareas";
-const VerTareasGrupo = ({ auth, grupo, tareas, prioridades }) => {
+const VerTareasGrupo = ({ auth, grupo, tareas, prioridades, currentRoute }) => {
+    console.log(currentRoute);
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -21,7 +22,7 @@ const VerTareasGrupo = ({ auth, grupo, tareas, prioridades }) => {
                         key={tarea.id}
                         tarea={tarea}
                         prioridades={prioridades}
-                        // grupos={grupo}
+                        ruta={currentRoute}
                     />
                 ))}
             </div>

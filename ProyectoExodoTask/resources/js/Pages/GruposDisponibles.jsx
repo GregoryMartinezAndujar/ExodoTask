@@ -4,7 +4,13 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import { useForm, Head } from "@inertiajs/react";
 
-export default function GruposDisponibles({ grupos, auth, tareas }) {
+export default function GruposDisponibles({
+    grupos,
+    auth,
+    tareas,
+    currentRoute,
+}) {
+    console.log(currentRoute);
     return (
         <AuthenticatedLayout
             auth={auth}
