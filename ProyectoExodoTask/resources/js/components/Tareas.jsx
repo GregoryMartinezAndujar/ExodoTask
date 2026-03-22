@@ -52,7 +52,7 @@ const Tarea = ({
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     {/* Nombre + Estado */}
                     <div className="flex flex-wrap items-center gap-3">
-                        <p className="text-xl text-gray-900 tracking-tight bg-red-100 px-3 py-1 rounded-full w-fit">
+                        <p className="text-xl text-gray-900 tracking-tight bg-[#111827] px-3 py-1 rounded-full w-fit text-white">
                             {tarea.a_nombre}
                         </p>
 

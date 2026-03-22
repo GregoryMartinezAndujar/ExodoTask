@@ -33,7 +33,7 @@ const completarTarea = async () => {
         showCancelButton: true,
         confirmButtonText: "Completar",
         cancelButtonText: "Cancelar",
-        confirmButtonColor: "#A90000",
+        confirmButtonColor: "green",
     });
     return result.isConfirmed;
 };
