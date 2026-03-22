@@ -68,53 +68,48 @@ const Tarea = ({
                         >
                             {data.a_completada ? "Completada" : "Pendiente"}
                         </span>
-                        {ruta === "dashboard" &&
-                            Array.isArray(prioridades) &&
-                            tarea?.a_prioridad_id && (
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <button className="bg-white border border-gray-300 rounded px-2 py-1 shadow-sm hover:bg-gray-50 transition text-xs md:text-sm flex items-center gap-1">
-                                            {prioridades.find(
-                                                (p) =>
-                                                    p.id ===
-                                                    tarea.a_prioridad_id,
-                                            )?.a_nombre ?? "Sin prioridad"}
-                                            <span className="text-gray-500">
-                                                ▼
-                                            </span>
-                                        </button>
-                                    </Dropdown.Trigger>
+                        {ruta === "dashboard" && Array.isArray(prioridades) && (
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <button className="bg-white border border-gray-300 rounded px-2 py-1 shadow-sm hover:bg-gray-50 transition text-xs md:text-sm flex items-center gap-1">
+                                        {prioridades.find(
+                                            (p) =>
+                                                p.id === tarea.a_prioridad_id,
+                                        )?.a_nombre ?? "Sin prioridad"}
+                                        <span className="text-gray-500">▼</span>
+                                    </button>
+                                </Dropdown.Trigger>
 
-                                    <Dropdown.Content
-                                        contentClasses="bg-white py-1 rounded-md shadow-lg border border-gray-200"
-                                        align="left"
-                                        width="48"
-                                    >
-                                        {prioridades.map((prioridad) => (
-                                            <div
-                                                key={prioridad.id}
-                                                className="px-3 py-1 hover:bg-gray-100 cursor-pointer text-gray-700 text-xs md:text-sm"
-                                                onClick={() => {
-                                                    patch(
-                                                        route(
-                                                            "tareas.update",
-                                                            tarea.id,
-                                                        ),
-                                                        {
-                                                            onBefore: () => {
-                                                                data.a_prioridad_id =
-                                                                    prioridad.id;
-                                                            },
+                                <Dropdown.Content
+                                    contentClasses="bg-white py-1 rounded-md shadow-lg border border-gray-200"
+                                    align="left"
+                                    width="48"
+                                >
+                                    {prioridades.map((prioridad) => (
+                                        <div
+                                            key={prioridad.id}
+                                            className="px-3 py-1 hover:bg-gray-100 cursor-pointer text-gray-700 text-xs md:text-sm"
+                                            onClick={() => {
+                                                patch(
+                                                    route(
+                                                        "tareas.update",
+                                                        tarea.id,
+                                                    ),
+                                                    {
+                                                        onBefore: () => {
+                                                            data.a_prioridad_id =
+                                                                prioridad.id;
                                                         },
-                                                    );
-                                                }}
-                                            >
-                                                {prioridad.a_nombre}
-                                            </div>
-                                        ))}
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            )}
+                                                    },
+                                                );
+                                            }}
+                                        >
+                                            {prioridad.a_nombre}
+                                        </div>
+                                    ))}
+                                </Dropdown.Content>
+                            </Dropdown>
+                        )}
                     </div>
 
                     {/* BOTONES ESCRITORIO */}

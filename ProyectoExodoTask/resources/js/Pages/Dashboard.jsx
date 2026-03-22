@@ -19,10 +19,13 @@ export default function Dashboard({
 
     const [verSegunEstado, setVerSegunEstado] = useState(false);
 
-    const tareasFiltradas = verSegunEstado
-        ? tareas.filter((tarea) => tarea.a_completada === true)
-        : tareas.filter((tarea) => tarea.a_completada === false);
-
+    const tareasFiltradas =
+        verSegunEstado === true
+            ? tareas.filter((t) => t.a_completada === true)
+            : verSegunEstado === false
+              ? tareas.filter((t) => t.a_completada === false)
+              : tareas; // si es null, mostrar todas
+    const tareasTotales = tareas.length;
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -61,6 +64,23 @@ export default function Dashboard({
                     <div>
                         <p className="text-2xl  text-gray-900">{pendientes}</p>
                         <p className="text-gray-700 font-medium">Pendientes</p>
+                    </div>
+                </div>
+                {/* Tareas Totales */}
+                <div
+                    className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition"
+                    onClick={() => setVerSegunEstado(null)}
+                >
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 text-xl">
+                        ✓
+                    </div>
+                    <div>
+                        <p className="text-2xl  text-gray-900">
+                            {tareasTotales}
+                        </p>
+                        <p className="text-gray-700 font-medium">
+                            Tareas Totales
+                        </p>
                     </div>
                 </div>
             </div>
