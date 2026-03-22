@@ -8,7 +8,12 @@ import { router } from "@inertiajs/react";
 import Dropdown from "./Dropdown";
 import "dayjs/locale/es";
 
-import { eliminarTarea, completarTarea, descompletarTarea } from "./Alerts";
+import {
+    eliminarTarea,
+    completarTarea,
+    descompletarTarea,
+    eliminarTareaDelGrupo,
+} from "./Alerts";
 
 dayjs.extend(relativeTime);
 dayjs.locale("es");
@@ -168,13 +173,19 @@ const Tarea = ({
                                 {grupos.length == 0 && (
                                     <DangerButton
                                         className="w-full text-sm py-1.5"
-                                        onClick={() => {
-                                            router.get(
-                                                route(
-                                                    "tareas.eliminarDelGrupo",
-                                                    tarea.id,
-                                                ),
-                                            );
+                                        onClick={async () => {
+                                            {
+                                                if (
+                                                    await eliminarTareaDelGrupo()
+                                                ) {
+                                                    router.get(
+                                                        route(
+                                                            "tareas.eliminarDelGrupo",
+                                                            tarea.id,
+                                                        ),
+                                                    );
+                                                }
+                                            }
                                         }}
                                     >
                                         eliminar del grupo
@@ -308,7 +319,25 @@ const Tarea = ({
                             >
                                 Editar
                             </PrimaryButton>
-
+                            {grupos.length == 0 && (
+                                <DangerButton
+                                    className="w-full text-sm py-1.5"
+                                    onClick={async () => {
+                                        {
+                                            if (await eliminarTareaDelGrupo()) {
+                                                router.get(
+                                                    route(
+                                                        "tareas.eliminarDelGrupo",
+                                                        tarea.id,
+                                                    ),
+                                                );
+                                            }
+                                        }
+                                    }}
+                                >
+                                    eliminar del grupo
+                                </DangerButton>
+                            )}
                             <DangerButton
                                 className="w-full text-sm py-1.5 bg-[#A90000] hover:bg-red-700"
                                 onClick={async () => {

@@ -15,7 +15,7 @@ const VerTareasGrupo = ({ auth, grupo, tareas, prioridades }) => {
         >
             <Head title="Tareas del Grupo" />
 
-            <div>
+            <div className="space-y-2">
                 {tareas.map((tarea) => (
                     <Tareas
                         key={tarea.id}

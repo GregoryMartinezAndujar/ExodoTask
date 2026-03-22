@@ -63,6 +63,24 @@ const eliminarGrupo = async () => {
     return result.isConfirmed;
 };
 
+const eliminarTareaDelGrupo = async () => {
+    const result = await Swal.fire({
+        title: "¿Eliminar tarea del grupo?",
+        text: "Puedes volver a agregarla después si lo deseas",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#A90000",
+    });
+    return result.isConfirmed;
+};
 export default eliminarTareaGrupo;
 
-export { eliminarTarea, completarTarea, descompletarTarea, eliminarGrupo };
+export {
+    eliminarTarea,
+    completarTarea,
+    descompletarTarea,
+    eliminarGrupo,
+    eliminarTareaDelGrupo,
+};
