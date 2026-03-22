@@ -111,4 +111,15 @@ class TareasController extends Controller
             'currentRoute' => request()->route()->getName(),
         ]);
     }
+
+    public function eliminarTareaDelGrupo(String $tareaId)
+    {
+        $tarea = Tareas::where('id', $tareaId)
+            ->where('a_user_id', auth()->id())
+            ->firstOrFail();
+
+        $tarea->update(['a_grupo_id' => null]);
+
+        return redirect()->back()->with('success', 'Tarea eliminada del grupo exitosamente.');
+    }
 }

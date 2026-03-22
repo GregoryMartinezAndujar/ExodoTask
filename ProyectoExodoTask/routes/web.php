@@ -19,9 +19,10 @@ Route::get('/', function () {
     ]);
 })->middleware('guest');
 
+// Rutas para tareas 
 Route::get('/dashboard', [TareasController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/editar-tarea/{id}', [TareasController::class, 'edit'])->middleware(['auth', 'verified'])->name('EditarTareas');
-Route::get('/editar-grupo/{id}', [GrupoDeTareasController::class, 'edit'])->middleware(['auth', 'verified'])->name('editar.grupo');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,6 +36,8 @@ Route::resource('gruposdetareas', GrupoDeTareasController::class,)->only(['index
     ->middleware(['auth', 'verified'])
 ;
 
-
+// Rutas adicionales para tareas por grupo y eliminación de tarea del grupo
 Route::get('/tareas-por-grupo/{grupo}', [TareasController::class, 'tareasPorGrupo'])->middleware(['auth', 'verified'])->name('grupos.tareas');
+Route::get('/eliminar-tarea-del-grupo/{tarea}', [TareasController::class, 'eliminarTareaDelGrupo'])->middleware(['auth', 'verified'])->name('tareas.eliminarDelGrupo');
+Route::get('/editar-grupo/{id}', [GrupoDeTareasController::class, 'edit'])->middleware(['auth', 'verified'])->name('editar.grupo');
 require __DIR__ . '/auth.php';

@@ -165,7 +165,21 @@ const Tarea = ({
                                 >
                                     Editar
                                 </PrimaryButton>
-
+                                {grupos.length == 0 && (
+                                    <DangerButton
+                                        className="w-full text-sm py-1.5"
+                                        onClick={() => {
+                                            router.get(
+                                                route(
+                                                    "tareas.eliminarDelGrupo",
+                                                    tarea.id,
+                                                ),
+                                            );
+                                        }}
+                                    >
+                                        eliminar del grupo
+                                    </DangerButton>
+                                )}
                                 <DangerButton
                                     className="text-sm py-1.5 bg-[#A90000] hover:bg-red-700"
                                     onClick={async () => {
