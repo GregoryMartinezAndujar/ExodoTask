@@ -39,12 +39,11 @@ const VerGrupos = ({ grupo }) => {
         >
             {/* Columna izquierda */}
             <div>
-                <p className="text-lg text-gray-900">
-                    {grupo.a_nombre}
-                </p>
+                <p className="text-lg text-gray-900">{grupo.a_nombre}</p>
 
                 <small className="text-gray-500 text-sm">
-                    {dayjs(grupo.created_at).fromNow()}
+                    Fue creado hace: {dayjs(grupo.created_at).fromNow()} &#8226;{" "}
+                    Actualizado hace: {dayjs(grupo.updated_at).fromNow()}
                 </small>
             </div>
 
@@ -65,11 +64,10 @@ const VerGrupos = ({ grupo }) => {
                 text-white
                 transition-all
             "
-                    onClick={() => router.get(route("dashboard", grupo.id))}
+                    onClick={() => router.get(route("editar.grupo", grupo.id))}
                 >
-                    Añadir Tareas
+                    Editar
                 </PrimaryButton>
-
                 <DangerButton
                     className="
                 text-white

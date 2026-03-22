@@ -41,7 +41,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
                 {/* User Card */}
                 <div className="px-4 mb-8">
-                    <div className="rounded-2xl p-4 border border-[#27272f] bg-[#111827]">
+                    <div className="rounded-2xl p-2 border border-[#27272f] bg-[#111827]">
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#b91c1c] to-[#7f1d1d] flex items-center justify-center text-white  text-lg shadow-lg">
                                 {user.name.charAt(0).toUpperCase()}
@@ -189,9 +189,7 @@ export default function AuthenticatedLayout({ header, children }) {
             >
                 {/* Header móvil */}
                 <div className="mb-8 flex justify-between items-center">
-                    <h2 className="text-lg text-slate-100 font-semibold">
-                        Menú
-                    </h2>
+                    <h2 className="text-lg text-slate-100">Menú</h2>
                     <button
                         onClick={() => setOpen(false)}
                         className="text-slate-100 text-2xl"
@@ -202,18 +200,13 @@ export default function AuthenticatedLayout({ header, children }) {
 
                 {/* Usuario */}
                 <div className="mb-8 px-2">
-                    <div className="bg-[#111827] rounded-xl p-4 border border-[#27272f]">
+                    <div className="bg-[#111827] rounded-xl p-2 border border-[#27272f]">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#b91c1c] to-[#7f1d1d] flex items-center justify-center text-white font-bold text-lg shadow-md">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#b91c1c] to-[#7f1d1d] flex items-center justify-center text-white text-lg shadow-md">
                                 {user.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
-                                <p className="text-slate-100 font-semibold">
-                                    {user.name}
-                                </p>
-                                <p className="text-slate-400 text-xs">
-                                    Miembro activo
-                                </p>
+                                <p className="text-slate-100">{user.name}</p>
                             </div>
                         </div>
                     </div>

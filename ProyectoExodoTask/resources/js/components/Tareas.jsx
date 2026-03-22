@@ -193,9 +193,14 @@ const Tarea = ({
                             ? grupos.find((g) => g.id === tarea.a_grupo_id)
                                   ?.a_nombre
                             : "Sin Grupo"}
+                        <span
+                            className={`${
+                                grupos.length == 0 ? "opacity-0" : "opacity-40"
+                            }`}
+                        >
+                            •
+                        </span>
                     </span>
-
-                    <span className="opacity-40">•</span>
 
                     <span>{tarea.a_horas} h</span>
 
@@ -214,7 +219,8 @@ const Tarea = ({
                 <p className="text-base leading-snug line-clamp-3">
                     {tarea.a_descripcion}
                 </p>
-                {ruta === "gruposdetareas.create" && (
+                {(ruta === "gruposdetareas.create" ||
+                    ruta === "editar.grupo") && (
                     <>
                         <PrimaryButton
                             className="w-full text-sm py-1 hover:bg-[#A90000]"

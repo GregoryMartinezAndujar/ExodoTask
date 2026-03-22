@@ -4,18 +4,18 @@ import InputError from "@/components/InputError";
 import { useForm, Head } from "@inertiajs/react";
 import DangerButton from "@/components/DangerButton";
 import Tareas from "@/components/Tareas";
-export default function Index({ auth, tareas, currentRoute, grupos }) {
-    const { data, setData, post, processing, reset, errors } = useForm({
-        a_nombre: "",
+export default function Index({ auth, tareas, currentRoute, grupo }) {
+    const { data, setData, patch, processing, reset, errors } = useForm({
+        a_nombre: grupo.a_nombre,
         tareasIds: [],
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("gruposdetareas.store"), { onSuccess: () => reset() });
+        patch(route("gruposdetareas.update", grupo.id), {
+            onSuccess: () => reset(),
+        });
     };
-
-    // const [tareasGrupo, setTareasGrupo] = useState([]);
 
     function handleAgregarTarea(tareaId) {
         console.log("Tarea agregada al grupo:", tareaId);
@@ -81,7 +81,7 @@ export default function Index({ auth, tareas, currentRoute, grupos }) {
                             "
                         disabled={processing}
                     >
-                        Crear
+                        Actualizar
                     </DangerButton>
                 </form>
             </div>
@@ -93,7 +93,7 @@ export default function Index({ auth, tareas, currentRoute, grupos }) {
                         ruta={currentRoute}
                         onAddTarea={handleAgregarTarea}
                         onRemoveTarea={handleEliminarTarea}
-                        grupos={grupos}
+                        // grupos={grupos}
                     />
                 ))}
             </div>

@@ -74,7 +74,13 @@ class GrupoDeTareasController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $tareas = Tareas::where('a_grupo_id', null)->where('a_user_id', auth()->id())->latest()->get();
+        return Inertia::render('Usuario/EditarGrupos', [
+            'grupo' => GruposDeTareas::where('id', $id)->where('a_user_id', auth()->id())->firstOrFail(),
+            'tareas' => $tareas,
+            'currentRoute' => request()->route()->getName(),
+        ]);
     }
 
     /**
@@ -82,7 +88,30 @@ class GrupoDeTareasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $grupo = GruposDeTareas::where('id', $id)->where('a_user_id', auth()->id())->firstOrFail();
+
+        $validated = $request->validate([
+            'a_nombre' => 'required|string|max:100',
+            'tareasIds' => 'array',
+            'tareasIds.*' => 'integer|exists:tareas,id',
+        ]);
+
+        $grupo->update([
+            'a_nombre' => $validated['a_nombre'],
+        ]);
+
+        $tareasIds = $request->input('tareasIds', []);
+
+        Tareas::whereIn('id', $tareasIds)
+            ->where('a_user_id', auth()->id())
+            ->update(['a_grupo_id' => $grupo->id]);
+
+        Tareas::where('a_grupo_id', $grupo->id)
+            ->whereNotIn('id', $tareasIds)
+            ->where('a_user_id', auth()->id())
+            ->update(['a_grupo_id' => null]);
+
+        return redirect(route('gruposdetareas.index'))->with('success', 'Grupo de tareas actualizado exitosamente.');
     }
 
     /**
