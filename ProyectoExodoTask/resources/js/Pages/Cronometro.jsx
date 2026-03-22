@@ -8,8 +8,10 @@ export default function TimerFull({ tarea }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [key, setKey] = useState(0);
 
-    const { data, setData, patch, processing, reset, errors } = useForm([]);
-
+    const { data, setData, patch, processing, reset, errors } = useForm({
+        a_horas_realizadas: tarea.a_horas_realizadas,
+    });
+    let tiempoUsado = 0;
     return (
         <AuthenticatedLayout>
             <div className="flex flex-col items-center justify-center py-6 px-4 sm:py-10">
@@ -51,7 +53,7 @@ export default function TimerFull({ tarea }) {
                                     (remainingTime % 3600) / 60,
                                 );
                                 const seconds = remainingTime % 60;
-
+                                tiempoUsado = durationInSeconds - remainingTime;
                                 return (
                                     <span className="text-2xl sm:text-3xl  text-gray-900 dark:text-white">
                                         {String(hours).padStart(2, "0")}:
@@ -82,11 +84,12 @@ export default function TimerFull({ tarea }) {
                         <button
                             onClick={() => {
                                 setIsPlaying(false);
-                                let tiempoRestante =
-                                    durationInSeconds - remainingTime;
-
-                                patch("tarea.update", {
-                                    a_horas: tiempoRestante,
+                                patch(route("tareas.update", tarea.id), {
+                                    onBefore: () => {
+                                        data.a_horas_realizadas =
+                                            tiempoUsado +
+                                            data.a_horas_realizadas;
+                                    },
                                 });
                             }}
                             className="w-full sm:w-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow transition"

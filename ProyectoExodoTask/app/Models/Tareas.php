@@ -15,6 +15,7 @@ class Tareas extends Model
         'a_horas',
         'a_user_id',
         'a_completada',
+        'a_horas_realizadas',
         'a_grupo_id',
         'a_prioridad_id',
     ];

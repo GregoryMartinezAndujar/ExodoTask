@@ -58,6 +58,7 @@ class TareasController extends Controller
             'a_descripcion',
             'a_horas',
             'a_completada',
+            'a_horas_realizadas',
             'a_prioridad_id'
         ]));
 
