@@ -37,6 +37,7 @@ class TareasController extends Controller
             'a_nombre' => 'required|string|max:100',
             'a_descripcion' => 'required|string|max:200',
             'a_horas' => 'required|integer',
+            'a_fecha_limite' => 'required|date',
         ]);
 
         $request->user()->tareas()->create($validated);
@@ -58,6 +59,7 @@ class TareasController extends Controller
             'a_descripcion',
             'a_horas',
             'a_completada',
+            'a_fecha_limite',
             'a_horas_realizadas',
             'a_prioridad_id'
         ]));

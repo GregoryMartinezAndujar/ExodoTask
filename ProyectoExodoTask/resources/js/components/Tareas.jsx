@@ -111,9 +111,23 @@ const Tarea = ({
                             </Dropdown>
                         )}
                     </div>
+                    <span
+                        className="
+    text-lg sm:text-xl md:text-2xl
+    bg-[#a90000]
+    px-3 py-1
+    rounded-full
+    w-fit
+    text-white
+    flex flex-wrap gap-1
+"
+                    >
+                        Fecha Límite: {tarea.a_fecha_limite}{" "}
+                        {dayjs(tarea.a_fecha_limite).fromNow()}
+                    </span>
 
                     {/* BOTONES ESCRITORIO */}
-                    <div className="hidden sm:flex gap-2">
+                    <div className="hidden sm:flex gap-2 w-fit">
                         {(ruta === "dashboard" || ruta === "grupos.tareas") && (
                             <>
                                 <PrimaryButton
@@ -127,9 +141,8 @@ const Tarea = ({
                                                         tarea.id,
                                                     ),
                                                     {
-                                                        onBefore: () => {
-                                                            data.a_completada = true;
-                                                        },
+                                                        onBefore: () =>
+                                                            (data.a_completada = true),
                                                     },
                                                 );
                                             }
@@ -141,9 +154,8 @@ const Tarea = ({
                                                         tarea.id,
                                                     ),
                                                     {
-                                                        onBefore: () => {
-                                                            data.a_completada = false;
-                                                        },
+                                                        onBefore: () =>
+                                                            (data.a_completada = false),
                                                     },
                                                 );
                                             }
@@ -165,9 +177,10 @@ const Tarea = ({
                                 >
                                     Editar
                                 </PrimaryButton>
+
                                 {!tarea.a_completada && (
                                     <PrimaryButton
-                                        className="w-full text-sm py-1.5"
+                                        className="text-sm py-1.5"
                                         onClick={() =>
                                             router.get(
                                                 route(
@@ -184,25 +197,24 @@ const Tarea = ({
                                 {grupos.length == 0 &&
                                     ruta === "grupos.tareas" && (
                                         <DangerButton
-                                            className="w-full text-sm py-1.5"
+                                            className="text-sm py-1.5"
                                             onClick={async () => {
-                                                {
-                                                    if (
-                                                        await eliminarTareaDelGrupo()
-                                                    ) {
-                                                        router.get(
-                                                            route(
-                                                                "tareas.eliminarDelGrupo",
-                                                                tarea.id,
-                                                            ),
-                                                        );
-                                                    }
+                                                if (
+                                                    await eliminarTareaDelGrupo()
+                                                ) {
+                                                    router.get(
+                                                        route(
+                                                            "tareas.eliminarDelGrupo",
+                                                            tarea.id,
+                                                        ),
+                                                    );
                                                 }
                                             }}
                                         >
-                                            eliminar del grupo
+                                            Eliminar del Grupo
                                         </DangerButton>
                                     )}
+
                                 <DangerButton
                                     className="text-sm py-1.5 bg-[#A90000] hover:bg-red-700"
                                     onClick={async () => {
@@ -239,7 +251,7 @@ const Tarea = ({
                         </span>
                     </span>
 
-                    <span>{tarea.a_horas} h</span>
+                    <span>Tiempo Estimado: {tarea.a_horas} h</span>
 
                     <span className="opacity-40">•</span>
 

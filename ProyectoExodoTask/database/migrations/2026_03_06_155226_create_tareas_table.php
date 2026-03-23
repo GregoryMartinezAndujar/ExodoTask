@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('a_descripcion');
             $table->integer('a_horas');
             $table->integer('a_horas_realizadas')->default(0);
+            $table->date('a_fecha_limite')->nullable();
             $table->boolean('a_completada')->default(false);
             $table->unsignedBigInteger('a_user_id');
             $table->timestamps();

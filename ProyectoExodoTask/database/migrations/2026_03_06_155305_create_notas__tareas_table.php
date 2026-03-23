@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('notas_tareas', function (Blueprint $table) {
             $table->id();
             $table->string('a_text');
+            $table->boolean('a_completada');
             $table->unsignedBigInteger('a_tarea_id');
             $table->timestamps();
 

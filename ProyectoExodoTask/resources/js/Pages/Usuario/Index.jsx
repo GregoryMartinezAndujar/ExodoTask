@@ -9,6 +9,7 @@ export default function Index({ auth }) {
         a_nombre: "",
         a_descripcion: "",
         a_horas: "",
+        a_fecha_limite: "",
     });
 
     const submit = (e) => {
@@ -120,7 +121,9 @@ export default function Index({ auth }) {
                         </label>
                         <input
                             value={data.a_horas}
-                            onChange={(e) => setData("a_horas", e.target.value)}
+                            onChange={(e) =>
+                                setData("a_horas", e.target.value * 60)
+                            }
                             type="number"
                             placeholder="Ej: 3"
                             className="
@@ -137,6 +140,33 @@ export default function Index({ auth }) {
                         />
                         <InputError
                             message={errors.a_horas}
+                            className="text-red-600"
+                        />
+                    </div>
+                    <div className="space-y-1">
+                        <label className="text-base text-gray-700 font-medium">
+                            Horas estimadas
+                        </label>
+                        <input
+                            value={data.a_fecha_limite}
+                            onChange={(e) =>
+                                setData("a_fecha_limite", e.target.value)
+                            }
+                            type="date"
+                            className="
+                                w-full 
+                                text-sm sm:text-base
+                                border-gray-300 
+                                rounded-xl 
+                                shadow-sm 
+                                px-3 py-2
+                                focus:border-[#A90000] 
+                                focus:ring focus:ring-[#A90000]/40
+                                transition-all
+                            "
+                        />
+                        <InputError
+                            message={errors.a_fecha_limite}
                             className="text-red-600"
                         />
                     </div>
