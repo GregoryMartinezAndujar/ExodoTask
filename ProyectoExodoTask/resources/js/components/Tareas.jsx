@@ -141,8 +141,9 @@ const Tarea = ({
                                                         tarea.id,
                                                     ),
                                                     {
-                                                        onBefore: () =>
-                                                            (data.a_completada = true),
+                                                        onBefore: () => {
+                                                            data.a_completada = true;
+                                                        },
                                                     },
                                                 );
                                             }
@@ -154,8 +155,9 @@ const Tarea = ({
                                                         tarea.id,
                                                     ),
                                                     {
-                                                        onBefore: () =>
-                                                            (data.a_completada = false),
+                                                        onBefore: () => {
+                                                            data.a_completada = false;
+                                                        },
                                                     },
                                                 );
                                             }
