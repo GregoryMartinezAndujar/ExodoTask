@@ -8,6 +8,7 @@ import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import Dropdown from "./Dropdown";
 import "dayjs/locale/es";
+import CheckButton from "./CheckButton";
 import {
     Trash2,
     Play,
@@ -127,7 +128,7 @@ const Tarea = ({
                         )}
                     </div>
                     {ruta === "dashboard" && (
-                        <span className="text-lg sm:text-xl md:text-1xl px-3 py-1 rounded-full bg-[#FCA5A5]  w-fit  flex flex-wrap gap-1">
+                        <span className="text-lg sm:text-xl md:text-1xl px-3 py-1 rounded-full  w-fit  flex flex-wrap gap-1">
                             Fecha Límite:
                             {dayjs(tarea.a_fecha_limite).format("DD/MM/YYYY")}
                         </span>
@@ -137,8 +138,12 @@ const Tarea = ({
                     <div className="hidden sm:flex gap-1 w-fit">
                         {(ruta === "dashboard" || ruta === "grupos.tareas") && (
                             <>
-                                <PrimaryButton
-                                    className="text-sm py-1.5"
+                                <CheckButton
+                                    className={`text-sm py-1.5 flex items-center gap-1  ${
+                                        data.a_completada
+                                            ? " bg-[#A90000] hover:bg-red-700"
+                                            : " bg-green-400 hover:bg-green-700"
+                                    } `}
                                     onClick={async () => {
                                         if (!data.a_completada) {
                                             if (await completarTarea()) {
@@ -174,9 +179,9 @@ const Tarea = ({
                                     {data.a_completada ? (
                                         <X className="w-4 h-4" />
                                     ) : (
-                                        <Check className="w-4 h-4" />
+                                        <CheckCircle className="w-4 h-4" />
                                     )}
-                                </PrimaryButton>
+                                </CheckButton>
 
                                 <PrimaryButton
                                     className="text-sm py-1.5"
@@ -260,18 +265,17 @@ const Tarea = ({
                         {tarea.a_grupo_id
                             ? grupos.find((g) => g.id === tarea.a_grupo_id)
                                   ?.a_nombre
-                            : ""}
+                            : "Sin Grupo"}
                     </span>
-                    <Minus
-                        className={`w-3 h-3 rotate-90  ${
-                            grupos.length == 0 ? "opacity-0" : "opacity-100"
-                        }`}
-                    />
+                    <Minus className={"w-3 h-3 rotate-90"} />
                     <span>Tiempo Estimado: {tarea.a_horas} h</span>
                     <Minus className="w-3 h-3 rotate-90 " />
                     <span>
                         Tiempo Realizado:{" "}
-                        {Number((tarea.a_horas_realizadas / 60/60).toFixed(2))} h
+                        {Number(
+                            (tarea.a_horas_realizadas / 60 / 60).toFixed(2),
+                        )}{" "}
+                        h
                     </span>
                     <Minus className="w-3 h-3 rotate-90 " />
 
