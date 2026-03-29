@@ -7,6 +7,7 @@ import Tarea from "./Tareas";
 import { router } from "@inertiajs/react";
 import { useForm, Head } from "@inertiajs/react";
 import { eliminarGrupo } from "./Alerts";
+import { Minus } from "lucide-react";
 dayjs.extend(relativeTime);
 
 const VerGrupos = ({ grupo, tareas }) => {
@@ -33,6 +34,14 @@ const VerGrupos = ({ grupo, tareas }) => {
         (tarea) => tarea.a_completada === false,
     );
 
+    const tiempoTotalGrupo = tareasDelGrupo.reduce(
+        (total, tarea) => total + tarea.a_horas,
+        0,
+    );
+    const tiempoTotalRealizadoGrupo = tareasDelGrupo.reduce(
+        (total, tarea) => total + tarea.a_horas_realizadas,
+        0,
+    );
     return (
         <div
             className="
@@ -50,10 +59,15 @@ const VerGrupos = ({ grupo, tareas }) => {
         >
             {/* Columna izquierda */}
             <div>
-                <p className="text-lg text-gray-900">{grupo.a_nombre}</p>
-
+                <div className="flex items-center gap-3 mb-2">
+                    <p className="text-2xl text-gray-900">{grupo.a_nombre}</p>{" "}
+                    <Minus className="w-3 h-3 rotate-90" />
+                    <p>Horas totales: {tiempoTotalGrupo}</p>
+                    <Minus className="w-3 h-3 rotate-90" />
+                    <p>Horas realizadas: {tiempoTotalRealizadoGrupo}</p>
+                </div>
                 <small className="text-gray-500 text-sm">
-                    Fue creado hace: {dayjs(grupo.created_at).fromNow()} &#8226;{" "}
+                    Fue creado hace: {dayjs(grupo.created_at).fromNow()}
                     Actualizado hace: {dayjs(grupo.updated_at).fromNow()}
                 </small>
             </div>

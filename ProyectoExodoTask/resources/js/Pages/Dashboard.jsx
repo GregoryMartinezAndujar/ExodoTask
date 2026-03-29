@@ -70,7 +70,7 @@ export default function Dashboard({
                 >
                     <div
                         className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center 
-                        rounded-full bg-yellow-100 text-yellow-600 text-lg sm:text-xl"
+                        rounded-full bg-[#FCA5A5] text-red-600 text-lg sm:text-xl"
                     >
                         !
                     </div>

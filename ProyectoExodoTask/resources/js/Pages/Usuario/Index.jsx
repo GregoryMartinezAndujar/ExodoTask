@@ -3,6 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import InputError from "@/components/InputError";
 import { useForm, Head } from "@inertiajs/react";
 import DangerButton from "@/components/DangerButton";
+import Tarea from "@/components/Tareas";
 
 export default function Index({ auth }) {
     const { data, setData, post, processing, reset, errors } = useForm({
@@ -120,10 +121,11 @@ export default function Index({ auth }) {
                             Horas estimadas
                         </label>
                         <input
-                            value={data.a_horas}
-                            onChange={(e) =>
-                                setData("a_horas", e.target.value * 60)
-                            }
+                            value={data.a_horas / 60}
+                            onChange={(e) => {
+                                let tiempo = e.target.value * 60;
+                                setData("a_horas", tiempo);
+                            }}
                             type="number"
                             placeholder="Ej: 3"
                             className="

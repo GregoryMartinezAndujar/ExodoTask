@@ -7,6 +7,7 @@ import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import Dropdown from "./Dropdown";
 import "dayjs/locale/es";
+import { Trash2, Play, Pencil, Check, ChevronDown, X } from "lucide-react";
 
 import {
     eliminarTarea,
@@ -27,7 +28,7 @@ const Tarea = ({
     prioridades = [],
 }) => {
     const [tareasConBorde, setTareasConBorde] = useState(false);
-
+    console.log(tarea.a_fecha_limite);
     const {
         data,
         patch,
@@ -36,23 +37,25 @@ const Tarea = ({
         a_completada: tarea.a_completada,
         a_prioridad_id: tarea.a_prioridad_id,
     });
-
+    let dias = dayjs(tarea.a_fecha_limite).diff(dayjs(), "day");
     return (
         console.log(ruta),
         (
             <div
-                className={`
-        w-full rounded-xl p-4
-        shadow-sm hover:shadow-md 
-        flex flex-col gap-4
-        ${tareasConBorde ? "border-2 border-[#A90000] bg-white" : "border border-gray-200 bg-white"}
-    `}
+                className={`w-full rounded-xl p-4 shadow-sm hover:shadow-md flex flex-col gap-4
+                    ${
+                        dias <= 1 && tarea.a_completada === false
+                            ? "border-2 border-[#FCA5A5] bg-white"
+                            : tareasConBorde
+                              ? "border-2 border-[#A90000] bg-white"
+                              : "border border-gray-200 bg-white"
+                    }`}
             >
                 {/* FILA 1: Nombre + Estado + Botones (solo escritorio) */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     {/* Nombre + Estado */}
-                    <div className="flex flex-wrap items-center gap-3">
-                        <p className="text-xl text-gray-900 tracking-tight bg-[#111827] px-3 py-1 rounded-full w-fit text-white">
+                    <div className="flex flex-wrap items-center gap-1 ">
+                        <p className="text-xl text-gray-900 tracking-tight px-3 py-1 rounded-full w-fit">
                             {tarea.a_nombre}
                         </p>
 
@@ -62,7 +65,7 @@ const Tarea = ({
                             ${
                                 data.a_completada
                                     ? "bg-green-100 text-green-700"
-                                    : "bg-yellow-100 text-yellow-700"
+                                    : "bg-[#FCA5A5] text-red-700"
                             }
                         `}
                         >
@@ -76,7 +79,7 @@ const Tarea = ({
                                             (p) =>
                                                 p.id === tarea.a_prioridad_id,
                                         )?.a_nombre ?? "Sin prioridad"}
-                                        <span className="text-gray-500">▼</span>
+                                        <ChevronDown className="w-3 h-3" />
                                     </button>
                                 </Dropdown.Trigger>
 
@@ -111,23 +114,15 @@ const Tarea = ({
                             </Dropdown>
                         )}
                     </div>
-                    <span
-                        className="
-    text-lg sm:text-xl md:text-2xl
-    bg-[#a90000]
-    px-3 py-1
-    rounded-full
-    w-fit
-    text-white
-    flex flex-wrap gap-1
-"
-                    >
-                        Fecha Límite: {tarea.a_fecha_limite}{" "}
-                        {dayjs(tarea.a_fecha_limite).fromNow()}
-                    </span>
+                    {ruta === "dashboard" && (
+                        <span className="text-lg sm:text-xl md:text-1xl px-3 py-1 rounded-full bg-[#FCA5A5]  w-fit  flex flex-wrap gap-1">
+                            Fecha Límite:
+                            {dayjs(tarea.a_fecha_limite).format("DD/MM/YYYY")}
+                        </span>
+                    )}
 
                     {/* BOTONES ESCRITORIO */}
-                    <div className="hidden sm:flex gap-2 w-fit">
+                    <div className="hidden sm:flex gap-1 w-fit">
                         {(ruta === "dashboard" || ruta === "grupos.tareas") && (
                             <>
                                 <PrimaryButton
@@ -164,9 +159,11 @@ const Tarea = ({
                                         }
                                     }}
                                 >
-                                    {data.a_completada
-                                        ? "Descompletar"
-                                        : "Completar"}
+                                    {data.a_completada ? (
+                                        <X className="w-4 h-4" />
+                                    ) : (
+                                        <Check className="w-4 h-4" />
+                                    )}
                                 </PrimaryButton>
 
                                 <PrimaryButton
@@ -177,12 +174,12 @@ const Tarea = ({
                                         )
                                     }
                                 >
-                                    Editar
+                                    <Pencil className="w-4 h-4" />
                                 </PrimaryButton>
 
                                 {!tarea.a_completada && (
                                     <PrimaryButton
-                                        className="text-sm py-1.5"
+                                        className="text-sm py-1.5 flex items-center gap-1"
                                         onClick={() =>
                                             router.get(
                                                 route(
@@ -192,7 +189,7 @@ const Tarea = ({
                                             )
                                         }
                                     >
-                                        Comenzar
+                                        <Play className="w-4 h-4" />
                                     </PrimaryButton>
                                 )}
 
@@ -218,7 +215,7 @@ const Tarea = ({
                                     )}
 
                                 <DangerButton
-                                    className="text-sm py-1.5 bg-[#A90000] hover:bg-red-700"
+                                    className="text-sm py-1.5 bg-[#A90000] hover:bg-red-700 flex items-center gap-1"
                                     onClick={async () => {
                                         if (await eliminarTarea()) {
                                             destroy(
@@ -230,7 +227,7 @@ const Tarea = ({
                                         }
                                     }}
                                 >
-                                    Eliminar
+                                    <Trash2 className="w-4 h-4" />
                                 </DangerButton>
                             </>
                         )}
@@ -238,12 +235,12 @@ const Tarea = ({
                 </div>
 
                 {/* FILA 2: Grupo + Prioridad + Horas + Fechas */}
-                <div className="flex flex-wrap items-center gap-2 text-base">
+                <div className="flex flex-wrap items-center gap-1 text-base">
                     <span>
                         {tarea.a_grupo_id
                             ? grupos.find((g) => g.id === tarea.a_grupo_id)
                                   ?.a_nombre
-                            : "Sin Grupo"}
+                            : ""}
                         <span
                             className={`${
                                 grupos.length == 0 ? "opacity-0" : "opacity-40"
@@ -255,11 +252,11 @@ const Tarea = ({
 
                     <span>Tiempo Estimado: {tarea.a_horas} h</span>
 
-                    <span className="opacity-40">•</span>
+                    <span>|</span>
 
                     <span>Creada: {dayjs(tarea.created_at).fromNow()}</span>
 
-                    <span className="opacity-40">•</span>
+                    <span>|</span>
 
                     <span>
                         Actualizada: {dayjs(tarea.updated_at).fromNow()}
@@ -267,9 +264,7 @@ const Tarea = ({
                 </div>
 
                 {/* FILA 3: Descripción */}
-                <p className="text-base leading-snug line-clamp-3">
-                    {tarea.a_descripcion}
-                </p>
+
                 {(ruta === "gruposdetareas.create" ||
                     ruta === "editar.grupo") && (
                     <>
@@ -294,12 +289,13 @@ const Tarea = ({
                         </DangerButton>
                     </>
                 )}
+
                 {/* BOTONES MÓVIL (ABAJO DEL TODO) */}
-                <div className="flex sm:hidden flex-col gap-2 w-full">
+                <div className="flex sm:hidden  gap-2">
                     {ruta === "dashboard" && (
                         <>
                             <PrimaryButton
-                                className="w-full text-sm py-1.5"
+                                className="text-sm p-1.5 flex items-center justify-center"
                                 onClick={async () => {
                                     if (!data.a_completada) {
                                         if (await completarTarea()) {
@@ -332,48 +328,51 @@ const Tarea = ({
                                     }
                                 }}
                             >
-                                {data.a_completada
-                                    ? "Descompletar"
-                                    : "Completar"}
+                                {data.a_completada ? (
+                                    <X className="w-4 h-4" />
+                                ) : (
+                                    <Check className="w-4 h-4" />
+                                )}
                             </PrimaryButton>
 
                             <PrimaryButton
-                                className="w-full text-sm py-1.5"
+                                className="text-sm p-1.5 flex items-center justify-center"
                                 onClick={() =>
                                     router.get(route("tareas.edit", tarea.id))
                                 }
                             >
-                                Editar
+                                <Pencil className="w-4 h-4" />
                             </PrimaryButton>
+
                             <PrimaryButton
-                                className="w-full text-sm py-1.5"
+                                className="text-sm p-1.5 flex items-center justify-center"
                                 onClick={() =>
                                     router.get(route("tareas.edit", tarea.id))
                                 }
                             >
-                                Comenzar
+                                <Play className="w-4 h-4" />
                             </PrimaryButton>
+
                             {ruta == "grupo.tarea" && (
                                 <DangerButton
-                                    className="w-full text-sm py-1.5"
+                                    className="text-sm p-1.5 flex items-center justify-center"
                                     onClick={async () => {
-                                        {
-                                            if (await eliminarTareaDelGrupo()) {
-                                                router.get(
-                                                    route(
-                                                        "tareas.eliminarDelGrupo",
-                                                        tarea.id,
-                                                    ),
-                                                );
-                                            }
+                                        if (await eliminarTareaDelGrupo()) {
+                                            router.get(
+                                                route(
+                                                    "tareas.eliminarDelGrupo",
+                                                    tarea.id,
+                                                ),
+                                            );
                                         }
                                     }}
                                 >
-                                    eliminar del grupo
+                                    <UserMinus className="w-4 h-4" />
                                 </DangerButton>
                             )}
+
                             <DangerButton
-                                className="w-full text-sm py-1.5 bg-[#A90000] hover:bg-red-700"
+                                className="text-sm p-1.5 bg-[#A90000] hover:bg-red-700 flex items-center justify-center"
                                 onClick={async () => {
                                     if (await eliminarTarea()) {
                                         destroy(
@@ -382,7 +381,7 @@ const Tarea = ({
                                     }
                                 }}
                             >
-                                Eliminar
+                                <Trash2 className="w-4 h-4" />
                             </DangerButton>
                         </>
                     )}
