@@ -3,11 +3,23 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PrimaryButton from "./PrimaryButton";
 import DangerButton from "./DangerButton";
+import SecondaryButton from "./SecondaryButton";
 import { useForm } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import Dropdown from "./Dropdown";
 import "dayjs/locale/es";
-import { Trash2, Play, Pencil, Check, ChevronDown, X } from "lucide-react";
+import {
+    Trash2,
+    Play,
+    Pencil,
+    Check,
+    ChevronDown,
+    X,
+    Tag,
+    CheckCircle,
+    Minus,
+    Eye,
+} from "lucide-react";
 
 import {
     eliminarTarea,
@@ -213,7 +225,15 @@ const Tarea = ({
                                             Eliminar del Grupo
                                         </DangerButton>
                                     )}
-
+                                <PrimaryButton
+                                    onClick={() =>
+                                        router.get(
+                                            route("tareas.verTarea", tarea.id),
+                                        )
+                                    }
+                                >
+                                    <Eye className="w-4 h-4" />
+                                </PrimaryButton>
                                 <DangerButton
                                     className="text-sm py-1.5 bg-[#A90000] hover:bg-red-700 flex items-center gap-1"
                                     onClick={async () => {
@@ -241,22 +261,23 @@ const Tarea = ({
                             ? grupos.find((g) => g.id === tarea.a_grupo_id)
                                   ?.a_nombre
                             : ""}
-                        <span
-                            className={`${
-                                grupos.length == 0 ? "opacity-0" : "opacity-40"
-                            }`}
-                        >
-                            •
-                        </span>
                     </span>
-
+                    <Minus
+                        className={`w-3 h-3 rotate-90  ${
+                            grupos.length == 0 ? "opacity-0" : "opacity-100"
+                        }`}
+                    />
                     <span>Tiempo Estimado: {tarea.a_horas} h</span>
-
-                    <span>|</span>
+                    <Minus className="w-3 h-3 rotate-90 " />
+                    <span>
+                        Tiempo Realizado:{" "}
+                        {Number((tarea.a_horas_realizadas / 60/60).toFixed(2))} h
+                    </span>
+                    <Minus className="w-3 h-3 rotate-90 " />
 
                     <span>Creada: {dayjs(tarea.created_at).fromNow()}</span>
 
-                    <span>|</span>
+                    <Minus className="w-3 h-3 rotate-90 " />
 
                     <span>
                         Actualizada: {dayjs(tarea.updated_at).fromNow()}

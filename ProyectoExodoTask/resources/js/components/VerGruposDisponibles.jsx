@@ -44,30 +44,20 @@ const VerGrupos = ({ grupo, tareas }) => {
     );
     return (
         <div
-            className="
-        w-full
-        bg-white
-        border border-gray-200
-        rounded-xl
-        p-4
-        flex flex-col sm:flex-row sm:items-center sm:justify-between
-        shadow-sm
-        hover:shadow-md
-        transition-all
-        duration-300
-    "
+            className="w-full bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center 
+            sm:justify-betweenshadow-sm hover:shadow-md transition-allduration-300 justify-between gap-4"
         >
             {/* Columna izquierda */}
             <div>
                 <div className="flex items-center gap-3 mb-2">
                     <p className="text-2xl text-gray-900">{grupo.a_nombre}</p>{" "}
                     <Minus className="w-3 h-3 rotate-90" />
-                    <p>Horas totales: {tiempoTotalGrupo}</p>
+                    <p>Horas totales: {tiempoTotalGrupo}h</p>
                     <Minus className="w-3 h-3 rotate-90" />
-                    <p>Horas realizadas: {tiempoTotalRealizadoGrupo}</p>
+                    <p>Horas realizadas: {tiempoTotalRealizadoGrupo}h</p>
                 </div>
                 <small className="text-gray-500 text-sm">
-                    Fue creado hace: {dayjs(grupo.created_at).fromNow()}
+                    Fue creado hace: {dayjs(grupo.created_at).fromNow()}{" "}
                     Actualizado hace: {dayjs(grupo.updated_at).fromNow()}
                 </small>
             </div>

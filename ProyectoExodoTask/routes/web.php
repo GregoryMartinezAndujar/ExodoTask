@@ -22,7 +22,7 @@ Route::get('/', function () {
 // Rutas para tareas 
 Route::get('/dashboard', [TareasController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/editar-tarea/{id}', [TareasController::class, 'edit'])->middleware(['auth', 'verified'])->name('EditarTareas');
-
+Route::get('/ver-tarea/{id}', [TareasController::class, 'verTarea'])->middleware(['auth', 'verified'])->name('tareas.verTarea');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

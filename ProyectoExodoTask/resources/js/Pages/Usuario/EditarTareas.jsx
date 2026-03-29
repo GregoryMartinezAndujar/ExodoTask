@@ -6,7 +6,7 @@ import DangerButton from "@/Components/DangerButton";
 import { Head } from "@inertiajs/react";
 
 const EditarTareas = ({ tarea, auth }) => {
-    const { data, setData, patch, errors, processing } = useForm({
+    const { data, setData, patch, errors, reset, processing } = useForm({
         a_nombre: tarea.a_nombre,
         a_descripcion: tarea.a_descripcion,
         a_horas: tarea.a_horas,

@@ -18,6 +18,9 @@ class TareasController extends Controller
     public function index()
     {
         $tareas = Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get();
+        $tareas->each(function ($tarea) {
+            $tarea->a_horas = $tarea->a_horas / 60 / 60;
+        });
         $prioridades = Prioridad::all();
         $grupos = GruposDeTareas::where('a_user_id', auth()->id())->get();
         return Inertia::render('Dashboard', [
@@ -39,6 +42,7 @@ class TareasController extends Controller
             'a_horas' => 'required|integer',
             'a_fecha_limite' => 'required|date',
         ]);
+        $request['a_horas'] = $request['a_horas'] * 60 * 60;
 
         $request->user()->tareas()->create($validated);
 
@@ -53,7 +57,10 @@ class TareasController extends Controller
         $tarea =  Tareas::where('id', $id)
             ->where('a_user_id', auth()->id())
             ->firstOrFail();
-
+        // para que no rompa la hora al terminar el cronometro
+        if (isset($request['a_horas'])) {
+            $request['a_horas'] = $request['a_horas'] * 60 * 60;
+        }
         $tarea->update($request->only([
             'a_nombre',
             'a_descripcion',
@@ -91,7 +98,7 @@ class TareasController extends Controller
         $tarea = Tareas::where('id', $id)
             ->where('a_user_id', auth()->id())
             ->firstOrFail();
-
+        $tarea->a_horas = $tarea->a_horas / 60 / 60;
         return Inertia::render('Usuario/EditarTareas', [
             'tarea' => $tarea,
             'currentRoute' => request()->route()->getName(),
@@ -106,6 +113,9 @@ class TareasController extends Controller
         $tareas = Tareas::where('a_grupo_id', $grupo->id)
             ->where('a_user_id', auth()->id())
             ->get();
+        foreach ($tareas as $tarea) {
+            $tarea->a_horas = $tarea->a_horas / 60 / 60;
+        }
         $prioridades = Prioridad::all();
         return Inertia::render('Usuario/VerTaraesGrupo', [
             'grupo' => $grupo,
@@ -131,8 +141,22 @@ class TareasController extends Controller
         $tarea = Tareas::where('id', $tareaId)
             ->where('a_user_id', auth()->id())
             ->firstOrFail();
+        $tarea->a_horas = $tarea->a_horas;
         return Inertia::render('Cronometro', [
             'tarea' => $tarea,
+        ]);
+    }
+
+    public function verTarea(String $tareaId)
+    {
+        $tarea = Tareas::where('id', $tareaId)
+            ->where('a_user_id', auth()->id())
+            ->firstOrFail();
+        $tarea->a_horas = $tarea->a_horas / 60  / 60;
+        $grupo = GruposDeTareas::where('id', $tarea->a_grupo_id)->first();
+        return Inertia::render('Usuario/VerTarea', [
+            'tarea' => $tarea,
+            'grupo' => $grupo
         ]);
     }
 }

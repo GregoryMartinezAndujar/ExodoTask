@@ -15,9 +15,14 @@ class GrupoDeTareasController extends Controller
      */
     public function index()
     {
+        $tareas = Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get();
+        $tareas->each(function ($tarea) {
+            $tarea->a_horas = $tarea->a_horas / 60 / 60;
+            $tarea->a_horas_realizadas = round($tarea->a_horas_realizadas / 3600, 2);
+        });
         return Inertia::render('GruposDisponibles', [
             'grupos' => GruposDeTareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
-            'tareas' => Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
+            'tareas' => $tareas,
             'currentRoute' => request()->route()->getName(),
         ]);
     }
@@ -27,8 +32,9 @@ class GrupoDeTareasController extends Controller
      */
     public function create()
     {
+        $tareas = Tareas::where('a_user_id', auth()->id())->where('a_grupo_id', null)->latest()->get();
         return Inertia::render('Usuario/Grupos', [
-            'tareas' => Tareas::where('a_grupo_id', null)->where('a_user_id', auth()->id())->latest()->get(),
+            'tareas' => $tareas,
             'grupos' => GruposDeTareas::where('a_user_id', auth()->id())->get(),
             'currentRoute' => request()->route()->getName(),
         ]);
@@ -80,7 +86,10 @@ class GrupoDeTareasController extends Controller
         $tareas = Tareas::where('a_user_id', auth()->id())
             ->latest()
             ->get();
-
+        foreach ($tareas as $tarea) {
+            $tarea->a_horas = $tarea->a_horas / 60 / 60;
+            $tarea->a_horas_realizadas = round($tarea->a_horas_realizadas / 3600, 2);
+        }
         return Inertia::render('Usuario/EditarGrupos', [
             'grupo' => GruposDeTareas::where('id', $id)->where('a_user_id', auth()->id())->firstOrFail(),
             'tareas' => $tareas,

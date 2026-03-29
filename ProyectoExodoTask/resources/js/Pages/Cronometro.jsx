@@ -3,8 +3,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
 export default function TimerFull({ tarea }) {
-    const durationInSeconds =
-        tarea.a_horas * 60 * 60 - tarea.a_horas_realizadas;
+    const durationInSeconds = tarea.a_horas - tarea.a_horas_realizadas;
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [key, setKey] = useState(0);

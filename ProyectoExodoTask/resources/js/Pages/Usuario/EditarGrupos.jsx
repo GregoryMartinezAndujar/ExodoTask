@@ -43,7 +43,7 @@ export default function Index({ auth, tareas, currentRoute, grupo }) {
             auth={auth}
             header={
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl  text-gray-800">
-                    Creación de Grupos
+                    Edición del Grupo {grupo.a_nombre}
                 </h2>
             }
             className="font-exodo"
