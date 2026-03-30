@@ -55,20 +55,29 @@ const Tarea = ({
         console.log(ruta),
         (
             <div
-                className={`w-full rounded-xl p-4 shadow-sm hover:shadow-md flex flex-col gap-4
-                    ${
-                        dias <= 1 && tarea.a_completada === false
-                            ? "border-2 border-[#FCA5A5] bg-white"
-                            : tareasConBorde
-                              ? "border-2 border-[#A90000] bg-white"
-                              : "border border-gray-200 bg-white"
-                    }`}
+                className={`
+        w-full rounded-xl p-4
+        flex flex-col gap-4
+        transition-all duration-300 ease-out
+        shadow-sm hover:shadow-md
+        active:scale-[0.97] active:shadow-lg
+
+        ${
+            dias <= 1 &&
+            tarea.a_completada === false &&
+            tareasConBorde === false
+                ? "border-2 border-[#b91c1c] bg-white shadow-[0_0_14px_2px_rgba(185,28,28,0.35)]"
+                : tareasConBorde
+                  ? "border-2 border-[#0e7490] bg-white shadow-[0_4px_18px_3px_rgba(14,116,144,0.45)]"
+                  : "border border-gray-200 bg-white"
+        }
+    `}
             >
                 {/* FILA 1: Nombre + Estado + Botones (solo escritorio) */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     {/* Nombre + Estado */}
                     <div className="flex flex-wrap items-center gap-1 ">
-                        <p className="text-xl text-gray-900 tracking-tight px-3 py-1 rounded-full w-fit">
+                        <p className="text-2xl text-gray-900 tracking-tight px-3 py-1 rounded-full w-fit">
                             {tarea.a_nombre}
                         </p>
 

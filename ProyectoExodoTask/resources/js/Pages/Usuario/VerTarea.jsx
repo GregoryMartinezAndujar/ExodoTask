@@ -43,9 +43,12 @@ export default function VerTarea({ tarea, auth, grupo }) {
             <Head title="Ver Tarea" />
             <ArrowBigLeftDashIcon
                 size={32}
-                className="text-slate-600"
+                className="text-slate-600 cursor-pointer transition duration-200 ease-out 
+                hover:text-slate-900 hover:-translate-x-1 hover:scale-110 hover:drop-shadow-mdactive:scale-95
+"
                 onClick={volerAlDashboard}
             />
+
             <div
                 className={`max-w-4xl mx-auto my-6 p-6 bg-white rounded-xl border-2 shadow-sm transition-all ${colorBorde}`}
             >
