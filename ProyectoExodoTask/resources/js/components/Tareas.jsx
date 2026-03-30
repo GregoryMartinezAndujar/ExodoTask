@@ -9,6 +9,7 @@ import { router } from "@inertiajs/react";
 import Dropdown from "./Dropdown";
 import "dayjs/locale/es";
 import CheckButton from "./CheckButton";
+import TiempoFormateado from "./Formateartiempo";
 import {
     Trash2,
     Play,
@@ -277,15 +278,11 @@ const Tarea = ({
                             : "Sin Grupo"}
                     </span>
                     <Minus className={"w-3 h-3 rotate-90"} />
-                    <span>Tiempo Estimado: {tarea.a_horas} h</span>
+                    <span>Tiempo Estimado:</span>
+                    <TiempoFormateado segundos={tarea.a_horas} />
                     <Minus className="w-3 h-3 rotate-90 " />
-                    <span>
-                        Tiempo Realizado:{" "}
-                        {Number(
-                            (tarea.a_horas_realizadas / 60 / 60).toFixed(2),
-                        )}{" "}
-                        h
-                    </span>
+                    <span>Tiempo Realizado: </span>
+                    <TiempoFormateado segundos={tarea.a_horas_realizadas} />
                     <Minus className="w-3 h-3 rotate-90 " />
 
                     <span>Creada: {dayjs(tarea.created_at).fromNow()}</span>

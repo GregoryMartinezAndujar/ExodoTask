@@ -1,17 +1,7 @@
 import React from "react";
-import {
-    Clock,
-    Calendar,
-    Pencil,
-    Play,
-    CheckCircle,
-    Trash2,
-    Tag,
-    ArrowBigDownDashIcon,
-    ArrowBigDown,
-    ArrowBigLeftDashIcon,
-} from "lucide-react"; // Iconos sugeridos
+import { Clock, Calendar, Tag } from "lucide-react"; // Iconos sugeridos
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import TiempoFormateado from "@/components/Formateartiempo";
 import { useForm, Head } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import VolverAtras from "@/components/VolverAtras";
@@ -88,9 +78,7 @@ export default function VerTarea({ tarea, auth, grupo }) {
                         <Clock size={16} className="text-slate-400" />
                         <span>
                             Tiempo:{" "}
-                            <span className="text-slate-700">
-                                {tarea.a_horas}h
-                            </span>
+                            <TiempoFormateado segundos={tarea.a_horas} />
                         </span>
                     </div>
                     <div className="flex items-center gap-2">

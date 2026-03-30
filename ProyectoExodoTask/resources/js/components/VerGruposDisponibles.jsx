@@ -8,6 +8,7 @@ import { router } from "@inertiajs/react";
 import { useForm, Head } from "@inertiajs/react";
 import { eliminarGrupo } from "./Alerts";
 import { Minus } from "lucide-react";
+import TiempoFormateado from "./Formateartiempo";
 dayjs.extend(relativeTime);
 
 const VerGrupos = ({ grupo, tareas }) => {
@@ -44,63 +45,69 @@ const VerGrupos = ({ grupo, tareas }) => {
     );
     return (
         <div
-            className="w-full bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center 
-            sm:justify-betweenshadow-sm hover:shadow-md transition-allduration-300 justify-between gap-4"
+            className="
+        w-full bg-white border border-gray-200 rounded-xl p-4 
+        flex flex-col sm:flex-row 
+        sm:items-center sm:justify-between
+        shadow-sm hover:shadow-md 
+        transition-all duration-300
+        gap-4
+    "
         >
             {/* Columna izquierda */}
-            <div>
-                <div className="flex items-center gap-3 mb-2">
-                    <p className="text-2xl text-gray-900">{grupo.a_nombre}</p>{" "}
+            <div className="flex-1">
+                <div className="flex flex-wrap items-center gap-3 mb-2 text-xl">
+                    <p className="text-3xl text-gray-900">{grupo.a_nombre}</p>
                     <Minus className="w-3 h-3 rotate-90" />
-                    <p>Horas totales: {tiempoTotalGrupo}h</p>
+
+                    <p>Horas totales:</p>
+                    <TiempoFormateado segundos={tiempoTotalGrupo} />
+
                     <Minus className="w-3 h-3 rotate-90" />
-                    <p>Horas realizadas: {tiempoTotalRealizadoGrupo}h</p>
+
+                    <p>Horas realizadas:</p>
+                    <TiempoFormateado segundos={tiempoTotalRealizadoGrupo} />
                 </div>
+
                 <small className="text-gray-500 text-sm">
-                    Fue creado hace: {dayjs(grupo.created_at).fromNow()}{" "}
+                    Fue creado hace: {dayjs(grupo.created_at).fromNow()} —
                     Actualizado hace: {dayjs(grupo.updated_at).fromNow()}
                 </small>
             </div>
-            <div className="flex flex-wrap gap-2">
-                <div className="w-24 h-12 flex items-center justify-center rounded-full bg-blue-100 text-black text-xl">
-                    <p>{tareasDelGrupo.length} tareas</p>
+
+            {/* Chips */}
+            <div className="flex flex-wrap gap-2 sm:justify-center">
+                <div className="px-4 h-12 flex items-center justify-center rounded-full bg-blue-100 text-black text-xl">
+                    {tareasDelGrupo.length} tareas
                 </div>
 
-                <div className="w-fit h-12 flex items-center justify-center rounded-full bg-green-100 text-black text-xl py-1 px-2">
-                    <p>{tareasCompeltadasGrupo.length} Completadas</p>
+                <div className="px-4 h-12 flex items-center justify-center rounded-full bg-green-100 text-black text-xl">
+                    {tareasCompeltadasGrupo.length} Completadas
                 </div>
 
-                <div className="w-fit h-12 flex items-center justify-center rounded-full bg-red-100 text-black text-xl py-1 px-2">
-                    <p>{tareasPendientesGrupo.length} Pendientes</p>
+                <div className="px-4 h-12 flex items-center justify-center rounded-full bg-red-100 text-black text-xl">
+                    {tareasPendientesGrupo.length} Pendientes
                 </div>
             </div>
 
-            {/* Columna derecha */}
-            <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-0">
+            {/* Columna derecha — AQUÍ ESTÁ LA CLAVE */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:ml-auto">
                 <PrimaryButton
-                    className="
-                text-white
-                transition-all
-            "
+                    className="text-white"
                     onClick={() => router.get(route("grupos.tareas", grupo.id))}
                 >
                     Ver Tareas
                 </PrimaryButton>
 
                 <PrimaryButton
-                    className="
-                text-white
-                transition-all
-            "
+                    className="text-white"
                     onClick={() => router.get(route("editar.grupo", grupo.id))}
                 >
                     Editar
                 </PrimaryButton>
+
                 <DangerButton
-                    className="
-                text-white
-                transition-all
-            "
+                    className="text-white"
                     onClick={async () => {
                         if (await eliminarGrupo()) {
                             destroy(route("gruposdetareas.destroy", grupo.id));

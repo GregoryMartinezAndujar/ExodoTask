@@ -16,10 +16,6 @@ class GrupoDeTareasController extends Controller
     public function index()
     {
         $tareas = Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get();
-        $tareas->each(function ($tarea) {
-            $tarea->a_horas = $tarea->a_horas / 60 / 60;
-            $tarea->a_horas_realizadas = round($tarea->a_horas_realizadas / 3600, 2);
-        });
         return Inertia::render('GruposDisponibles', [
             'grupos' => GruposDeTareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get(),
             'tareas' => $tareas,
