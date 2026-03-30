@@ -49,6 +49,7 @@ class GrupoDeTareasController extends Controller
         ]);
 
         $tareasIds = $request->input('tareasIds', []);
+        
         $grupo = $request->user()->grupos()->create([
             'a_nombre' => $validated['a_nombre'],
         ]);

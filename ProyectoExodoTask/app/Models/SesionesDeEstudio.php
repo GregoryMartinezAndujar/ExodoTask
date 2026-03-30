@@ -9,10 +9,11 @@ class SesionesDeEstudio extends Model
 {
     /** @use HasFactory<\Database\Factories\SesionesDeEstudioFactory> */
     use HasFactory;
-
     public function user()
     {
         return $this->belongsTo(User::class, 'a_user_id')
             ->withTimestamps();
     }
+
+
 }

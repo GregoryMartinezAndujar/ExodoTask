@@ -99,7 +99,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                 Nueva Tarea
                             </span>
                         </NavLink>
-
                         <NavLink
                             href={route("gruposdetareas.create")}
                             active={route().current("gruposdetareas.create")}
@@ -107,6 +106,15 @@ export default function AuthenticatedLayout({ header, children }) {
                             <span className="flex items-center gap-3 px-2 py-1">
                                 <FolderPlus className="w-5 h-5" />
                                 Nuevo Grupo
+                            </span>
+                        </NavLink>
+                        <NavLink
+                            href={route("sesionesdetareas.create")}
+                            active={route().current("sesionesdetareas.create")}
+                        >
+                            <span className="flex items-center gap-3 px-2 py-1">
+                                <FolderPlus className="w-5 h-5" />
+                                Crear Sesion de Estudio
                             </span>
                         </NavLink>
                     </div>

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('sesiones_de_estudios', function (Blueprint $table) {
             $table->id();
+            $table->string('a_nombre');
             $table->bigInteger('a_tiempo_invertido');
             $table->boolean('a_finalizada');
+            $table->date('a_fecha');
             $table->unsignedBigInteger('a_user_id');
-
             $table->timestamps();
 
             $table->foreign('a_user_id')->references('id')->on('users')
