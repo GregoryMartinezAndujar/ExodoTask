@@ -21,6 +21,8 @@ class SesionesDeEstudioFactory extends Factory
         $s = $h * 3600;
         $usuarios = User::all();
         return [
+            'a_nombre' => fake()->sentence(),
+            'a_fecha' => fake()->date(),
             'a_tiempo_invertido' => $s,
             'a_finalizada' => fake()->boolean(),
             'a_user_id' => $usuarios->random()->id,

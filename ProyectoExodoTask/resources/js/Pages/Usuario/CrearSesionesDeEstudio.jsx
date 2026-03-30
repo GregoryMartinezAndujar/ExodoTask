@@ -7,11 +7,8 @@ import VolverAtras from "@/components/VolverAtras";
 
 export default function CrearSesionEstudio({ auth, tareas, grupos }) {
     const { data, setData, post, processing, errors } = useForm({
-        grupo_id: "",
-        tareas_ids: [],
-        duracion: "",
-        fecha: "",
-        notas: "",
+        a_nombre: "",
+        a_fecha: "",
     });
 
     const tareasFiltradas = data.grupo_id
@@ -101,22 +98,33 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                             </p>
                         )}
                     </div>
-
-                    {/* Duración */}
+                    {/*Nombre*/}
                     <div className="flex flex-col gap-1">
                         <label className="text-gray-700 font-medium">
-                            Duración (minutos)
+                            Nombre
                         </label>
                         <input
-                            type="number"
+                            type="text"
                             className="border-gray-300 rounded-lg"
-                            value={data.duracion}
                             onChange={(e) =>
-                                setData("duracion", e.target.value)
+                                setData("a_nombre", e.target.value)
                             }
                         />
+                        {/* Duración */}
+                        <div className="flex flex-col gap-1">
+                            <label className="text-gray-700 font-medium">
+                                Duración (minutos)
+                            </label>
+                            <input
+                                type="number"
+                                className="border-gray-300 rounded-lg"
+                                value={data.duracion}
+                                onChange={(e) =>
+                                    setData("duracion", e.target.value)
+                                }
+                            />
+                        </div>
                     </div>
-
                     {/* Fecha */}
                     <div className="flex flex-col gap-1">
                         <label className="text-gray-700 font-medium">

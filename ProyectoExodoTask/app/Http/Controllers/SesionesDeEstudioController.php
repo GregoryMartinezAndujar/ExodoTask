@@ -44,13 +44,14 @@ class SesionesDeEstudioController extends Controller
                  'a_fecha' => 'required|date',
              ]);
 
-             $sesion = SesionesDeEstudio::create([
+            SesionesDeEstudio::create([
+                 'a_user_id' => auth()->id(),
                  'a_nombre' => $validated['a_nombre'],
                  'a_tiempo_invertido' => $validated['a_tiempo_invertido'],
                  'a_fecha' => $validated['a_fecha'],
              ]);
 
-             
+
     }
 
     /**

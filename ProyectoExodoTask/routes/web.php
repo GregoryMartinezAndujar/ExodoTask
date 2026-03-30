@@ -46,6 +46,6 @@ Route::get('/editar-grupo/{id}', [GrupoDeTareasController::class, 'edit'])->midd
 
 //Rutas de sesiones 
 
-Route::resource('sesionesdetareas', SesionesDeEstudioController::class)->only(['index', 'update', 'destroy', 'store', 'create', 'edit']);
-Route::resource('tareas-sesiones', TareasSesionesController::class)->only(['index', 'update', 'destroy', 'store', 'create', 'edit']);
+Route::resource('sesionesdetareas', SesionesDeEstudioController::class)->only(['index', 'update', 'destroy', 'store', 'create', 'edit'])->middleware(['auth', 'verified']);
+Route::resource('tareas-sesiones', TareasSesionesController::class)->only(['index', 'update', 'destroy', 'store', 'create', 'edit'])->middleware(['auth', 'verified']);
 require __DIR__ . '/auth.php';
