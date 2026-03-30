@@ -21,6 +21,7 @@ import {
     CheckCircle,
     Minus,
     Eye,
+    ListMinus,
 } from "lucide-react";
 
 import {
@@ -151,7 +152,7 @@ const Tarea = ({
                                 <CheckButton
                                     className={`text-sm py-1.5 flex items-center gap-1  ${
                                         data.a_completada
-                                            ? " bg-[#A90000] hover:bg-red-700"
+                                            ? "  bg-[#FCA5A5] text-red-600 hover:bg-red-700"
                                             : " bg-green-400 hover:bg-green-700"
                                     } `}
                                     onClick={async () => {
@@ -219,7 +220,15 @@ const Tarea = ({
                                         <Play className="w-4 h-4" />
                                     </PrimaryButton>
                                 )}
-
+                                <PrimaryButton
+                                    onClick={() =>
+                                        router.get(
+                                            route("tareas.verTarea", tarea.id),
+                                        )
+                                    }
+                                >
+                                    <Eye className="w-4 h-4" />
+                                </PrimaryButton>
                                 {grupos.length == 0 &&
                                     ruta === "grupos.tareas" && (
                                         <DangerButton
@@ -237,18 +246,10 @@ const Tarea = ({
                                                 }
                                             }}
                                         >
-                                            Eliminar del Grupo
+                                            <ListMinus className="w-4 h-4" />
                                         </DangerButton>
                                     )}
-                                <PrimaryButton
-                                    onClick={() =>
-                                        router.get(
-                                            route("tareas.verTarea", tarea.id),
-                                        )
-                                    }
-                                >
-                                    <Eye className="w-4 h-4" />
-                                </PrimaryButton>
+
                                 <DangerButton
                                     className="text-sm py-1.5 bg-[#A90000] hover:bg-red-700 flex items-center gap-1"
                                     onClick={async () => {
@@ -323,99 +324,135 @@ const Tarea = ({
 
                 {/* BOTONES MÓVIL (ABAJO DEL TODO) */}
                 <div className="flex sm:hidden  gap-2">
-                    {ruta === "dashboard" && (
-                        <>
-                            <PrimaryButton
-                                className="text-sm p-1.5 flex items-center justify-center"
-                                onClick={async () => {
-                                    if (!data.a_completada) {
-                                        if (await completarTarea()) {
-                                            patch(
-                                                route(
-                                                    "tareas.update",
-                                                    tarea.id,
-                                                ),
-                                                {
-                                                    onBefore: () => {
-                                                        data.a_completada = true;
-                                                    },
-                                                },
-                                            );
-                                        }
-                                    } else {
-                                        if (await descompletarTarea()) {
-                                            patch(
-                                                route(
-                                                    "tareas.update",
-                                                    tarea.id,
-                                                ),
-                                                {
-                                                    onBefore: () => {
-                                                        data.a_completada = false;
-                                                    },
-                                                },
-                                            );
-                                        }
-                                    }
-                                }}
-                            >
-                                {data.a_completada ? (
-                                    <X className="w-4 h-4" />
-                                ) : (
-                                    <Check className="w-4 h-4" />
-                                )}
-                            </PrimaryButton>
-
-                            <PrimaryButton
-                                className="text-sm p-1.5 flex items-center justify-center"
-                                onClick={() =>
-                                    router.get(route("tareas.edit", tarea.id))
-                                }
-                            >
-                                <Pencil className="w-4 h-4" />
-                            </PrimaryButton>
-
-                            <PrimaryButton
-                                className="text-sm p-1.5 flex items-center justify-center"
-                                onClick={() =>
-                                    router.get(route("tareas.edit", tarea.id))
-                                }
-                            >
-                                <Play className="w-4 h-4" />
-                            </PrimaryButton>
-
-                            {ruta == "grupo.tarea" && (
-                                <DangerButton
+                    {ruta === "dashboard" ||
+                        (ruta === "grupos.tareas" && (
+                            <>
+                                <PrimaryButton
                                     className="text-sm p-1.5 flex items-center justify-center"
                                     onClick={async () => {
-                                        if (await eliminarTareaDelGrupo()) {
-                                            router.get(
+                                        if (!data.a_completada) {
+                                            if (await completarTarea()) {
+                                                patch(
+                                                    route(
+                                                        "tareas.update",
+                                                        tarea.id,
+                                                    ),
+                                                    {
+                                                        onBefore: () => {
+                                                            data.a_completada = true;
+                                                        },
+                                                    },
+                                                );
+                                            }
+                                        } else {
+                                            if (await descompletarTarea()) {
+                                                patch(
+                                                    route(
+                                                        "tareas.update",
+                                                        tarea.id,
+                                                    ),
+                                                    {
+                                                        onBefore: () => {
+                                                            data.a_completada = false;
+                                                        },
+                                                    },
+                                                );
+                                            }
+                                        }
+                                    }}
+                                >
+                                    {data.a_completada ? (
+                                        <X className="w-4 h-4" />
+                                    ) : (
+                                        <Check className="w-4 h-4" />
+                                    )}
+                                </PrimaryButton>
+
+                                <PrimaryButton
+                                    className="text-sm p-1.5 flex items-center justify-center"
+                                    onClick={() =>
+                                        router.get(
+                                            route("tareas.edit", tarea.id),
+                                        )
+                                    }
+                                >
+                                    <Pencil className="w-4 h-4" />
+                                </PrimaryButton>
+
+                                <PrimaryButton
+                                    className="text-sm p-1.5 flex items-center justify-center"
+                                    onClick={() =>
+                                        router.get(
+                                            route("tareas.edit", tarea.id),
+                                        )
+                                    }
+                                >
+                                    <Play className="w-4 h-4" />
+                                </PrimaryButton>
+
+                                {ruta == "grupo.tarea" && (
+                                    <DangerButton
+                                        className="text-sm p-1.5 flex items-center justify-center"
+                                        onClick={async () => {
+                                            if (await eliminarTareaDelGrupo()) {
+                                                router.get(
+                                                    route(
+                                                        "tareas.eliminarDelGrupo",
+                                                        tarea.id,
+                                                    ),
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        <UserMinus className="w-4 h-4" />
+                                    </DangerButton>
+                                )}
+                                <PrimaryButton
+                                    onClick={() =>
+                                        router.get(
+                                            route("tareas.verTarea", tarea.id),
+                                        )
+                                    }
+                                >
+                                    <Eye className="w-4 h-4" />
+                                </PrimaryButton>
+                                {grupos.length == 0 &&
+                                    ruta === "grupos.tareas" && (
+                                        <DangerButton
+                                            className="text-sm py-1.5"
+                                            onClick={async () => {
+                                                if (
+                                                    await eliminarTareaDelGrupo()
+                                                ) {
+                                                    router.get(
+                                                        route(
+                                                            "tareas.eliminarDelGrupo",
+                                                            tarea.id,
+                                                        ),
+                                                    );
+                                                }
+                                            }}
+                                        >
+                                            <ListMinus className="w-4 h-4" />
+                                        </DangerButton>
+                                    )}
+                                <DangerButton
+                                    className="text-sm p-1.5 bg-[#A90000] hover:bg-red-700 flex items-center justify-center"
+                                    onClick={async () => {
+                                        if (await eliminarTarea()) {
+                                            destroy(
                                                 route(
-                                                    "tareas.eliminarDelGrupo",
+                                                    "tareas.destroy",
                                                     tarea.id,
                                                 ),
                                             );
                                         }
                                     }}
                                 >
-                                    <UserMinus className="w-4 h-4" />
+                                    <Trash2 className="w-4 h-4" />
                                 </DangerButton>
-                            )}
-
-                            <DangerButton
-                                className="text-sm p-1.5 bg-[#A90000] hover:bg-red-700 flex items-center justify-center"
-                                onClick={async () => {
-                                    if (await eliminarTarea()) {
-                                        destroy(
-                                            route("tareas.destroy", tarea.id),
-                                        );
-                                    }
-                                }}
-                            >
-                                <Trash2 className="w-4 h-4" />
-                            </DangerButton>
-                        </>
-                    )}
+                            </>
+                        ))}
                 </div>
             </div>
         )
