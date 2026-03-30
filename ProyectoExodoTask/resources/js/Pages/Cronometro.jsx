@@ -2,6 +2,7 @@ import { use, useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
+import VolverAtras from "@/components/VolverAtras";
 export default function TimerFull({ tarea }) {
     const durationInSeconds = tarea.a_horas - tarea.a_horas_realizadas;
 
@@ -14,6 +15,7 @@ export default function TimerFull({ tarea }) {
     let tiempoUsado = 0;
     return (
         <AuthenticatedLayout>
+            <VolverAtras />
             <div className="flex flex-col items-center justify-center py-6 px-4 sm:py-10">
                 {/* Card */}
                 <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-8 w-full max-w-md text-center">

@@ -2,6 +2,7 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm, Head } from "@inertiajs/react";
 import Tareas from "@/components/Tareas";
+import VolverAtras from "@/components/VolverAtras";
 const VerTareasGrupo = ({ auth, grupo, tareas, prioridades, currentRoute }) => {
     console.log(currentRoute);
     return (
@@ -15,7 +16,7 @@ const VerTareasGrupo = ({ auth, grupo, tareas, prioridades, currentRoute }) => {
             className="font-exodo"
         >
             <Head title="Tareas del Grupo" />
-
+            <VolverAtras />
             <div className="space-y-2">
                 {tareas.map((tarea) => (
                     <Tareas

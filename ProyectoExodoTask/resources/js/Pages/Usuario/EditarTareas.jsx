@@ -4,6 +4,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import InputError from "@/Components/InputError";
 import DangerButton from "@/Components/DangerButton";
 import { Head } from "@inertiajs/react";
+import VolverAtras from "@/components/VolverAtras";
 
 const EditarTareas = ({ tarea, auth }) => {
     const { data, setData, patch, errors, reset, processing } = useForm({
@@ -33,6 +34,7 @@ const EditarTareas = ({ tarea, auth }) => {
             {/* CONTENEDOR RESPONSIVE */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 {/* FORMULARIO RESPONSIVE */}
+                <VolverAtras />
                 <form
                     onSubmit={submit}
                     className="bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4"
@@ -88,7 +90,7 @@ const EditarTareas = ({ tarea, auth }) => {
                         className="w-full sm:w-auto mt-2 hover:bg-indigo-700 text-white"
                         disabled={processing}
                     >
-                        Crear
+                        Actualizar
                     </DangerButton>
                 </form>
             </div>

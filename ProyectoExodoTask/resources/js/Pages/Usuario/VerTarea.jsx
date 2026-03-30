@@ -14,6 +14,7 @@ import {
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm, Head } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
+import VolverAtras from "@/components/VolverAtras";
 
 export default function VerTarea({ tarea, auth, grupo }) {
     // Lógica de urgencia: Si la fecha es hoy, usamos el tono de alerta
@@ -41,14 +42,14 @@ export default function VerTarea({ tarea, auth, grupo }) {
             className="font-exodo"
         >
             <Head title="Ver Tarea" />
-            <ArrowBigLeftDashIcon
+            {/* <ArrowBigLeftDashIcon
                 size={32}
                 className="text-slate-600 cursor-pointer transition duration-200 ease-out 
                 hover:text-slate-900 hover:-translate-x-1 hover:scale-110 hover:drop-shadow-mdactive:scale-95
 "
                 onClick={volerAlDashboard}
-            />
-
+            /> */}
+            <VolverAtras />
             <div
                 className={`max-w-4xl mx-auto my-6 p-6 bg-white rounded-xl border-2 shadow-sm transition-all ${colorBorde}`}
             >
