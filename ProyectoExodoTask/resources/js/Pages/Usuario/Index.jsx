@@ -121,9 +121,9 @@ export default function Index({ auth }) {
                             Horas estimadas
                         </label>
                         <input
-                            value={data.a_horas / 60}
+                            value={data.a_horas}
                             onChange={(e) => {
-                                let tiempo = e.target.value * 60;
+                                let tiempo = e.target.value;
                                 setData("a_horas", tiempo);
                             }}
                             type="number"

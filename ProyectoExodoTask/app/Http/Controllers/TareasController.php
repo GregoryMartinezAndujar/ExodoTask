@@ -42,7 +42,7 @@ class TareasController extends Controller
             'a_horas' => 'required|integer',
             'a_fecha_limite' => 'required|date',
         ]);
-        $request['a_horas'] = $request['a_horas'] * 60 * 60;
+        $validated['a_horas'] = $validated['a_horas'] * 60 * 60;
 
         $request->user()->tareas()->create($validated);
 
