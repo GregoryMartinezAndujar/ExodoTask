@@ -61,14 +61,18 @@ const VerGrupos = ({ grupo, tareas }) => {
                     Actualizado hace: {dayjs(grupo.updated_at).fromNow()}
                 </small>
             </div>
-            <div className="w-24 h-12 flex items-center justify-center rounded-full bg-blue-100 text-black text-xl">
-                <p>{tareasDelGrupo.length} tareas</p>
-            </div>
-            <div className="w-fit h-12 flex items-center justify-center rounded-full bg-green-100 text-black text-xl py-1 px-2">
-                <p>{tareasCompeltadasGrupo.length} Completadas</p>
-            </div>
-            <div className="w-fit h-12 flex items-center justify-center rounded-full bg-red-100 text-black text-xl py-1 px-2">
-                <p>{tareasPendientesGrupo.length} Pendientes</p>
+            <div className="flex flex-wrap gap-2">
+                <div className="w-24 h-12 flex items-center justify-center rounded-full bg-blue-100 text-black text-xl">
+                    <p>{tareasDelGrupo.length} tareas</p>
+                </div>
+
+                <div className="w-fit h-12 flex items-center justify-center rounded-full bg-green-100 text-black text-xl py-1 px-2">
+                    <p>{tareasCompeltadasGrupo.length} Completadas</p>
+                </div>
+
+                <div className="w-fit h-12 flex items-center justify-center rounded-full bg-red-100 text-black text-xl py-1 px-2">
+                    <p>{tareasPendientesGrupo.length} Pendientes</p>
+                </div>
             </div>
 
             {/* Columna derecha */}

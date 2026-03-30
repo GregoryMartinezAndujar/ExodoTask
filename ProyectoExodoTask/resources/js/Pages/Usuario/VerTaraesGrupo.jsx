@@ -16,7 +16,7 @@ const VerTareasGrupo = ({ auth, grupo, tareas, prioridades, currentRoute }) => {
             className="font-exodo"
         >
             <Head title="Tareas del Grupo" />
-            <VolverAtras />
+            <VolverAtras className="mb-4" />
             <div className="space-y-2">
                 {tareas.map((tarea) => (
                     <Tareas
