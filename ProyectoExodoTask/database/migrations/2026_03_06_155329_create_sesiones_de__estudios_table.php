@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('a_nombre');
             $table->bigInteger('a_tiempo_invertido');
-            $table->boolean('a_finalizada');
+            $table->boolean('a_finalizada')->default(false);
             $table->date('a_fecha');
             $table->unsignedBigInteger('a_user_id');
             $table->timestamps();

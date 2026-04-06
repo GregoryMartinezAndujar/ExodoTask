@@ -4,20 +4,24 @@ import { Head, useForm } from "@inertiajs/react";
 import PrimaryButton from "@/components/PrimaryButton";
 import DangerButton from "@/components/DangerButton";
 import VolverAtras from "@/components/VolverAtras";
+import InputError from "@/components/InputError";
 
 export default function CrearSesionEstudio({ auth, tareas, grupos }) {
     const { data, setData, post, processing, errors } = useForm({
+        a_tareas_ids: [],
         a_nombre: "",
         a_fecha: "",
+        a_grupo_id: "",
+        a_tiempo_invertido: "",
     });
 
-    const tareasFiltradas = data.grupo_id
-        ? tareas.filter((t) => t.a_grupo_id == data.grupo_id)
+    const tareasFiltradas = data.a_grupo_id
+        ? tareas.filter((t) => t.a_grupo_id == data.a_grupo_id)
         : tareas.filter((t) => t.a_grupo_id === null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("sesionesdetareas.store"));
+        post(route("sesionesdetareas.store"), { onSuccess: () => reset() });
     };
 
     return (
@@ -45,9 +49,9 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                         </label>
                         <select
                             className="border-gray-300 rounded-lg"
-                            value={data.grupo_id}
+                            value={data.a_grupo_id}
                             onChange={(e) =>
-                                setData("grupo_id", e.target.value)
+                                setData("a_grupo_id", e.target.value)
                             }
                         >
                             <option value="">Sin grupo</option>
@@ -68,10 +72,10 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                         <select
                             multiple
                             className="border-gray-300 rounded-lg h-20"
-                            value={data.tareas_ids}
+                            value={data.a_tareas_ids}
                             onChange={(e) =>
                                 setData(
-                                    "tareas_ids",
+                                    "a_tareas_ids",
                                     Array.from(
                                         e.target.selectedOptions,
                                         (opt) => opt.value,
@@ -92,9 +96,9 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                             ))}
                         </select>
 
-                        {errors.tareas_ids && (
+                        {errors.a_tareas_ids && (
                             <p className="text-red-600 text-sm">
-                                {errors.tareas_ids}
+                                {errors.a_tareas_ids}
                             </p>
                         )}
                     </div>
@@ -110,6 +114,7 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                                 setData("a_nombre", e.target.value)
                             }
                         />
+                        <InputError message={errors.a_nombre} />
                         {/* Duración */}
                         <div className="flex flex-col gap-1">
                             <label className="text-gray-700 font-medium">
@@ -118,11 +123,15 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                             <input
                                 type="number"
                                 className="border-gray-300 rounded-lg"
-                                value={data.duracion}
+                                value={data.a_tiempo_invertido}
                                 onChange={(e) =>
-                                    setData("duracion", e.target.value)
+                                    setData(
+                                        "a_tiempo_invertido",
+                                        e.target.value,
+                                    )
                                 }
                             />
+                            <InputError message={errors.a_tiempo_invertido} />
                         </div>
                     </div>
                     {/* Fecha */}
@@ -133,12 +142,13 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                         <input
                             type="datetime-local"
                             className="border-gray-300 rounded-lg"
-                            value={data.fecha}
-                            onChange={(e) => setData("fecha", e.target.value)}
+                            value={data.a_fecha ?? ""}
+                            onChange={(e) => setData("a_fecha", e.target.value)}
                         />
+                        <InputError message={errors.a_fecha} />
                     </div>
 
-                    {/* Notas */}
+                    {/* Notas
                     <div className="flex flex-col gap-1">
                         <label className="text-gray-700 font-medium">
                             Notas
@@ -149,7 +159,7 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                             value={data.notas}
                             onChange={(e) => setData("notas", e.target.value)}
                         ></textarea>
-                    </div>
+                    </div> */}
 
                     {/* Botones */}
                     <div className="flex justify-end gap-2">

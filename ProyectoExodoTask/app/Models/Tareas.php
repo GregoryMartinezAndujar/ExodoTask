@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PhpParser\Node\Expr\FuncCall;
 
 class Tareas extends Model
 {
@@ -41,4 +42,9 @@ class Tareas extends Model
     {
         return $this->belongsTo(Prioridad::class);
     }
+    public function sesiones()
+    {
+    return $this->belongsToMany(SesionesDeEstudio::class, 'tareas_sesiones', 'a_tarea_id', 'a_sesion_estudio_id');
+    }
+
 }

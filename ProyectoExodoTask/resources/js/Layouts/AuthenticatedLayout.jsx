@@ -82,6 +82,15 @@ export default function AuthenticatedLayout({ header, children }) {
                                 Ver Grupos
                             </span>
                         </NavLink>
+                        <NavLink
+                            href={route("sesionesdetareas.index")}
+                            active={route().current("sesionesdetareas.index")}
+                        >
+                            <span className="flex items-center gap-3 px-2 py-1">
+                                <FolderPlus className="w-5 h-5" />
+                                Ver Sesiones de Estudio
+                            </span>
+                        </NavLink>
                     </div>
 
                     {/* Crear */}

@@ -9,6 +9,9 @@ use Inertia\Inertia;
 use App\Models\GruposDeTareas;
 use App\Models\Tareas;
 use App\Models\TareasSesiones;
+
+use function Termwind\render;
+
 class SesionesDeEstudioController extends Controller
 {
     /**
@@ -16,7 +19,12 @@ class SesionesDeEstudioController extends Controller
      */
     public function index()
     {
-        
+        $sesiones = SesionesDeEstudio::where('a_user_id', auth()->id())->latest()->get();
+        // dd($sesiones);
+        return Inertia::render('Usuario/VerSesionesDeEstudio', [
+            'sesiones' => $sesiones,
+            'currentRoute' => request()->route()->getName(),
+        ]);
     }
 
     /**
@@ -36,23 +44,29 @@ class SesionesDeEstudioController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-             $validated = $request->validate([
-                 'a_nombre' => 'required|string|max:100',
-                 'a_tiempo_invertido' => 'required|integer',
-                 'a_fecha' => 'required|date',
-             ]);
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'a_nombre' => 'required|string|max:100',
+        'a_tiempo_invertido' => 'required|integer',
+        'a_fecha' => 'required|date',
+        'a_tareas_ids' => 'required|array',
+        'a_tareas_ids.*' => 'exists:tareas,id'
+    ]);
 
-            SesionesDeEstudio::create([
-                 'a_user_id' => auth()->id(),
-                 'a_nombre' => $validated['a_nombre'],
-                 'a_tiempo_invertido' => $validated['a_tiempo_invertido'],
-                 'a_fecha' => $validated['a_fecha'],
-             ]);
+    $sesion = $request->user()->sesiones()->create([
+        'a_nombre' => $validated['a_nombre'],
+        'a_fecha' => $validated['a_fecha'],
+        'a_tiempo_invertido' => $validated['a_tiempo_invertido'],
+        'a_user_id' => auth()->id(),
+    ]);
 
+    // Relacionar tareas con la sesión
+    $sesion->tareas()->attach($validated['a_tareas_ids']);
 
-    }
+      return redirect(route('dashboard'));
+}
+
 
     /**
      * Display the specified resource.

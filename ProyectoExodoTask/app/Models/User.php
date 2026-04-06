@@ -47,7 +47,7 @@ class User extends Authenticatable
         ];
     }
 
-    //Creacion de las cardinalidades en la base de datos 
+  
     public function nivel()
     {
         return $this->belongsTo(Niveles::class, 'a_nivel_id');
@@ -62,7 +62,7 @@ class User extends Authenticatable
     }
     public function sesiones()
     {
-        return $this->hasMany(SesionesDeEstudio::class);
+        return $this->hasMany(SesionesDeEstudio::class , 'a_user_id');
     }
 
 }
