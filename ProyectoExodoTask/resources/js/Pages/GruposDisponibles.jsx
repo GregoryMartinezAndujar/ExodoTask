@@ -2,7 +2,7 @@ import React from "react";
 import VerGrupos from "@/components/VerGruposDisponibles";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
-import { useForm, Head } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 
 export default function GruposDisponibles({
     grupos,
@@ -10,7 +10,6 @@ export default function GruposDisponibles({
     tareas,
     currentRoute,
 }) {
-    console.log(currentRoute);
     return (
         <AuthenticatedLayout
             auth={auth}
