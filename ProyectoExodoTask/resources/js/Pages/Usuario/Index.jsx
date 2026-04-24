@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import InputError from "@/components/InputError";
 import { useForm, Head } from "@inertiajs/react";
 import DangerButton from "@/components/DangerButton";
-import Tarea from "@/components/Tareas";
+import { Plus } from "lucide-react";
 
 export default function Index({ auth }) {
     const { data, setData, post, processing, reset, errors } = useForm({
@@ -30,34 +30,29 @@ export default function Index({ auth }) {
         >
             <Head title="Tareas" />
 
-            {/* CONTENEDOR PRINCIPAL */}
-            <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                {/* FORMULARIO */}
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 <form
                     onSubmit={submit}
-                    className="
-                        bg-white/80 backdrop-blur-md
-                        p-5 sm:p-7 
-                        rounded-2xl 
-                        shadow-md 
-                        border border-gray-200
-                        space-y-6
-                        transition-all duration-300
-                    "
+                    className="bg-white border border-gray-300 rounded-2xl p-6 sm:p-7 shadow-sm space-y-5"
                 >
-                    {/* TÍTULO DEL FORMULARIO */}
-                    <div className="space-y-1">
-                        <h3 className="text-xl sm:text-2xl tracking-tight text-gray-900">
-                            Nueva tarea
-                        </h3>
-                        <p className="text-gray-500 text-sm">
-                            Añade una nueva tarea a tu lista.
-                        </p>
+                    <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-md bg-red-100 text-red-600 flex items-center justify-center shrink-0">
+                            <Plus className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <h3 className="text-2xl tracking-tight text-gray-900">
+                                Nueva tarea
+                            </h3>
+                            <p className="text-gray-500 text-sm">
+                                Añade una nueva tarea a tu lista
+                            </p>
+                        </div>
                     </div>
 
-                    {/* Nombre */}
-                    <div className="space-y-1">
-                        <label className="text-base text-gray-700 font-medium">
+                    <div className="border-t border-gray-200" />
+
+                    <div className="space-y-1.5">
+                        <label className="text-sm text-gray-700 uppercase tracking-wide">
                             Nombre
                         </label>
                         <input
@@ -67,17 +62,7 @@ export default function Index({ auth }) {
                             }
                             type="text"
                             placeholder="Ej: Implementar login"
-                            className="
-                                w-full 
-                                text-sm sm:text-base
-                                border-gray-300 
-                                rounded-xl 
-                                shadow-sm 
-                                px-3 py-2
-                                focus:border-[#A90000] 
-                                focus:ring focus:ring-[#A90000]/40
-                                transition-all
-                            "
+                            className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2.5 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                         />
                         <InputError
                             message={errors.a_nombre}
@@ -85,9 +70,8 @@ export default function Index({ auth }) {
                         />
                     </div>
 
-                    {/* Descripción */}
-                    <div className="space-y-1">
-                        <label className="text-base text-gray-700 font-medium">
+                    <div className="space-y-1.5">
+                        <label className="text-sm text-gray-700 uppercase tracking-wide">
                             Descripción
                         </label>
                         <textarea
@@ -96,18 +80,8 @@ export default function Index({ auth }) {
                                 setData("a_descripcion", e.target.value)
                             }
                             placeholder="Describe brevemente la tarea"
-                            rows="3"
-                            className="
-                                w-full 
-                                text-sm sm:text-base
-                                border-gray-300 
-                                rounded-xl 
-                                shadow-sm 
-                                px-3 py-2
-                                focus:border-[#A90000] 
-                                focus:ring focus:ring-[#A90000]/40
-                                transition-all
-                            "
+                            rows="4"
+                            className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2.5 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                         ></textarea>
                         <InputError
                             message={errors.a_descripcion}
@@ -115,76 +89,59 @@ export default function Index({ auth }) {
                         />
                     </div>
 
-                    {/* Horas */}
-                    <div className="space-y-1">
-                        <label className="text-base text-gray-700 font-medium">
-                            Horas estimadas
-                        </label>
-                        <input
-                            value={data.a_horas}
-                            onChange={(e) => {
-                                let tiempo = e.target.value;
-                                setData("a_horas", tiempo);
-                            }}
-                            type="number"
-                            placeholder="Ej: 3"
-                            className="
-                                w-full 
-                                text-sm sm:text-base
-                                border-gray-300 
-                                rounded-xl 
-                                shadow-sm 
-                                px-3 py-2
-                                focus:border-[#A90000] 
-                                focus:ring focus:ring-[#A90000]/40
-                                transition-all
-                            "
-                        />
-                        <InputError
-                            message={errors.a_horas}
-                            className="text-red-600"
-                        />
-                    </div>
-                    <div className="space-y-1">
-                        <label className="text-base text-gray-700 font-medium">
-                            Horas estimadas
-                        </label>
-                        <input
-                            value={data.a_fecha_limite}
-                            onChange={(e) =>
-                                setData("a_fecha_limite", e.target.value)
-                            }
-                            type="date"
-                            className="
-                                w-full 
-                                text-sm sm:text-base
-                                border-gray-300 
-                                rounded-xl 
-                                shadow-sm 
-                                px-3 py-2
-                                focus:border-[#A90000] 
-                                focus:ring focus:ring-[#A90000]/40
-                                transition-all
-                            "
-                        />
-                        <InputError
-                            message={errors.a_fecha_limite}
-                            className="text-red-600"
-                        />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="space-y-1.5">
+                            <label className="text-sm text-gray-700 uppercase tracking-wide">
+                                Horas estimadas
+                            </label>
+                            <input
+                                value={data.a_horas}
+                                onChange={(e) => {
+                                    let tiempo = e.target.value;
+                                    setData("a_horas", tiempo);
+                                }}
+                                type="number"
+                                placeholder="Ej: 3"
+                                className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2.5 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
+                            />
+                            <InputError
+                                message={errors.a_horas}
+                                className="text-red-600"
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-sm text-gray-700 uppercase tracking-wide">
+                                Fecha límite
+                            </label>
+                            <input
+                                value={data.a_fecha_limite}
+                                onChange={(e) =>
+                                    setData("a_fecha_limite", e.target.value)
+                                }
+                                type="date"
+                                className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2.5 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
+                            />
+                            <InputError
+                                message={errors.a_fecha_limite}
+                                className="text-red-600"
+                            />
+                        </div>
                     </div>
 
-                    {/* Botón */}
-                    <div className="pt-2">
+                    <div className="border-t border-gray-200" />
+
+                    <div className="flex justify-end gap-3">
+                        <button
+                            type="button"
+                            onClick={() => window.history.back()}
+                            className="px-6 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors"
+                        >
+                            Cancelar
+                        </button>
+
                         <DangerButton
-                            className="
-                                w-full sm:w-auto 
-                                text-base 
-                                px-5 py-2
-                                rounded-xl
-                                transition-all 
-                                hover:scale-[1.02]
-                                bg-[#A90000]
-                            "
+                            className="px-6 py-2.5 rounded-lg bg-[#c62828] hover:bg-[#b71c1c]"
                             disabled={processing}
                         >
                             Crear tarea
