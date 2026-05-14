@@ -22,8 +22,7 @@ class TareasSesionesController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-;
+    {;
     }
 
     /**
@@ -81,8 +80,5 @@ class TareasSesionesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TareasSesiones $tareasSesiones)
-    {
-        //
-    }
+    public function destroy(TareasSesiones $tareasSesiones) {}
 }

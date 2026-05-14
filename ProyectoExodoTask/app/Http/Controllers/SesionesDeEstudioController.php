@@ -34,38 +34,33 @@ class SesionesDeEstudioController extends Controller
     {
         $tareas = Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get();
         $grupos = GruposDeTareas::where('a_user_id', auth()->id())->get();
-       return Inertia::render('Usuario/CrearSesionesDeEstudio', [
-        'tareas' => $tareas,
-        'grupos' => $grupos,
-        'currentRoute' => request()->route()->getName(),
-       ]);
+        return Inertia::render('Usuario/CrearSesionesDeEstudio', [
+            'tareas' => $tareas,
+            'grupos' => $grupos,
+            'currentRoute' => request()->route()->getName(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-public function store(Request $request)
-{
-    $validated = $request->validate([
-        'a_nombre' => 'required|string|max:100',
-        'a_tiempo_invertido' => 'required|integer',
-        'a_fecha' => 'required|date',
-        'a_tareas_ids' => 'required|array',
-        'a_tareas_ids.*' => 'exists:tareas,id'
-    ]);
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'a_nombre' => 'required|string|max:100',
+            'a_tiempo_invertido' => 'required|integer',
+            'a_fecha' => 'required|date',
+            'a_tareas_ids' => 'required|array',
+            'a_tareas_ids.*' => 'exists:tareas,id'
+        ]);
 
-    $sesion = $request->user()->sesiones()->create([
-        'a_nombre' => $validated['a_nombre'],
-        'a_fecha' => $validated['a_fecha'],
-        'a_tiempo_invertido' => $validated['a_tiempo_invertido'],
-        'a_user_id' => auth()->id(),
-    ]);
+        // Al usar la relación sesiones(), Laravel inyecta a_user_id automáticamente
+        $sesion = auth()->user()->sesiones()->create($validated);
 
-    // Relacionar tareas con la sesión
-    $sesion->tareas()->attach($validated['a_tareas_ids']);
+        $sesion->tareas()->attach($validated['a_tareas_ids']);
 
-      return redirect(route('dashboard'));
-}
+        return redirect(route('dashboard'));
+    }
 
 
     /**
@@ -97,6 +92,15 @@ public function store(Request $request)
      */
     public function destroy(SesionesDeEstudio $sesionesDeEstudio)
     {
-        //
+        dd([
+            'ID_Usuario_Autenticado' => auth()->id(),
+            'ID_Dueño_de_la_Sesion'  => $sesionesDeEstudio->a_user_id,
+            'Son_Iguales'            => auth()->id() == $sesionesDeEstudio->a_user_id
+        ]);
+        if ($sesionesDeEstudio->a_user_id !== auth()->id()) {
+            abort(403, 'No autorizado para eliminar esta sesión de estudio.');
+        }
+        $sesionesDeEstudio->delete();
+        return redirect(route('dashboard'));
     }
 }

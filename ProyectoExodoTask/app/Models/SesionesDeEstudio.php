@@ -18,12 +18,10 @@ class SesionesDeEstudio extends Model
     ];
     public function user()
     {
-        return $this->belongsTo(User::class, 'a_user_id')->withTimestamps();
+        return $this->belongsTo(User::class, 'a_user_id');
     }
     public function tareas()
     {
-    return $this->belongsToMany(Tareas::class, 'tareas_sesiones', 'a_sesion_estudio_id', 'a_tarea_id');
+        return $this->belongsToMany(Tareas::class, 'tareas_sesiones', 'a_sesion_estudio_id', 'a_tarea_id');
     }
-
-
 }

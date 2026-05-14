@@ -1,24 +1,14 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-
+import { useForm } from "@inertiajs/react";
 export default function VerSesionesDeEstudio({ sesiones }) {
-    const rippleEffect = (e) => {
-        const target = e.currentTarget;
-
-        const circle = document.createElement("span");
-        const diameter = Math.max(target.clientWidth, target.clientHeight);
-        const radius = diameter / 2;
-
-        circle.style.width = circle.style.height = `${diameter}px`;
-        circle.style.left = `${e.clientX - target.offsetLeft - radius}px`;
-        circle.style.top = `${e.clientY - target.offsetTop - radius}px`;
-        circle.classList.add("ripple");
-
-        const ripple = target.getElementsByClassName("ripple")[0];
-        if (ripple) ripple.remove();
-
-        target.appendChild(circle);
-    };
-
+    const {
+        data,
+        setData,
+        delete: destroy,
+        errors,
+        reset,
+        processing,
+    } = useForm({});
     return (
         <AuthenticatedLayout>
             <div className="p-6 bg-white shadow-sm rounded-xl">
@@ -36,7 +26,6 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                     {sesiones.map((sesion) => (
                         <div
                             key={sesion.id}
-                            onClick={rippleEffect}
                             className="
                                 relative overflow-hidden cursor-pointer
                                 rounded-xl p-4 border border-gray-200
@@ -69,7 +58,7 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                     </p>
 
                                     <p className="text-lg text-gray-700">
-                                        Tiempo invertido:{" "}
+                                        Tiempo a invertir:{" "}
                                         <span className="text-gray-900">
                                             {sesion.a_tiempo_invertido} min
                                         </span>
@@ -79,22 +68,45 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                         className={`px-3 py-1 text-sm rounded-full inline-block ${
                                             sesion.a_finalizada
                                                 ? "bg-green-100 text-green-700"
-                                                : "bg-yellow-100 text-yellow-700"
+                                                : "bg-red-100 text-red-700"
                                         }`}
                                     >
                                         {sesion.a_finalizada
                                             ? "Finalizada"
-                                            : "En progreso"}
+                                            : "Sin terminar"}
                                     </span>
                                 </div>
 
                                 {/* Botones a la derecha */}
                                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 ml-4">
-                                    <button className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition text-base">
+                                    <button
+                                        className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition text-base"
+                                        onClick={() =>
+                                            alert(
+                                                "Funcionalidad de ver detalles no implementada",
+                                            )
+                                        }
+                                    >
                                         Ver detalles
                                     </button>
 
-                                    <button className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition text-base">
+                                    <button
+                                        className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition text-base"
+                                        onClick={() => {
+                                            if (
+                                                confirm(
+                                                    "¿Estás seguro de eliminar esta sesión?",
+                                                )
+                                            ) {
+                                                destroy(
+                                                    route(
+                                                        "sesionesdetareas.destroy",
+                                                        sesion.id,
+                                                    ),
+                                                );
+                                            }
+                                        }}
+                                    >
                                         Eliminar
                                     </button>
                                 </div>

@@ -93,7 +93,7 @@ const Tarea = ({
 
                     <span
                         className={`
-                            px-2 py-0.5 rounded-full text-xs
+                            px-2.5 py-0.5 rounded-full text-base
                             ${
                                 data.a_completada
                                     ? "bg-green-100 text-green-700"
@@ -106,7 +106,7 @@ const Tarea = ({
                     {ruta === "dashboard" && Array.isArray(prioridades) && (
                         <Dropdown>
                             <Dropdown.Trigger>
-                                <button className="bg-white border border-gray-300 rounded px-2 py-1 shadow-sm hover:bg-gray-50 transition text-xs md:text-sm flex items-center gap-1">
+                                <button className="bg-white border border-gray-300 rounded px-2.5 py-1 shadow-sm hover:bg-gray-50 transition text-base flex items-center gap-1">
                                     {prioridades.find(
                                         (p) => p.id === tarea.a_prioridad_id,
                                     )?.a_nombre ?? "Sin prioridad"}
@@ -122,7 +122,7 @@ const Tarea = ({
                                 {prioridades.map((prioridad) => (
                                     <div
                                         key={prioridad.id}
-                                        className="px-3 py-1 hover:bg-gray-100 cursor-pointer text-gray-700 text-xs md:text-sm"
+                                        className="px-3 py-1 hover:bg-gray-100 cursor-pointer text-gray-700 text-base"
                                         onClick={() => {
                                             patch(
                                                 route(
@@ -264,7 +264,7 @@ const Tarea = ({
             </div>
 
             {/* FILA 2: Datos resumidos */}
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm border-t border-gray-200 pt-2 text-gray-700">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-base border-t border-gray-200 pt-2 text-gray-700">
                 <span>
                     {tarea.a_grupo_id
                         ? grupos.find((g) => g.id === tarea.a_grupo_id)

@@ -84,7 +84,7 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                                 Fecha
                             </label>
                             <input
-                                type="datetime-local"
+                                type="date"
                                 className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                                 value={data.a_fecha ?? ""}
                                 onChange={(e) =>

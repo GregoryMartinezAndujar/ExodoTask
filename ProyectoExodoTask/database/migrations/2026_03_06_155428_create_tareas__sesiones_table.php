@@ -18,8 +18,12 @@ return new class extends Migration
             $table->timestamps();
 
 
-            $table->foreign('a_tarea_id')->references('id')->on('tareas');
-            $table->foreign('a_sesion_estudio_id')->references('id')->on('sesiones_de_estudios');
+            $table->foreign('a_tarea_id')->references('id')->on('tareas')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('a_sesion_estudio_id')->references('id')->on('sesiones_de_estudios')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
