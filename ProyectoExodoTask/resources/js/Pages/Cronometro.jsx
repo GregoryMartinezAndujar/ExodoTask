@@ -4,6 +4,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useState } from "react";
 import { useForm } from "@inertiajs/react";
 import TiempoFormateado from "@/components/Formateartiempo";
+
 export default function TimerFull({ tarea }) {
     const durationInSeconds = tarea.a_horas - tarea.a_horas_realizadas;
 
@@ -27,177 +28,164 @@ export default function TimerFull({ tarea }) {
 
     return (
         <AuthenticatedLayout>
-            <div className="px-4 pt-4 sm:px-6 sm:pt-6">
-                <VolverAtras />
-            </div>
-
-            <div className="flex flex-col items-center justify-center py-10 px-4 sm:py-14">
-                <div
-                    className="
-                        w-full max-w-md
-                        bg-white dark:bg-neutral-900
-                        rounded-3xl
-                        border border-neutral-200/80 dark:border-neutral-800
-                        shadow-[0_18px_40px_rgba(0,0,0,0.08)]
-                        px-7 py-8 sm:px-10 sm:py-10
-                        transition-all
-                    "
-                >
-                    <div className="mb-8 text-center">
-                        <p className="text-xs uppercase tracking-[0.2em] text-neutral-400">
-                            Tarea
-                        </p>
-                        <h2 className="mt-2 text-2xl sm:text-3xl text-neutral-900 dark:text-neutral-50 tracking-tight">
-                            Cronómetro
-                        </h2>
-                    </div>
-
-                    <div className="flex justify-center mb-10">
-                        <CountdownCircleTimer
-                            key={key}
-                            isPlaying={isPlaying}
-                            duration={durationInSeconds}
-                            colors={[
-                                "#2563EB",
-                                "#F59E0B",
-                                "#DC2626",
-                                "#DC2626",
-                            ]}
-                            colorsTime={[
-                                durationInSeconds,
-                                durationInSeconds * 0.5,
-                                durationInSeconds * 0.25,
-                                0,
-                            ]}
-                            size={230}
-                            strokeWidth={10}
-                        >
-                            {({ remainingTime }) => {
-                                const hours = Math.floor(remainingTime / 3600);
-                                const minutes = Math.floor(
-                                    (remainingTime % 3600) / 60,
-                                );
-                                const seconds = remainingTime % 60;
-                                tiempoUsado = durationInSeconds - remainingTime;
-
-                                return (
-                                    <span
-                                        className="
-                                            text-4xl sm:text-5xl
-                                            text-neutral-900 dark:text-neutral-50
-                                            tracking-tight
-                                        "
-                                    >
-                                        {String(hours).padStart(2, "0")}:
-                                        {String(minutes).padStart(2, "0")}:
-                                        {String(seconds).padStart(2, "0")}
-                                    </span>
-                                );
-                            }}
-                        </CountdownCircleTimer>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-                        <button
-                            onClick={() => setIsPlaying(true)}
-                            className="
-                                w-full sm:w-auto
-                                px-6 py-2.5
-                                rounded-full
-                                bg-neutral-900 hover:bg-neutral-800
-                                text-neutral-50
-                                shadow-sm hover:shadow-md
-                                transition-all
-                                active:scale-95
-                            "
-                        >
-                            Iniciar
-                        </button>
-
-                        <button
-                            onClick={() => setIsPlaying(false)}
-                            className="
-                                w-full sm:w-auto
-                                px-6 py-2.5
-                                rounded-full
-                                bg-neutral-100 hover:bg-neutral-200
-                                text-neutral-900
-                                shadow-sm hover:shadow-md
-                                transition-all
-                                active:scale-95
-                            "
-                        >
-                            Pausar
-                        </button>
-
-                        <button
-                            onClick={() => {
-                                setIsPlaying(false);
-                                patch(route("tareas.update", tarea.id), {
-                                    onBefore: () => {
-                                        data.a_horas_realizadas =
-                                            tiempoUsado +
-                                            data.a_horas_realizadas;
-                                    },
-                                });
-                            }}
-                            className="
-                                w-full sm:w-auto
-                                px-6 py-2.5
-                                rounded-full
-                                bg-red-500 hover:bg-red-600
-                                text-white
-                                shadow-sm hover:shadow-md
-                                transition-all
-                                active:scale-95
-                            "
-                        >
-                            Finalizar
-                        </button>
+            {/* Contenedor panorámico que aprovecha el ancho de la página */}
+            <div className="max-w-6xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8 min-h-screen">
+                {/* Botón superior - Texto con peso normal */}
+                <div className="mb-8">
+                    <div className="text-slate-400 hover:text-slate-100 transition-colors text-sm font-normal inline-block">
+                        <VolverAtras />
                     </div>
                 </div>
-                {/* Card inferior con datos de la tarea */}
+
+                {/* PANEL DE TRABAJO PRINCIPAL */}
                 <div
-                    className="mt-10 w-full bg-neutral-50 dark:bg-neutral-900/60 rounded-2xl border border-neutral-200 
-                dark:border-neutral-800 shadow-smp-6 flex flex-col gap-4 transition-all p-4 text-2xl sm:text-3xl"
+                    className="
+                        w-full
+                        bg-[#050509] text-slate-100
+                        rounded-3xl
+                        border border-[#27272f]
+                        shadow-[0_30px_80px_rgba(0,0,0,0.8)]
+                        p-8 sm:p-12 lg:p-16
+                        grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16
+                        items-center
+                        transition-all duration-300
+                    "
                 >
-                    <div className="flex justify-between items-center">
-                        <span className="text-neutral-500 dark:text-neutral-400 text-xl">
-                            Nombre
-                        </span>
-                        <span className="text-xl">{tarea.a_nombre}</span>
+                    {/* COLUMNA IZQUIERDA: EL CRONÓMETRO */}
+                    <div className="md:col-span-5 flex flex-col items-center justify-center w-full">
+                        <div className="w-full max-w-[300px] aspect-square bg-[#0b0b12] rounded-full flex items-center justify-center border border-[#27272f] shadow-inner p-6">
+                            <CountdownCircleTimer
+                                key={key}
+                                isPlaying={isPlaying}
+                                duration={durationInSeconds}
+                                colors={[
+                                    "#b91c1c",
+                                    "#dc2626",
+                                    "#991b1b",
+                                    "#7f1d1d",
+                                ]}
+                                colorsTime={[
+                                    durationInSeconds,
+                                    durationInSeconds * 0.5,
+                                    durationInSeconds * 0.25,
+                                    0,
+                                ]}
+                                size={230}
+                                strokeWidth={6}
+                                trailColor="#27272f"
+                            >
+                                {({ remainingTime }) => {
+                                    const hours = Math.floor(
+                                        remainingTime / 3600,
+                                    );
+                                    const minutes = Math.floor(
+                                        (remainingTime % 3600) / 60,
+                                    );
+                                    const seconds = remainingTime % 60;
+                                    tiempoUsado =
+                                        durationInSeconds - remainingTime;
+
+                                    return (
+                                        <span
+                                            className="
+                                                text-4xl sm:text-5xl
+                                                font-light text-slate-100
+                                                tracking-tighter tabular-nums
+                                            "
+                                        >
+                                            {String(hours).padStart(2, "0")}:
+                                            {String(minutes).padStart(2, "0")}:
+                                            {String(seconds).padStart(2, "0")}
+                                        </span>
+                                    );
+                                }}
+                            </CountdownCircleTimer>
+                        </div>
                     </div>
 
-                    <div className="flex justify-between items-center">
-                        <span className="text-neutral-500 dark:text-neutral-400 text-xl">
-                            Horas totales
-                        </span>
-                        <TiempoFormateado segundos={tarea.a_horas} />
-                    </div>
+                    {/* COLUMNA DERECHA: DATOS DE LA TAREA Y ACCIONES */}
+                    <div className="md:col-span-7 w-full flex flex-col justify-between space-y-8 lg:space-y-12">
+                        <div>
+                            <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400 font-normal block mb-2">
+                                Módulo de Control Activo
+                            </span>
+                            <h2 className="text-3xl sm:text-4xl font-normal text-white tracking-tight">
+                                {tarea.a_nombre}
+                            </h2>
+                        </div>
 
-                    <div className="flex justify-between items-center">
-                        <span className="text-neutral-500 dark:text-neutral-400 text-xl">
-                            Horas realizadas
-                        </span>
-                        <span className="text-xl">
-                            <TiempoFormateado
-                                segundos={tarea.a_horas_realizadas}
-                            />
-                        </span>
-                    </div>
+                        {/* Módulo de métricas sin negritas */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="bg-[#0b0b12] border border-[#27272f] p-5 rounded-2xl">
+                                <span className="text-xs font-normal text-slate-400 block mb-1">
+                                    Horas Asignadas
+                                </span>
+                                <span className="text-xl font-normal text-slate-200">
+                                    <TiempoFormateado
+                                        segundos={tarea.a_horas}
+                                    />
+                                </span>
+                            </div>
 
-                    {/* <div className="flex justify-between items-center">
-                        <span className="text-neutral-500 dark:text-neutral-400 text-xl">
-                            Horas restantes
-                        </span>
-                        <span className="text-xl">
-                            {(
-                                (tarea.a_horas - tarea.a_horas_realizadas) /
-                                3600
-                            ).toFixed(2)}{" "}
-                            h
-                        </span>
-                    </div> */}
+                            <div className="bg-[#0b0b12] border border-[#27272f] p-5 rounded-2xl">
+                                <span className="text-xs font-normal text-slate-400 block mb-1">
+                                    Progreso Consumido
+                                </span>
+                                <span className="text-xl font-normal text-[#b91c1c]">
+                                    <TiempoFormateado
+                                        segundos={tarea.a_horas_realizadas}
+                                    />
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Botonera integrada */}
+                        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[#27272f]">
+                            <button
+                                onClick={() => setIsPlaying(true)}
+                                className="
+                                    flex-1 px-6 py-3 rounded-xl text-sm
+                                    bg-[#b91c1c] hover:bg-[#a11818] text-white
+                                    font-normal shadow-lg shadow-[#b91c1c]/20
+                                    transition-all active:scale-[0.98]
+                                "
+                            >
+                                Iniciar Sesión
+                            </button>
+
+                            <button
+                                onClick={() => setIsPlaying(false)}
+                                className="
+                                    flex-1 px-6 py-3 rounded-xl text-sm
+                                    bg-[#27272f] hover:bg-[#32323c] text-slate-100
+                                    font-normal transition-all active:scale-[0.98]
+                                "
+                            >
+                                Pausar
+                            </button>
+
+                            <button
+                                onClick={() => {
+                                    setIsPlaying(false);
+                                    patch(route("tareas.update", tarea.id), {
+                                        onBefore: () => {
+                                            data.a_horas_realizadas =
+                                                tiempoUsado +
+                                                data.a_horas_realizadas;
+                                        },
+                                    });
+                                }}
+                                className="
+                                    flex-1 px-6 py-3 rounded-xl text-sm
+                                    border border-[#27272f] hover:bg-[#27272f]/30
+                                    text-slate-400 hover:text-slate-200 font-normal
+                                    transition-all active:scale-[0.98]
+                                "
+                            >
+                                Finalizar Sesion
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>
