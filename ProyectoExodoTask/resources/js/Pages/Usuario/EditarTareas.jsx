@@ -1,8 +1,8 @@
 import React from "react";
 import { useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import InputError from "@/Components/InputError";
-import DangerButton from "@/Components/DangerButton";
+import InputError from "@/components/InputError";
+import DangerButton from "@/components/DangerButton";
 import { Head } from "@inertiajs/react";
 import VolverAtras from "@/components/VolverAtras";
 
