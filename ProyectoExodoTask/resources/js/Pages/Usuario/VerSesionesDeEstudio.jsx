@@ -85,7 +85,25 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                         >
                                             <Eye className="w-4 h-4" />
                                         </button>
-
+                                        <button
+                                            className="inline-flex items-center justify-center p-1.5 rounded bg-[#1e293b]  hover:bg-slate-700 text-white transition-colors"
+                                            onClick={() => {
+                                                if (
+                                                    confirm(
+                                                        "¿Estás seguro de eliminar esta sesión?",
+                                                    )
+                                                ) {
+                                                    destroy(
+                                                        route(
+                                                            "sesionesdetareas.destroy",
+                                                            sesion.id,
+                                                        ),
+                                                    );
+                                                }
+                                            }}
+                                        >
+                                            <Timer className="w-4 h-4" />
+                                        </button>
                                         <button
                                             className="inline-flex items-center justify-center p-1.5 rounded bg-[#b91c1c] hover:bg-red-700 text-white transition-colors"
                                             onClick={() => {
