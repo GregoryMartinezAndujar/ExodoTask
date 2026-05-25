@@ -1,97 +1,161 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
+import { Eye, Trash2, Clock3, Timer } from "lucide-react";
+
 export default function VerSesionesDeEstudio({ sesiones }) {
-    const {
-        data,
-        setData,
-        delete: destroy,
-        errors,
-        reset,
-        processing,
-    } = useForm({});
+    const { delete: destroy } = useForm({});
+
     return (
-        <AuthenticatedLayout>
-            <div className="p-6 bg-white shadow-sm rounded-xl">
-                <h2 className="text-3xl mb-6 text-gray-800 tracking-tight">
-                    Sesiones de Estudio
-                </h2>
+        <AuthenticatedLayout
+            title="Sesiones de estudio"
+            header={
+                <div className="flex items-center space-x-3">
+                    <h2 className="text-4xl sm:text-5xl lg:text-6xl pl-4 text-gray-800">
+                        Sesiones de estudio
+                    </h2>
+                </div>
+            }
+        >
+            <div className="w-full max-w-7xl mx-auto p-4">
+                {sesiones.length === 0 ? (
+                    <div className="p-6 bg-white shadow-sm rounded-xl border border-gray-200 text-center">
+                        <p className="text-gray-500 text-base">
+                            No hay sesiones registradas.
+                        </p>
+                    </div>
+                ) : (
+                    <div className="space-y-3">
+                        {sesiones.map((sesion) => (
+                            <div
+                                key={sesion.id}
+                                className={`
+                                    w-full rounded-xl px-4 py-3
+                                    flex flex-col gap-3
+                                    transition-all duration-200 ease-out
+                                    shadow-sm hover:shadow
+                                    bg-white border
+                                    ${
+                                        !sesion.a_finalizada
+                                            ? "border-[#b91c1c]"
+                                            : "border-gray-200"
+                                    }
+                                `}
+                            >
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                                    <div className="flex flex-wrap items-center gap-2 min-w-0">
+                                        <span
+                                            className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                                                sesion.a_finalizada
+                                                    ? "bg-green-100 text-green-700"
+                                                    : "bg-red-100 text-red-700"
+                                            }`}
+                                        >
+                                            <span className="text-xs font-light">
+                                                {sesion.a_finalizada
+                                                    ? "✓"
+                                                    : "✕"}
+                                            </span>
+                                        </span>
 
-                {sesiones.length === 0 && (
-                    <p className="text-gray-500 text-lg">
-                        No hay sesiones registradas.
-                    </p>
-                )}
+                                        <p className="text-2xl text-gray-900 tracking-tight truncate font-normal">
+                                            {sesion.a_nombre}
+                                        </p>
 
-                <div className="space-y-3">
-                    {sesiones.map((sesion) => (
-                        <div
-                            key={sesion.id}
-                            className="
-                                relative overflow-hidden cursor-pointer
-                                rounded-xl p-4 border border-gray-200
-                                bg-white
-                                shadow-sm
-                                hover:shadow-lg
-                                transition-all duration-300
-                                hover:-translate-y-[2px]
-                                active:scale-[0.98]
-                                group
-                            "
-                        >
-                            {/* Línea superior con degradado rojo intenso */}
-                            <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-red-500 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                        <span
+                                            className={`px-2.5 py-0.5 rounded-full text-base border-none ${
+                                                sesion.a_finalizada
+                                                    ? "bg-green-100 text-green-700"
+                                                    : "bg-[#FCA5A5] text-red-700"
+                                            }`}
+                                        >
+                                            {sesion.a_finalizada
+                                                ? "Finalizada"
+                                                : "Sin terminar"}
+                                        </span>
+                                    </div>
 
-                            {/* Contenido + botones alineados */}
-                            <div className="flex justify-between items-center">
-                                <div className="space-y-1">
-                                    <h3 className="text-2xl text-gray-800">
-                                        {sesion.a_nombre}
-                                    </h3>
+                                    <div className="hidden sm:flex gap-1 w-fit">
+                                        <button
+                                            className="inline-flex items-center justify-center p-1.5 rounded bg-[#1e293b] hover:bg-slate-700 text-white transition-colors"
+                                            onClick={() =>
+                                                alert(
+                                                    "Funcionalidad de ver detalles no implementada",
+                                                )
+                                            }
+                                        >
+                                            <Eye className="w-4 h-4" />
+                                        </button>
 
-                                    <p className="text-lg text-gray-700">
-                                        Fecha:{" "}
+                                        <button
+                                            className="inline-flex items-center justify-center p-1.5 rounded bg-[#b91c1c] hover:bg-red-700 text-white transition-colors"
+                                            onClick={() => {
+                                                if (
+                                                    confirm(
+                                                        "¿Estás seguro de eliminar esta sesión?",
+                                                    )
+                                                ) {
+                                                    destroy(
+                                                        route(
+                                                            "sesionesdetareas.destroy",
+                                                            sesion.id,
+                                                        ),
+                                                    );
+                                                }
+                                            }}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-base border-t border-gray-200 pt-2 text-gray-700">
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-gray-400">
+                                            Fecha:
+                                        </span>
                                         <span className="text-gray-900">
                                             {new Date(
                                                 sesion.a_fecha,
-                                            ).toLocaleString()}
+                                            ).toLocaleString([], {
+                                                dateStyle: "short",
+                                                timeStyle: "short",
+                                            })}
                                         </span>
-                                    </p>
+                                    </div>
 
-                                    <p className="text-lg text-gray-700">
-                                        Tiempo a invertir:{" "}
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-gray-400">
+                                            Tiempo a invertir:
+                                        </span>
                                         <span className="text-gray-900">
                                             {sesion.a_tiempo_invertido} min
                                         </span>
-                                    </p>
+                                    </div>
 
-                                    <span
-                                        className={`px-3 py-1 text-sm rounded-full inline-block ${
-                                            sesion.a_finalizada
-                                                ? "bg-green-100 text-green-700"
-                                                : "bg-red-100 text-red-700"
-                                        }`}
-                                    >
-                                        {sesion.a_finalizada
-                                            ? "Finalizada"
-                                            : "Sin terminar"}
-                                    </span>
+                                    {sesion.created_at && (
+                                        <div className="sm:ml-auto text-gray-400 text-sm">
+                                            <span>
+                                                Sesión de estudio de tu
+                                                actividad
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
 
-                                {/* Botones a la derecha */}
-                                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 ml-4">
+                                <div className="flex sm:hidden flex-wrap gap-2 border-t border-gray-100 pt-2 mt-1 justify-end">
                                     <button
-                                        className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition text-base"
+                                        className="inline-flex items-center justify-center p-2 rounded bg-[#1e293b] text-white"
                                         onClick={() =>
                                             alert(
                                                 "Funcionalidad de ver detalles no implementada",
                                             )
                                         }
                                     >
-                                        Ver detalles
+                                        <Eye className="w-4 h-4" />
                                     </button>
 
                                     <button
-                                        className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition text-base"
+                                        className="inline-flex items-center justify-center p-2 rounded bg-[#b91c1c] text-white"
                                         onClick={() => {
                                             if (
                                                 confirm(
@@ -107,13 +171,32 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                             }
                                         }}
                                     >
-                                        Eliminar
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                        className="inline-flex items-center justify-center p-2 rounded bg-[#b91c1c] text-white"
+                                        onClick={() => {
+                                            if (
+                                                confirm(
+                                                    "¿Estás seguro de eliminar esta sesión?",
+                                                )
+                                            ) {
+                                                destroy(
+                                                    route(
+                                                        "sesionesdetareas.destroy",
+                                                        sesion.id,
+                                                    ),
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        <Clock3 className="w-4 h-4" />
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </AuthenticatedLayout>
     );
