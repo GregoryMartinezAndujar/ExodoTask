@@ -230,77 +230,97 @@ export default function AuthenticatedLayout({ header, children }) {
                 </div>
 
                 {/* Navegación */}
-                <nav className="flex flex-col space-y-2">
-                    <NavLink
-                        href={route("dashboard")}
-                        active={route().current("dashboard")}
-                        className="text-slate-300 hover:text-white hover:bg-[#1f1f25] rounded-lg px-3 py-2 transition"
-                    >
-                        <span className="flex items-center gap-2">
-                            <CheckSquare className="w-4 h-4" />
-                            Ver Tareas
-                        </span>
-                    </NavLink>
+                <nav className="flex-1 px-3 space-y-2 ">
+                    {/* Principal */}
+                    <div>
+                        <NavLink
+                            href={route("dashboard")}
+                            active={route().current("dashboard")}
+                        >
+                            <span className="flex w-full items-center gap-3 px-2 py-1 ">
+                                <CheckSquare className="w-5 h-5" />
+                                Ver Tareas
+                            </span>
+                        </NavLink>
 
-                    <NavLink
-                        href={route("gruposdetareas.index")}
-                        active={route().current("gruposdetareas.index")}
-                        className="text-slate-300 hover:text-white hover:bg-[#1f1f25] rounded-lg px-3 py-2 transition"
-                    >
-                        <span className="flex items-center gap-2">
-                            <FolderKanban className="w-4 h-4" />
-                            Ver Grupos
-                        </span>
-                    </NavLink>
+                        <NavLink
+                            href={route("gruposdetareas.index")}
+                            active={route().current("gruposdetareas.index")}
+                        >
+                            <span className="flex items-center gap-3 px-2 py-1">
+                                <FolderKanban className="w-5 h-5" />
+                                Ver Grupos
+                            </span>
+                        </NavLink>
+                        <NavLink
+                            href={route("sesionesdetareas.index")}
+                            active={route().current("sesionesdetareas.index")}
+                        >
+                            <span className="flex items-center gap-3 px-2 py-1">
+                                <FolderPlus className="w-5 h-5" />
+                                Ver Sesiones de Estudio
+                            </span>
+                        </NavLink>
+                    </div>
 
-                    <hr className="border-[#27272f] my-2" />
+                    {/* Crear */}
+                    <div>
+                        <p className="px-4 mb-2 text-2xl  uppercase tracking-wider text-slate-200">
+                            Crear
+                        </p>
 
-                    <NavLink
-                        href={route("tareas.create")}
-                        active={route().current("tareas.create")}
-                        className="text-slate-300 hover:text-white hover:bg-[#1f1f25] rounded-lg px-3 py-2 transition"
-                    >
-                        <span className="flex items-center gap-2">
-                            <PlusCircle className="w-4 h-4" />
-                            Crear Tareas
-                        </span>
-                    </NavLink>
+                        <NavLink
+                            href={route("tareas.create")}
+                            active={route().current("tareas.create")}
+                        >
+                            <span className="flex items-center gap-3 px-2 py-1">
+                                <PlusCircle className="w-5 h-5" />
+                                Nueva Tarea
+                            </span>
+                        </NavLink>
+                        <NavLink
+                            href={route("gruposdetareas.create")}
+                            active={route().current("gruposdetareas.create")}
+                        >
+                            <span className="flex items-center gap-3 px-2 py-1">
+                                <FolderPlus className="w-5 h-5" />
+                                Nuevo Grupo
+                            </span>
+                        </NavLink>
+                        <NavLink
+                            href={route("sesionesdetareas.create")}
+                            active={route().current("sesionesdetareas.create")}
+                        >
+                            <span className="flex items-center gap-3 px-2 py-1">
+                                <FolderPlus className="w-5 h-5" />
+                                Crear Sesion de Estudio
+                            </span>
+                        </NavLink>
+                    </div>
 
-                    <NavLink
-                        href={route("gruposdetareas.create")}
-                        active={route().current("gruposdetareas.create")}
-                        className="text-slate-300 hover:text-white hover:bg-[#1f1f25] rounded-lg px-3 py-2 transition"
-                    >
-                        <span className="flex items-center gap-2">
-                            <FolderPlus className="w-4 h-4" />
-                            Crear Grupos
-                        </span>
-                    </NavLink>
+                    {/* Cuenta */}
+                    <div>
+                        <p className="px-4 mb-2 text-2xl  uppercase tracking-wider text-slate-200">
+                            Cuenta
+                        </p>
 
-                    <hr className="border-[#27272f] my-2" />
+                        <NavLink
+                            href={route("profile.edit")}
+                            active={route().current("profile.edit")}
+                        >
+                            <span className="flex items-center gap-3 px-2 py-1">
+                                <User className="w-5 h-5" />
+                                Mi Perfil
+                            </span>
+                        </NavLink>
 
-                    <NavLink
-                        href={route("profile.edit")}
-                        active={route().current("profile.edit")}
-                        className="text-slate-300 hover:text-white hover:bg-[#1f1f25] rounded-lg px-3 py-2 transition"
-                    >
-                        <span className="flex items-center gap-2">
-                            <User className="w-4 h-4" />
-                            Perfil
-                        </span>
-                    </NavLink>
-
-                    <NavLink
-                        href={route("logout")}
-                        method="post"
-                        active={route().current("logout")}
-                        className="text-slate-300 hover:text-white hover:bg-[#1f1f25] rounded-lg px-3 py-2 transition"
-                    >
-                        <span className="flex items-center gap-2">
-                            <LogOut className="w-4 h-4" />
-                            Cerrar sesión
-                        </span>
-                    </NavLink>
+                        <NavLink href={route("logout")} method="post">
+                            <span className="flex items-center gap-3 px-2 py-1">
+                                <LogOut className="w-5 h-5" />
+                                Cerrar Sesión
+                            </span>
+                        </NavLink>
+                    </div>
                 </nav>
             </aside>
 
