@@ -2,8 +2,14 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import VolverAtras from "@/components/VolverAtras";
 import { router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import { Play, Pause, CheckCircle2 } from "lucide-react";
-import { confirmarFinalizarSesion } from "@/components/Alerts";
+import { Play, Pause, CheckCircle2, Check, X } from "lucide-react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import {
+    confirmarFinalizarSesion,
+    completarTarea,
+    descompletarTarea,
+} from "@/components/Alerts";
 
 export default function EjecutarSesiones({ sesion }) {
     const tiempoTotal = sesion.a_tiempo_invertido;
@@ -16,6 +22,25 @@ export default function EjecutarSesiones({ sesion }) {
     const estaEnCurso = sesion.a_estado === "en_progreso";
     const estaFinalizada = sesion.a_estado === "finalizada";
     const tiempoConsumido = Math.max(0, tiempoTotal - tiempoRestante);
+
+    function displayEstado(estado) {
+        if (!estado) return "";
+        // Map known internal states to user-friendly labels
+        switch (estado) {
+            case "finalizada":
+                return "Finalizada";
+            case "en_progreso":
+                return "En curso";
+            case "pausada":
+                return "Pausada";
+            case "pendiente":
+                return "Sin iniciar";
+            default:
+                // Fallback: replace underscores with spaces and capitalize first letter
+                const s = estado.replace(/_/g, " ");
+                return s.charAt(0).toUpperCase() + s.slice(1);
+        }
+    }
 
     function formatearTiempo(segundos) {
         const horas = Math.floor(segundos / 3600);
@@ -38,6 +63,66 @@ export default function EjecutarSesiones({ sesion }) {
         sesion.a_tiempo_invertido,
     ]);
 
+    const [tareasLocal, setTareasLocal] = useState(sesion.tareas ?? []);
+
+    useEffect(() => {
+        setTareasLocal(sesion.tareas ?? []);
+    }, [sesion.tareas, sesion.id]);
+
+    const toggleCompletarTarea = async (e, tarea) => {
+        e.stopPropagation();
+
+        if (!tarea) return;
+
+        // Si no está completada -> confirmar completar
+        if (!tarea.a_completada) {
+            const ok = await completarTarea();
+            if (!ok) return;
+        } else {
+            const ok = await descompletarTarea();
+            if (!ok) return;
+        }
+
+        // Optimistic update
+        setTareasLocal((prev) =>
+            prev.map((t) =>
+                t.id === tarea.id ? { ...t, a_completada: !t.a_completada } : t,
+            ),
+        );
+
+        const csrf = document
+            .querySelector('meta[name="csrf-token"]')
+            ?.getAttribute("content");
+
+        try {
+            await axios.post(
+                route("tareas.update", tarea.id),
+                { _method: "PATCH", a_completada: !tarea.a_completada },
+                {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        ...(csrf ? { "X-CSRF-TOKEN": csrf } : {}),
+                    },
+                },
+            );
+        } catch (err) {
+            // Revert on error
+            setTareasLocal((prev) =>
+                prev.map((t) =>
+                    t.id === tarea.id
+                        ? { ...t, a_completada: tarea.a_completada }
+                        : t,
+                ),
+            );
+
+            const message =
+                err?.response?.data?.message ||
+                err.message ||
+                "Error al actualizar la tarea";
+            Swal.fire({ title: "Error", text: message, icon: "error" });
+        }
+    };
+
     useEffect(() => {
         if (!estaEnCurso || estaFinalizada) {
             return undefined;
@@ -51,27 +136,148 @@ export default function EjecutarSesiones({ sesion }) {
     }, [estaEnCurso, estaFinalizada]);
 
     const pausar = () => {
-        router.patch(route("sesionesdetareas.accion", sesion.id), {
-            accion: "pausar",
-            a_tiempo_restante: tiempoRestante,
-        });
+        // Prefer AJAX so backend can return JSON and avoid full redirects
+        const csrf = document
+            .querySelector('meta[name="csrf-token"]')
+            ?.getAttribute("content");
+
+        axios
+            .post(
+                route("sesionesdetareas.accion", sesion.id),
+                {
+                    _method: "PATCH",
+                    accion: "pausar",
+                    a_tiempo_restante: tiempoRestante,
+                },
+                {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        ...(csrf ? { "X-CSRF-TOKEN": csrf } : {}),
+                    },
+                },
+            )
+            .catch((err) => {
+                Swal.fire({
+                    title: "Error",
+                    text:
+                        err?.response?.data?.message ||
+                        err.message ||
+                        "Error al pausar la sesión",
+                    icon: "error",
+                });
+            });
     };
 
     const reanudar = () => {
-        router.patch(route("sesionesdetareas.accion", sesion.id), {
-            accion: "reanudar",
-            a_tiempo_restante: tiempoRestante,
-        });
+        const csrf = document
+            .querySelector('meta[name="csrf-token"]')
+            ?.getAttribute("content");
+
+        axios
+            .post(
+                route("sesionesdetareas.accion", sesion.id),
+                {
+                    _method: "PATCH",
+                    accion: "reanudar",
+                    a_tiempo_restante: tiempoRestante,
+                },
+                {
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        ...(csrf ? { "X-CSRF-TOKEN": csrf } : {}),
+                    },
+                },
+            )
+            .catch((err) => {
+                Swal.fire({
+                    title: "Error",
+                    text:
+                        err?.response?.data?.message ||
+                        err.message ||
+                        "Error al reanudar la sesión",
+                    icon: "error",
+                });
+            });
     };
 
     const confirmarFinalizar = async () => {
         if (await confirmarFinalizarSesion()) {
-            router.patch(route("sesionesdetareas.accion", sesion.id), {
-                accion: "finalizar",
-                a_tiempo_restante: tiempoRestante,
-            });
+            const csrf = document
+                .querySelector('meta[name="csrf-token"]')
+                ?.getAttribute("content");
+
+            axios
+                .post(
+                    route("sesionesdetareas.accion", sesion.id),
+                    {
+                        _method: "PATCH",
+                        accion: "finalizar",
+                        a_tiempo_restante: tiempoRestante,
+                    },
+                    {
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest",
+                            ...(csrf ? { "X-CSRF-TOKEN": csrf } : {}),
+                        },
+                    },
+                )
+                .catch((err) => {
+                    Swal.fire({
+                        title: "Error",
+                        text:
+                            err?.response?.data?.message ||
+                            err.message ||
+                            "Error al finalizar la sesión",
+                        icon: "error",
+                    });
+                });
         }
     };
+
+    // Pause session automatically when the component unmounts (e.g., user navigates away / back button)
+    useEffect(() => {
+        return () => {
+            // If session was running and not finalized, try to persist the paused remaining time
+            if (estaEnCurso && !estaFinalizada) {
+                const csrf = document
+                    .querySelector('meta[name="csrf-token"]')
+                    ?.getAttribute("content");
+
+                // Fire-and-forget; best effort to persist state before unload.
+                try {
+                    // Use navigator.sendBeacon when possible for background sending
+                    const url = route("sesionesdetareas.accion", sesion.id);
+                    const payload = new URLSearchParams();
+                    payload.append("_method", "PATCH");
+                    payload.append("accion", "pausar");
+                    payload.append("a_tiempo_restante", String(tiempoRestante));
+
+                    if (navigator && navigator.sendBeacon) {
+                        const blob = new Blob([payload.toString()], {
+                            type: "application/x-www-form-urlencoded",
+                        });
+                        navigator.sendBeacon(url, blob);
+                    } else {
+                        // Fallback to synchronous XHR (best-effort)
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", url, false); // sync
+                        if (csrf) xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
+                        xhr.setRequestHeader(
+                            "Content-Type",
+                            "application/x-www-form-urlencoded",
+                        );
+                        xhr.setRequestHeader(
+                            "X-Requested-With",
+                            "XMLHttpRequest",
+                        );
+                        xhr.send(payload.toString());
+                    }
+                } catch (e) {
+                    // swallow errors on unmount
+                }
+            }
+        };
+    }, [estaEnCurso, estaFinalizada, tiempoRestante, sesion.id]);
 
     return (
         <AuthenticatedLayout
@@ -172,7 +378,7 @@ export default function EjecutarSesiones({ sesion }) {
                                     Estado
                                 </span>
                                 <span className="text-xl font-normal text-slate-200 capitalize">
-                                    {sesion.a_estado}
+                                    {displayEstado(sesion.a_estado)}
                                 </span>
                             </div>
                         </div>
@@ -188,15 +394,34 @@ export default function EjecutarSesiones({ sesion }) {
                             </div>
 
                             <div className="space-y-2 max-h-40 overflow-auto pr-1">
-                                {sesion.tareas?.length ? (
-                                    sesion.tareas.map((tarea) => (
+                                {tareasLocal && tareasLocal.length ? (
+                                    tareasLocal.map((tarea) => (
                                         <div
                                             key={tarea.id}
                                             className="flex items-center justify-between gap-3 rounded-xl border border-[#27272f] bg-[#050509] px-4 py-3"
                                         >
-                                            <span className="truncate text-slate-100 font-normal">
-                                                {tarea.a_nombre}
-                                            </span>
+                                            <div className="flex items-center gap-3 min-w-0">
+                                                <button
+                                                    onClick={(e) =>
+                                                        toggleCompletarTarea(
+                                                            e,
+                                                            tarea,
+                                                        )
+                                                    }
+                                                    className={`flex items-center justify-center w-8 h-8 rounded ${tarea.a_completada ? "bg-green-600 text-white" : "bg-gray-700 text-white"}`}
+                                                >
+                                                    {tarea.a_completada ? (
+                                                        <Check className="w-4 h-4" />
+                                                    ) : (
+                                                        <X className="w-4 h-4" />
+                                                    )}
+                                                </button>
+
+                                                <span className="truncate text-slate-100 font-normal">
+                                                    {tarea.a_nombre}
+                                                </span>
+                                            </div>
+
                                             <span className="text-slate-400 whitespace-nowrap">
                                                 {formatearTiempo(tarea.a_horas)}
                                             </span>

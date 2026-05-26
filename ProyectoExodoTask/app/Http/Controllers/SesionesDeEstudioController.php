@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\GruposDeTareas;
 use App\Models\Tareas;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -109,7 +108,7 @@ class SesionesDeEstudioController extends Controller
         ]);
     }
 
-    public function transition(Request $request, SesionesDeEstudio $sesion): RedirectResponse
+    public function transition(Request $request, SesionesDeEstudio $sesion)
     {
         $this->authorizeSesion($sesion);
 
@@ -125,6 +124,11 @@ class SesionesDeEstudioController extends Controller
                 'a_finalizada' => false,
             ]);
 
+            if ($request->ajax() || $request->wantsJson()) {
+                $sesion->refresh();
+                return response()->json(['sesion' => $this->appendTimerState($sesion)]);
+            }
+
             return back();
         }
 
@@ -136,6 +140,11 @@ class SesionesDeEstudioController extends Controller
                 'a_finalizada' => true,
             ]);
 
+            if ($request->ajax() || $request->wantsJson()) {
+                $sesion->refresh();
+                return response()->json(['sesion' => $this->appendTimerState($sesion)]);
+            }
+
             return back();
         }
 
@@ -145,6 +154,11 @@ class SesionesDeEstudioController extends Controller
             'a_estado' => 'pausada',
             'a_finalizada' => false,
         ]);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            $sesion->refresh();
+            return response()->json(['sesion' => $this->appendTimerState($sesion)]);
+        }
 
         return back();
     }

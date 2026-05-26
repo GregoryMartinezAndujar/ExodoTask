@@ -68,6 +68,12 @@ class TareasController extends Controller
             'a_prioridad_id'
         ]));
 
+        // Devuelve JSON cuando la petición es AJAX para que el frontend pueda manejar la respuesta
+        $tarea->refresh();
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['tarea' => $tarea]);
+        }
+
         return redirect()->route('dashboard');
     }
 
