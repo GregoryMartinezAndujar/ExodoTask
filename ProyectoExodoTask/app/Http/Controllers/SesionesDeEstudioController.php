@@ -19,7 +19,7 @@ class SesionesDeEstudioController extends Controller
      */
     public function index()
     {
-        $sesiones = SesionesDeEstudio::with('tareas:id,a_nombre,a_horas,a_grupo_id')
+        $sesiones = SesionesDeEstudio::with('tareas:id,a_nombre,a_horas,a_completada,a_grupo_id')
             ->where('a_user_id', Auth::id())
             ->latest()
             ->get()
@@ -100,7 +100,7 @@ class SesionesDeEstudioController extends Controller
     {
         $this->authorizeSesion($sesion);
 
-        $sesion->load('tareas:id,a_nombre,a_horas,a_grupo_id');
+        $sesion->load('tareas:id,a_nombre,a_horas,a_completada,a_grupo_id');
 
         return Inertia::render('Usuario/EjecutarSesiones', [
             'sesion' => $this->appendTimerState($sesion),

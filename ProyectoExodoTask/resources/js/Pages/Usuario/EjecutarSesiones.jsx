@@ -2,7 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import VolverAtras from "@/components/VolverAtras";
 import { router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import { Play, Pause, CheckCircle2, Check, X } from "lucide-react";
+import { Play, Pause, CheckCircle2, Check, X, ChevronDown } from "lucide-react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {
@@ -64,6 +64,7 @@ export default function EjecutarSesiones({ sesion }) {
     ]);
 
     const [tareasLocal, setTareasLocal] = useState(sesion.tareas ?? []);
+    const [tareasOpen, setTareasOpen] = useState(false);
 
     useEffect(() => {
         setTareasLocal(sesion.tareas ?? []);
@@ -284,10 +285,10 @@ export default function EjecutarSesiones({ sesion }) {
             header={
                 <div className="flex items-center justify-between w-full gap-3">
                     <div>
-                        <h2 className="text-4xl sm:text-5xl lg:text-6xl text-gray-800 pl-4 tracking-tight">
+                        <h2 className="text-lg sm:text-3xl lg:text-5xl text-gray-800 pl-4 tracking-tight">
                             {sesion.a_nombre}
                         </h2>
-                        <p className="pl-4 text-sm text-gray-500 mt-1 font-normal">
+                        <p className="hidden sm:block pl-4 text-sm text-gray-500 mt-1 font-normal">
                             {sesion.a_estado === "finalizada"
                                 ? "Sesión finalizada"
                                 : sesion.a_estado === "en_progreso"
@@ -298,8 +299,8 @@ export default function EjecutarSesiones({ sesion }) {
                 </div>
             }
         >
-            <div className="max-w-6xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8 min-h-screen">
-                <div className="mb-8">
+            <div className="max-w-6xl mx-auto w-full px-2 py-1 sm:px-6 lg:px-8 h-full flex flex-col">
+                <div className="mb-1 md:mb-2">
                     <div className="text-slate-400 hover:text-slate-100 transition-colors text-sm font-normal inline-block">
                         <VolverAtras />
                     </div>
@@ -307,36 +308,35 @@ export default function EjecutarSesiones({ sesion }) {
 
                 <div
                     className="
-                        w-full
+                        w-full flex-1 min-h-0
                         bg-[#050509] text-slate-100
-                        rounded-3xl
+                        rounded-2xl md:rounded-3xl
                         border border-[#27272f]
                         shadow-[0_30px_80px_rgba(0,0,0,0.8)]
-                        p-4 sm:p-8 lg:p-12
-                        grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16
-                        items-center
+                        p-2 md:p-6 lg:p-8
+                        flex flex-col md:grid md:grid-cols-12 gap-2 md:gap-8 lg:gap-12
                         transition-all duration-300
                     "
                 >
-                    <div className="md:col-span-5 flex flex-col items-center justify-center w-full">
-                        <div className="w-full max-w-[300px] aspect-square bg-[#0b0b12] rounded-full flex items-center justify-center border border-[#27272f] shadow-inner p-4 sm:p-6">
+                    <div className="md:col-span-5 flex flex-col items-center justify-center w-full self-center">
+                        <div className="w-full max-w-[160px] md:max-w-[220px] lg:max-w-[300px] aspect-square bg-[#0b0b12] rounded-full flex items-center justify-center border border-[#27272f] shadow-inner p-2 md:p-4">
                             <div className="flex flex-col items-center justify-center text-center">
-                                <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400 font-normal block mb-3">
+                                <span className="hidden md:block text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-slate-400 font-normal mb-1 md:mb-2">
                                     Sesión de estudio
                                 </span>
-                                <span className="text-4xl sm:text-5xl font-light text-slate-100 tracking-tighter tabular-nums leading-none">
+                                <span className="text-xl md:text-3xl lg:text-4xl font-light text-slate-100 tracking-tighter tabular-nums leading-none">
                                     {formatearTiempo(tiempoRestante)}
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="md:col-span-7 w-full flex flex-col justify-between space-y-8 lg:space-y-12">
-                        <div>
-                            <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400 font-normal block mb-2">
+                    <div className="md:col-span-7 w-full flex flex-col min-h-0 space-y-1.5 md:space-y-4">
+                        <div className="hidden md:block">
+                            <span className="text-[10px] uppercase tracking-[0.3em] text-slate-400 font-normal block mb-1">
                                 Módulo de Control Activo
                             </span>
-                            <h3 className="text-3xl sm:text-4xl font-normal text-white tracking-tight">
+                            <h3 className="text-lg sm:text-xl font-normal text-white tracking-tight">
                                 {sesion.a_estado === "finalizada"
                                     ? "Sesión finalizada"
                                     : sesion.a_estado === "en_progreso"
@@ -345,62 +345,85 @@ export default function EjecutarSesiones({ sesion }) {
                             </h3>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="bg-[#0b0b12] border border-[#27272f] p-5 rounded-2xl">
-                                <span className="text-xs font-normal text-slate-400 block mb-1">
+                        <div className="grid grid-cols-2 gap-1 md:gap-2">
+                            <div className="bg-[#0b0b12] border border-[#27272f] p-2 md:p-3 rounded-xl md:rounded-2xl">
+                                <span className="text-[10px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
                                     Tiempo total
                                 </span>
-                                <span className="text-xl font-normal text-slate-200">
+                                <span className="text-xs md:text-lg font-normal text-slate-200">
                                     {formatearTiempo(tiempoTotal)}
                                 </span>
                             </div>
 
-                            <div className="bg-[#0b0b12] border border-[#27272f] p-5 rounded-2xl">
-                                <span className="text-xs font-normal text-slate-400 block mb-1">
-                                    Restante guardado
+                            <div className="bg-[#0b0b12] border border-[#27272f] p-2 md:p-3 rounded-xl md:rounded-2xl">
+                                <span className="text-[10px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
+                                    Restante
                                 </span>
-                                <span className="text-xl font-normal text-[#b91c1c]">
+                                <span className="text-xs md:text-lg font-normal text-[#b91c1c]">
                                     {formatearTiempo(tiempoRestante)}
                                 </span>
                             </div>
 
-                            <div className="bg-[#0b0b12] border border-[#27272f] p-5 rounded-2xl">
-                                <span className="text-xs font-normal text-slate-400 block mb-1">
-                                    Tiempo consumido
+                            <div className="bg-[#0b0b12] border border-[#27272f] p-2 md:p-3 rounded-xl md:rounded-2xl">
+                                <span className="text-[10px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
+                                    Consumido
                                 </span>
-                                <span className="text-xl font-normal text-slate-200">
+                                <span className="text-xs md:text-lg font-normal text-slate-200">
                                     {formatearTiempo(tiempoConsumido)}
                                 </span>
                             </div>
 
-                            <div className="bg-[#0b0b12] border border-[#27272f] p-5 rounded-2xl">
-                                <span className="text-xs font-normal text-slate-400 block mb-1">
+                            <div className="bg-[#0b0b12] border border-[#27272f] p-2 md:p-3 rounded-xl md:rounded-2xl">
+                                <span className="text-[10px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
                                     Estado
                                 </span>
-                                <span className="text-xl font-normal text-slate-200 capitalize">
+                                <span className="text-xs md:text-lg font-normal text-slate-200 capitalize">
                                     {displayEstado(sesion.a_estado)}
                                 </span>
                             </div>
                         </div>
 
-                        <div className="bg-[#0b0b12] border border-[#27272f] p-5 rounded-2xl space-y-4">
-                            <div>
+                        {/* Tasks - dropdown on mobile, always visible on desktop */}
+                        <div className="bg-[#0b0b12] border border-[#27272f] p-2 md:p-4 rounded-xl md:rounded-2xl space-y-1 md:space-y-2 flex flex-col">
+                            {/* Mobile toggle */}
+                            <button
+                                type="button"
+                                onClick={() => setTareasOpen((prev) => !prev)}
+                                className="md:hidden flex items-center justify-between w-full"
+                            >
+                                <div className="text-left">
+                                    <span className="text-[10px] font-normal text-slate-400 block mb-0.5">
+                                        Tareas incluidas
+                                    </span>
+                                    <h4 className="text-xs font-normal text-white tracking-tight">
+                                        {sesion.tareas?.length ?? 0} tarea(s)
+                                    </h4>
+                                </div>
+                                <ChevronDown
+                                    className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${tareasOpen ? "rotate-180" : ""}`}
+                                />
+                            </button>
+
+                            {/* Desktop header */}
+                        <div className="hidden md:block">
                                 <span className="text-xs font-normal text-slate-400 block mb-1">
                                     Tareas incluidas
                                 </span>
-                                <h4 className="text-lg font-normal text-white tracking-tight">
+                                <h4 className="text-base font-normal text-white tracking-tight">
                                     {sesion.tareas?.length ?? 0} tarea(s)
                                 </h4>
                             </div>
 
-                            <div className="space-y-2 max-h-40 overflow-auto pr-1">
+                            <div
+                                className={`${tareasOpen ? "block" : "hidden"} md:block space-y-0.5 md:space-y-1 pr-1`}
+                            >
                                 {tareasLocal && tareasLocal.length ? (
                                     tareasLocal.map((tarea) => (
                                         <div
                                             key={tarea.id}
-                                            className="flex items-center justify-between gap-3 rounded-xl border border-[#27272f] bg-[#050509] px-4 py-3"
+                                            className="flex items-center justify-between gap-1 md:gap-2 rounded-lg md:rounded-xl border border-[#27272f] bg-[#050509] px-2 py-1.5 md:px-3 md:py-2"
                                         >
-                                            <div className="flex items-center gap-3 min-w-0">
+                                            <div className="flex items-center gap-1 md:gap-2 min-w-0">
                                                 <button
                                                     onClick={(e) =>
                                                         toggleCompletarTarea(
@@ -408,59 +431,59 @@ export default function EjecutarSesiones({ sesion }) {
                                                             tarea,
                                                         )
                                                     }
-                                                    className={`flex items-center justify-center w-8 h-8 rounded ${tarea.a_completada ? "bg-green-600 text-white" : "bg-gray-700 text-white"}`}
+                                                    className={`flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded ${tarea.a_completada ? "bg-green-600 text-white" : "bg-gray-700 text-white"}`}
                                                 >
                                                     {tarea.a_completada ? (
-                                                        <Check className="w-4 h-4" />
+                                                        <Check className="w-2.5 h-2.5 md:w-3 md:h-3" />
                                                     ) : (
-                                                        <X className="w-4 h-4" />
+                                                        <X className="w-2.5 h-2.5 md:w-3 md:h-3" />
                                                     )}
                                                 </button>
 
-                                                <span className="truncate text-slate-100 font-normal">
+                                                <span className="truncate text-xs md:text-sm text-slate-100 font-normal">
                                                     {tarea.a_nombre}
                                                 </span>
                                             </div>
 
-                                            <span className="text-slate-400 whitespace-nowrap">
+                                            <span className="text-[10px] md:text-xs text-slate-400 whitespace-nowrap">
                                                 {formatearTiempo(tarea.a_horas)}
                                             </span>
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="rounded-xl border border-[#27272f] bg-[#050509] px-4 py-3 text-slate-400">
+                                    <div className="rounded-lg md:rounded-xl border border-[#27272f] bg-[#050509] px-3 py-2 md:px-4 md:py-3 text-xs md:text-sm text-slate-400">
                                         No hay tareas asociadas.
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-[#27272f]">
+                        <div className={`${tareasOpen ? "hidden" : "flex"} md:flex flex-col md:flex-row gap-1 md:gap-2 pt-1 md:pt-2 border-t border-[#27272f]`}>
                             <button
                                 onClick={reanudar}
                                 disabled={estaEnCurso || estaFinalizada}
-                                className="flex-1 px-6 py-3 rounded-xl text-sm bg-[#b91c1c] hover:bg-[#a11818] text-white font-normal shadow-lg shadow-[#b91c1c]/20 transition-all active:scale-[0.98] disabled:opacity-50"
+                                className="flex-1 px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs bg-[#b91c1c] hover:bg-[#a11818] text-white font-normal shadow-lg shadow-[#b91c1c]/20 transition-all active:scale-[0.98] disabled:opacity-50"
                             >
-                                <Play className="w-4 h-4 inline-block mr-2" />
+                                <Play className="w-2.5 h-2.5 md:w-3 md:h-3 inline-block mr-0.5 md:mr-1" />
                                 Reanudar
                             </button>
 
                             <button
                                 onClick={pausar}
                                 disabled={!estaEnCurso || estaFinalizada}
-                                className="flex-1 px-6 py-3 rounded-xl text-sm bg-[#27272f] hover:bg-[#32323c] text-slate-100 font-normal transition-all active:scale-[0.98] disabled:opacity-50"
+                                className="flex-1 px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs bg-[#27272f] hover:bg-[#32323c] text-slate-100 font-normal transition-all active:scale-[0.98] disabled:opacity-50"
                             >
-                                <Pause className="w-4 h-4 inline-block mr-2" />
+                                <Pause className="w-2.5 h-2.5 md:w-3 md:h-3 inline-block mr-0.5 md:mr-1" />
                                 Pausar
                             </button>
 
                             <button
                                 onClick={confirmarFinalizar}
                                 disabled={estaFinalizada}
-                                className="flex-1 px-6 py-3 rounded-xl text-sm border border-[#27272f] hover:bg-[#27272f]/30 text-slate-400 hover:text-slate-200 font-normal transition-all active:scale-[0.98] disabled:opacity-50"
+                                className="flex-1 px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs border border-[#27272f] hover:bg-[#27272f]/30 text-slate-400 hover:text-slate-200 font-normal transition-all active:scale-[0.98] disabled:opacity-50"
                             >
-                                <CheckCircle2 className="w-4 h-4 inline-block mr-2" />
-                                Finalizar sesión
+                                <CheckCircle2 className="w-2.5 h-2.5 md:w-3 md:h-3 inline-block mr-0.5 md:mr-1" />
+                                Finalizar
                             </button>
                         </div>
                     </div>
