@@ -124,7 +124,7 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
 
                         <select
                             multiple
-                            className="w-full border-gray-300 rounded-lg h-20 shadow-sm px-2 py-1.5 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
+                            className="w-full border-gray-300 rounded-lg h-24 sm:h-20 shadow-sm px-2 py-1.5 text-sm sm:text-base focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                             value={data.a_tareas_ids}
                             onChange={(e) =>
                                 setData(
@@ -200,17 +200,17 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
 
                     <div className="border-t border-gray-200" />
 
-                    <div className="flex justify-end gap-2">
+                    <div className="flex flex-col sm:flex-row justify-end gap-2">
                         <button
                             type="button"
                             onClick={() => window.history.back()}
-                            className="px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="w-full sm:w-auto px-5 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors"
                         >
                             Cancelar
                         </button>
 
                         <DangerButton
-                            className="px-5 py-2 rounded-lg bg-[#c62828] hover:bg-[#b71c1c]"
+                            className="w-full sm:w-auto px-5 py-2 rounded-lg bg-[#c62828] hover:bg-[#b71c1c]"
                             disabled={processing}
                         >
                             Crear sesión

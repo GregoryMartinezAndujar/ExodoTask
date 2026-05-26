@@ -19,7 +19,7 @@ export default function AuthenticatedLayout({ header, children }) {
     const [open, setOpen] = useState(false);
 
     return (
-        <div className="min-h-screen bg-background flex font-exodo">
+        <div className="min-h-screen max-h-screen overflow-hidden bg-background flex font-exodo">
             {/* SIDEBAR — Desktop */}
             <aside className="hidden md:flex w-72 flex-col py-6 border-r border-[#27272f] bg-[#050509] text-slate-100">
                 {/* Logo */}
@@ -171,33 +171,9 @@ export default function AuthenticatedLayout({ header, children }) {
                 `}
                 onClick={() => setOpen(false)}
             />
-
-            {/* SIDEBAR — Mobile */}
-            {/* OVERLAY — Mobile */}
-            <div
-                className={`
-        fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden 
-        transition-opacity
-        ${open ? "opacity-100" : "opacity-0 pointer-events-none"}
-    `}
-                onClick={() => setOpen(false)}
-            />
-
-            {/* SIDEBAR — Mobile */}
-            {/* OVERLAY — Mobile */}
-            <div
-                className={`
-        fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden 
-        transition-opacity
-        ${open ? "opacity-100" : "opacity-0 pointer-events-none"}
-    `}
-                onClick={() => setOpen(false)}
-            />
-
-            {/* SIDEBAR — Mobile */}
             <aside
                 className={`
-        fixed top-0 left-0 h-full w-64 
+        fixed top-0 left-0 h-full w-64 overflow-y-auto
         bg-[#050509] p-6 z-50 
         transform transition-transform md:hidden 
         shadow-xl border-r border-[#27272f]
@@ -327,11 +303,11 @@ export default function AuthenticatedLayout({ header, children }) {
             {/* CONTENIDO PRINCIPAL */}
             <div className="flex-1 flex flex-col">
                 {/* HEADER — Mobile */}
-                <div className="md:hidden p-4 bg-[] border-b border-[#27272f] flex items-center justify-between">
-                    <button onClick={() => setOpen(true)} className="text-3xl ">
+                <div className="md:hidden p-4 bg-[#050509] border-b border-[#27272f] flex items-center justify-between">
+                    <button onClick={() => setOpen(true)} className="text-3xl text-slate-100">
                         ☰
                     </button>
-                    <h2 className="text-lg">ExodoTask</h2>
+                    <h2 className="text-lg text-slate-100">ExodoTask</h2>
                 </div>
                 {/* Header Desktop */}
                 {header && (
@@ -342,7 +318,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     </header>
                 )}
 
-                <main className="p-6">{children}</main>
+                <main className="flex-1 overflow-y-auto p-6">{children}</main>
             </div>
         </div>
     );

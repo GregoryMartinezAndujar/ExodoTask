@@ -312,14 +312,14 @@ export default function EjecutarSesiones({ sesion }) {
                         rounded-3xl
                         border border-[#27272f]
                         shadow-[0_30px_80px_rgba(0,0,0,0.8)]
-                        p-8 sm:p-12 lg:p-16
-                        grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16
+                        p-4 sm:p-8 lg:p-12
+                        grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16
                         items-center
                         transition-all duration-300
                     "
                 >
                     <div className="md:col-span-5 flex flex-col items-center justify-center w-full">
-                        <div className="w-full max-w-[300px] aspect-square bg-[#0b0b12] rounded-full flex items-center justify-center border border-[#27272f] shadow-inner p-6">
+                        <div className="w-full max-w-[300px] aspect-square bg-[#0b0b12] rounded-full flex items-center justify-center border border-[#27272f] shadow-inner p-4 sm:p-6">
                             <div className="flex flex-col items-center justify-center text-center">
                                 <span className="text-[11px] uppercase tracking-[0.3em] text-slate-400 font-normal block mb-3">
                                     Sesión de estudio

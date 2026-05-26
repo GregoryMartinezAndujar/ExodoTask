@@ -2,7 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TiempoFormateado from "@/components/Formateartiempo";
 import { router, useForm } from "@inertiajs/react";
 import { useState } from "react";
-import { Eye, Trash2, PlayCircle, Timer } from "lucide-react";
+import { Trash2, Timer } from "lucide-react";
 import { confirmarEliminarSesion } from "@/components/Alerts";
 
 export default function VerSesionesDeEstudio({ sesiones }) {
@@ -38,7 +38,7 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                 key={sesion.id}
                                 onClick={() => toggleExpand(sesion.id)}
                                 className={`
-                                    w-full rounded-xl px-4 py-3
+                                    w-full rounded-xl px-3 py-2 sm:px-4 sm:py-3
                                     flex flex-col gap-3
                                     transition-all duration-200 ease-out
                                     shadow-sm hover:shadow
@@ -71,7 +71,7 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                         </p>
 
                                         <span
-                                            className={`px-2.5 py-0.5 rounded-full text-base border-none ${
+                                            className={`px-2 py-0.5 sm:px-2.5 rounded-full text-sm sm:text-base border-none ${
                                                 sesion.a_estado === "finalizada"
                                                     ? "bg-green-100 text-green-700"
                                                     : sesion.a_estado ===
@@ -181,9 +181,9 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                     )}
                                 </div>
 
-                                <div className="flex sm:hidden flex-wrap gap-2 border-t border-gray-100 pt-2 mt-1 justify-end">
+                                <div className="flex sm:hidden items-center gap-2 border-t border-gray-100 pt-2 mt-1 justify-end">
                                     <button
-                                        className="inline-flex items-center justify-center p-2 rounded bg-[#1e293b] text-white"
+                                        className="inline-flex items-center justify-center p-2 rounded bg-[#1e293b] hover:bg-slate-700 text-white transition-colors"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             router.get(
@@ -194,26 +194,10 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                             );
                                         }}
                                     >
-                                        <Eye className="w-4 h-4" />
+                                        <Timer className="w-4 h-4" />
                                     </button>
-
                                     <button
-                                        className="inline-flex items-center justify-center p-2 rounded bg-[#1e293b] text-white"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            router.get(
-                                                route(
-                                                    "sesionesdetareas.ejecutar",
-                                                    sesion.id,
-                                                ),
-                                            );
-                                        }}
-                                    >
-                                        <PlayCircle className="w-4 h-4" />
-                                    </button>
-
-                                    <button
-                                        className="inline-flex items-center justify-center p-2 rounded bg-[#b91c1c] text-white"
+                                        className="inline-flex items-center justify-center p-2 rounded bg-[#b91c1c] hover:bg-red-700 text-white transition-colors"
                                         onClick={async (e) => {
                                             e.stopPropagation();
                                             if (
