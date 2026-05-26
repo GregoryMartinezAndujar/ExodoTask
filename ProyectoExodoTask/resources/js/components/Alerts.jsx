@@ -75,6 +75,32 @@ const eliminarTareaDelGrupo = async () => {
     });
     return result.isConfirmed;
 };
+
+const confirmarFinalizarSesion = async () => {
+    const result = await Swal.fire({
+        title: "¿Finalizar sesión?",
+        text: "¿Estás seguro de finalizar esta sesión? Se marcará como finalizada.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Finalizar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#A90000",
+    });
+    return result.isConfirmed;
+};
+
+const confirmarEliminarSesion = async () => {
+    const result = await Swal.fire({
+        title: "¿Eliminar sesión?",
+        text: "Esta acción eliminará la sesión y sus datos asociados.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#A90000",
+    });
+    return result.isConfirmed;
+};
 export default eliminarTareaGrupo;
 
 export {
@@ -83,4 +109,6 @@ export {
     descompletarTarea,
     eliminarGrupo,
     eliminarTareaDelGrupo,
+    confirmarFinalizarSesion,
+    confirmarEliminarSesion,
 };

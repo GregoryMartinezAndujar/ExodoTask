@@ -3,6 +3,7 @@ import VolverAtras from "@/components/VolverAtras";
 import { router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { Play, Pause, CheckCircle2 } from "lucide-react";
+import { confirmarFinalizarSesion } from "@/components/Alerts";
 
 export default function EjecutarSesiones({ sesion }) {
     const tiempoTotal = sesion.a_tiempo_invertido;
@@ -63,11 +64,13 @@ export default function EjecutarSesiones({ sesion }) {
         });
     };
 
-    const finalizar = () => {
-        router.patch(route("sesionesdetareas.accion", sesion.id), {
-            accion: "finalizar",
-            a_tiempo_restante: tiempoRestante,
-        });
+    const confirmarFinalizar = async () => {
+        if (await confirmarFinalizarSesion()) {
+            router.patch(route("sesionesdetareas.accion", sesion.id), {
+                accion: "finalizar",
+                a_tiempo_restante: tiempoRestante,
+            });
+        }
     };
 
     return (
@@ -227,7 +230,7 @@ export default function EjecutarSesiones({ sesion }) {
                             </button>
 
                             <button
-                                onClick={finalizar}
+                                onClick={confirmarFinalizar}
                                 disabled={estaFinalizada}
                                 className="flex-1 px-6 py-3 rounded-xl text-sm border border-[#27272f] hover:bg-[#27272f]/30 text-slate-400 hover:text-slate-200 font-normal transition-all active:scale-[0.98] disabled:opacity-50"
                             >

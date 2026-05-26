@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TiempoFormateado from "@/components/Formateartiempo";
 import { router, useForm } from "@inertiajs/react";
 import { Eye, Trash2, PlayCircle, Timer } from "lucide-react";
+import { confirmarEliminarSesion } from "@/components/Alerts";
 
 export default function VerSesionesDeEstudio({ sesiones }) {
     const { delete: destroy } = useForm({});
@@ -100,11 +101,9 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                         </button>
                                         <button
                                             className="inline-flex items-center justify-center p-1.5 rounded bg-[#b91c1c] hover:bg-red-700 text-white transition-colors"
-                                            onClick={() => {
+                                            onClick={async () => {
                                                 if (
-                                                    confirm(
-                                                        "¿Estás seguro de eliminar esta sesión?",
-                                                    )
+                                                    await confirmarEliminarSesion()
                                                 ) {
                                                     destroy(
                                                         route(
@@ -204,11 +203,9 @@ export default function VerSesionesDeEstudio({ sesiones }) {
 
                                     <button
                                         className="inline-flex items-center justify-center p-2 rounded bg-[#b91c1c] text-white"
-                                        onClick={() => {
+                                        onClick={async () => {
                                             if (
-                                                confirm(
-                                                    "¿Estás seguro de eliminar esta sesión?",
-                                                )
+                                                await confirmarEliminarSesion()
                                             ) {
                                                 destroy(
                                                     route(
