@@ -13,9 +13,18 @@ class SesionesDeEstudio extends Model
         'a_nombre',
         'a_fecha',
         'a_tiempo_invertido',
+        'a_tiempo_restante',
+        'a_inicio_actual_at',
+        'a_estado',
         'a_finalizada',
         'a_user_id',
     ];
+
+    protected $casts = [
+        'a_finalizada' => 'boolean',
+        'a_inicio_actual_at' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'a_user_id');

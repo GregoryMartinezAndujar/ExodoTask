@@ -1,23 +1,35 @@
-import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
 import DangerButton from "@/components/DangerButton";
 import VolverAtras from "@/components/VolverAtras";
 import InputError from "@/components/InputError";
 import { CalendarPlus } from "lucide-react";
+import TiempoFormateado from "@/components/Formateartiempo";
 
 export default function CrearSesionEstudio({ auth, tareas, grupos }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         a_tareas_ids: [],
+        a_grupos_ids: [],
         a_nombre: "",
         a_fecha: "",
-        a_grupo_id: "",
         a_tiempo_invertido: "",
     });
 
-    const tareasFiltradas = data.a_grupo_id
-        ? tareas.filter((t) => t.a_grupo_id == data.a_grupo_id)
-        : tareas.filter((t) => t.a_grupo_id === null);
+    const tareasIdsDeGrupos = tareas
+        .filter((tarea) =>
+            data.a_grupos_ids.some(
+                (grupoId) => String(tarea.a_grupo_id) === String(grupoId),
+            ),
+        )
+        .map((tarea) => tarea.id);
+
+    const tareasSeleccionadas = [
+        ...new Set([...data.a_tareas_ids, ...tareasIdsDeGrupos]),
+    ];
+
+    const tiempoTotal = tareas
+        .filter((tarea) => tareasSeleccionadas.includes(tarea.id))
+        .reduce((total, tarea) => total + Number(tarea.a_horas ?? 0), 0);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -61,22 +73,32 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div className="space-y-1">
                             <label className="text-xs text-gray-700 uppercase tracking-wide">
-                                Grupo
+                                Grupos
                             </label>
                             <select
+                                multiple
                                 className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
-                                value={data.a_grupo_id}
+                                value={data.a_grupos_ids}
                                 onChange={(e) =>
-                                    setData("a_grupo_id", e.target.value)
+                                    setData(
+                                        "a_grupos_ids",
+                                        Array.from(
+                                            e.target.selectedOptions,
+                                            (option) => option.value,
+                                        ),
+                                    )
                                 }
                             >
-                                <option value="">Sin grupo</option>
                                 {grupos.map((g) => (
                                     <option key={g.id} value={g.id}>
                                         {g.a_nombre}
                                     </option>
                                 ))}
                             </select>
+                            <p className="text-[11px] text-gray-500">
+                                Las tareas de los grupos seleccionados se suman
+                                automáticamente.
+                            </p>
                         </div>
 
                         <div className="space-y-1">
@@ -97,7 +119,7 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
 
                     <div className="space-y-1">
                         <label className="text-xs text-gray-700 uppercase tracking-wide">
-                            Tareas
+                            Tareas sueltas
                         </label>
 
                         <select
@@ -114,23 +136,35 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                                 )
                             }
                         >
-                            {tareasFiltradas.length === 0 && (
-                                <option disabled>
-                                    No hay tareas disponibles
-                                </option>
-                            )}
-
-                            {tareasFiltradas.map((t) => (
+                            {tareas.map((t) => (
                                 <option key={t.id} value={t.id}>
                                     {t.a_nombre}
                                 </option>
                             ))}
+                            {tareas.length === 0 && (
+                                <option disabled>
+                                    No hay tareas disponibles
+                                </option>
+                            )}
                         </select>
 
                         <InputError
                             message={errors.a_tareas_ids}
                             className="text-red-600"
                         />
+                    </div>
+
+                    <div className="rounded-xl bg-red-50 border border-red-100 p-3 text-sm text-gray-700">
+                        <div className="flex items-center justify-between gap-2">
+                            <span>Tiempo total estimado</span>
+                            <span className="font-medium text-gray-900">
+                                <TiempoFormateado segundos={tiempoTotal} />
+                            </span>
+                        </div>
+                        <div className="mt-1 text-xs text-gray-500">
+                            {tareasSeleccionadas.length} tarea(s)
+                            seleccionada(s), evitando duplicados.
+                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -152,18 +186,13 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
 
                         <div className="space-y-1">
                             <label className="text-xs text-gray-700 uppercase tracking-wide">
-                                Duración (minutos)
+                                Duración calculada
                             </label>
                             <input
-                                type="number"
+                                type="text"
                                 className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
-                                value={data.a_tiempo_invertido}
-                                onChange={(e) =>
-                                    setData(
-                                        "a_tiempo_invertido",
-                                        e.target.value,
-                                    )
-                                }
+                                value={`${tiempoTotal} segundos`}
+                                readOnly
                             />
                             <InputError message={errors.a_tiempo_invertido} />
                         </div>

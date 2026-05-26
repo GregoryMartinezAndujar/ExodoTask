@@ -1,6 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { useForm } from "@inertiajs/react";
-import { Eye, Trash2, Clock3, Timer } from "lucide-react";
+import TiempoFormateado from "@/components/Formateartiempo";
+import { router, useForm } from "@inertiajs/react";
+import { Eye, Trash2, PlayCircle, Timer } from "lucide-react";
 
 export default function VerSesionesDeEstudio({ sesiones }) {
     const { delete: destroy } = useForm({});
@@ -63,43 +64,36 @@ export default function VerSesionesDeEstudio({ sesiones }) {
 
                                         <span
                                             className={`px-2.5 py-0.5 rounded-full text-base border-none ${
-                                                sesion.a_finalizada
+                                                sesion.a_estado === "finalizada"
                                                     ? "bg-green-100 text-green-700"
-                                                    : "bg-[#FCA5A5] text-red-700"
+                                                    : sesion.a_estado ===
+                                                        "en_progreso"
+                                                      ? "bg-blue-100 text-blue-700"
+                                                      : "bg-[#FCA5A5] text-red-700"
                                             }`}
                                         >
-                                            {sesion.a_finalizada
+                                            {sesion.a_estado === "finalizada"
                                                 ? "Finalizada"
-                                                : "Sin terminar"}
+                                                : sesion.a_estado ===
+                                                    "en_progreso"
+                                                  ? "En curso"
+                                                  : sesion.a_estado ===
+                                                      "pausada"
+                                                    ? "Pausada"
+                                                    : "Sin iniciar"}
                                         </span>
                                     </div>
 
                                     <div className="hidden sm:flex gap-1 w-fit">
                                         <button
                                             className="inline-flex items-center justify-center p-1.5 rounded bg-[#1e293b] hover:bg-slate-700 text-white transition-colors"
-                                            onClick={() =>
-                                                alert(
-                                                    "Funcionalidad de ver detalles no implementada",
-                                                )
-                                            }
-                                        >
-                                            <Eye className="w-4 h-4" />
-                                        </button>
-                                        <button
-                                            className="inline-flex items-center justify-center p-1.5 rounded bg-[#1e293b]  hover:bg-slate-700 text-white transition-colors"
                                             onClick={() => {
-                                                if (
-                                                    confirm(
-                                                        "¿Estás seguro de eliminar esta sesión?",
-                                                    )
-                                                ) {
-                                                    destroy(
-                                                        route(
-                                                            "sesionesdetareas.destroy",
-                                                            sesion.id,
-                                                        ),
-                                                    );
-                                                }
+                                                router.get(
+                                                    route(
+                                                        "sesionesdetareas.ejecutar",
+                                                        sesion.id,
+                                                    ),
+                                                );
                                             }}
                                         >
                                             <Timer className="w-4 h-4" />
@@ -143,10 +137,29 @@ export default function VerSesionesDeEstudio({ sesiones }) {
 
                                     <div className="flex items-center gap-1">
                                         <span className="text-gray-400">
-                                            Tiempo a invertir:
+                                            Tiempo total:
                                         </span>
                                         <span className="text-gray-900">
-                                            {sesion.a_tiempo_invertido} min
+                                            <TiempoFormateado
+                                                segundos={
+                                                    sesion.a_tiempo_invertido
+                                                }
+                                            />
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-gray-400">
+                                            Restante:
+                                        </span>
+                                        <span className="text-gray-900">
+                                            <TiempoFormateado
+                                                segundos={
+                                                    sesion.a_tiempo_restante_calculado ??
+                                                    sesion.a_tiempo_restante ??
+                                                    sesion.a_tiempo_invertido
+                                                }
+                                            />
                                         </span>
                                     </div>
 
@@ -164,12 +177,29 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                     <button
                                         className="inline-flex items-center justify-center p-2 rounded bg-[#1e293b] text-white"
                                         onClick={() =>
-                                            alert(
-                                                "Funcionalidad de ver detalles no implementada",
+                                            router.get(
+                                                route(
+                                                    "sesionesdetareas.ejecutar",
+                                                    sesion.id,
+                                                ),
                                             )
                                         }
                                     >
                                         <Eye className="w-4 h-4" />
+                                    </button>
+
+                                    <button
+                                        className="inline-flex items-center justify-center p-2 rounded bg-[#1e293b] text-white"
+                                        onClick={() =>
+                                            router.get(
+                                                route(
+                                                    "sesionesdetareas.ejecutar",
+                                                    sesion.id,
+                                                ),
+                                            )
+                                        }
+                                    >
+                                        <PlayCircle className="w-4 h-4" />
                                     </button>
 
                                     <button
@@ -190,25 +220,6 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                         }}
                                     >
                                         <Trash2 className="w-4 h-4" />
-                                    </button>
-                                    <button
-                                        className="inline-flex items-center justify-center p-2 rounded bg-[#b91c1c] text-white"
-                                        onClick={() => {
-                                            if (
-                                                confirm(
-                                                    "¿Estás seguro de eliminar esta sesión?",
-                                                )
-                                            ) {
-                                                destroy(
-                                                    route(
-                                                        "sesionesdetareas.destroy",
-                                                        sesion.id,
-                                                    ),
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        <Clock3 className="w-4 h-4" />
                                     </button>
                                 </div>
                             </div>

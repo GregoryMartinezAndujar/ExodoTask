@@ -24,6 +24,9 @@ class SesionesDeEstudioFactory extends Factory
             'a_nombre' => fake()->sentence(),
             'a_fecha' => fake()->date(),
             'a_tiempo_invertido' => $s,
+            'a_tiempo_restante' => $s,
+            'a_inicio_actual_at' => null,
+            'a_estado' => 'pendiente',
             'a_finalizada' => fake()->boolean(),
             'a_user_id' => $usuarios->random()->id,
         ];

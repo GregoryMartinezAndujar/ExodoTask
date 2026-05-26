@@ -8,13 +8,14 @@ use App\Http\Controllers\SesionesDeEstudioController;
 use App\Http\Controllers\TareasSesionesController;
 use App\Models\Tareas;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 
 
 Route::get('/', function () {
-    if (auth()->check()) {
+    if (Auth::check()) {
         return redirect()->route('dashboard');
     }
 
@@ -50,6 +51,8 @@ Route::get('/editar-grupo/{id}', [GrupoDeTareasController::class, 'edit'])->midd
 //Rutas de sesiones 
 
 Route::resource('sesionesdetareas', SesionesDeEstudioController::class)->only(['index', 'update', 'destroy', 'store', 'create', 'edit'])->middleware(['auth', 'verified']);
+Route::get('/sesionesdetareas/{sesion}', [SesionesDeEstudioController::class, 'show'])->middleware(['auth', 'verified'])->name('sesionesdetareas.ejecutar');
+Route::patch('/sesionesdetareas/{sesion}/accion', [SesionesDeEstudioController::class, 'transition'])->middleware(['auth', 'verified'])->name('sesionesdetareas.accion');
 Route::resource('tareas-sesiones', TareasSesionesController::class)->only(['index', 'update', 'destroy', 'store', 'create', 'edit'])->middleware(['auth', 'verified']);
 
 

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\SesionesDeEstudio;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\GruposDeTareas;
 use App\Models\Tareas;
-use App\Models\TareasSesiones;
-
-use function Termwind\render;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class SesionesDeEstudioController extends Controller
 {
@@ -19,8 +20,12 @@ class SesionesDeEstudioController extends Controller
      */
     public function index()
     {
-        $sesiones = SesionesDeEstudio::where('a_user_id', auth()->id())->latest()->get();
-        // dd($sesiones);
+        $sesiones = SesionesDeEstudio::with('tareas:id,a_nombre,a_horas,a_grupo_id')
+            ->where('a_user_id', Auth::id())
+            ->latest()
+            ->get()
+            ->map(fn (SesionesDeEstudio $sesion) => $this->appendTimerState($sesion));
+
         return Inertia::render('Usuario/VerSesionesDeEstudio', [
             'sesiones' => $sesiones,
             'currentRoute' => request()->route()->getName(),
@@ -32,8 +37,15 @@ class SesionesDeEstudioController extends Controller
      */
     public function create()
     {
-        $tareas = Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get();
-        $grupos = GruposDeTareas::where('a_user_id', auth()->id())->get();
+        $tareas = Tareas::with('user:id,name')
+            ->where('a_user_id', Auth::id())
+            ->latest()
+            ->get();
+        $grupos = GruposDeTareas::with(['user:id,name'])
+            ->where('a_user_id', Auth::id())
+            ->latest()
+            ->get();
+
         return Inertia::render('Usuario/CrearSesionesDeEstudio', [
             'tareas' => $tareas,
             'grupos' => $grupos,
@@ -48,28 +60,95 @@ class SesionesDeEstudioController extends Controller
     {
         $validated = $request->validate([
             'a_nombre' => 'required|string|max:100',
-            'a_tiempo_invertido' => 'required|integer',
             'a_fecha' => 'required|date',
-            'a_tareas_ids' => 'required|array',
-            'a_tareas_ids.*' => 'exists:tareas,id'
+            'a_tiempo_invertido' => 'nullable|integer|min:0',
+            'a_tareas_ids' => 'nullable|array',
+            'a_tareas_ids.*' => 'integer|exists:tareas,id',
+            'a_grupos_ids' => 'nullable|array',
+            'a_grupos_ids.*' => 'integer|exists:grupos_de_tareas,id',
         ]);
 
-        // Al usar la relación sesiones(), Laravel inyecta a_user_id automáticamente
-        $sesion = auth()->user()->sesiones()->create($validated);
+        $tareasIds = $this->resolveTareasIds(
+            $validated['a_tareas_ids'] ?? [],
+            $validated['a_grupos_ids'] ?? []
+        );
 
-        $sesion->tareas()->attach($validated['a_tareas_ids']);
+        if ($tareasIds->isEmpty()) {
+            return back()->withErrors([
+                'a_tareas_ids' => 'Debes seleccionar al menos una tarea o un grupo con tareas.',
+            ]);
+        }
 
-        return redirect(route('dashboard'));
+        $tiempoTotal = $this->calcularTiempoTotal($tareasIds);
+
+        $sesion = SesionesDeEstudio::create([
+            'a_nombre' => $validated['a_nombre'],
+            'a_fecha' => $validated['a_fecha'],
+            'a_tiempo_invertido' => $tiempoTotal,
+            'a_tiempo_restante' => $tiempoTotal,
+            'a_inicio_actual_at' => null,
+            'a_estado' => 'pendiente',
+            'a_finalizada' => false,
+            'a_user_id' => Auth::id(),
+        ]);
+
+        $sesion->tareas()->sync($tareasIds->all());
+
+        return redirect()->route('sesionesdetareas.ejecutar', $sesion);
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(SesionesDeEstudio $sesionesDeEstudio)
+    public function show(SesionesDeEstudio $sesion)
     {
-        //
+        $this->authorizeSesion($sesion);
+
+        $sesion->load('tareas:id,a_nombre,a_horas,a_grupo_id');
+
+        return Inertia::render('Usuario/EjecutarSesiones', [
+            'sesion' => $this->appendTimerState($sesion),
+            'currentRoute' => request()->route()->getName(),
+        ]);
     }
+
+    public function transition(Request $request, SesionesDeEstudio $sesion): RedirectResponse
+    {
+        $this->authorizeSesion($sesion);
+
+        $validated = $request->validate([
+            'accion' => 'required|in:pausar,reanudar,finalizar',
+            'a_tiempo_restante' => 'required|integer|min:0',
+        ]);
+
+        if ($validated['accion'] === 'reanudar') {
+            $sesion->update([
+                'a_inicio_actual_at' => now(),
+                'a_estado' => 'en_progreso',
+                'a_finalizada' => false,
+            ]);
+
+            return back();
+        }
+
+        if ($validated['accion'] === 'finalizar') {
+            $sesion->update([
+                'a_tiempo_restante' => 0,
+                'a_inicio_actual_at' => null,
+                'a_estado' => 'finalizada',
+                'a_finalizada' => true,
+            ]);
+
+            return back();
+        }
+
+        $sesion->update([
+            'a_tiempo_restante' => $validated['a_tiempo_restante'],
+            'a_inicio_actual_at' => null,
+            'a_estado' => 'pausada',
+            'a_finalizada' => false,
+        ]);
+
+        return back();
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -92,15 +171,63 @@ class SesionesDeEstudioController extends Controller
      */
     public function destroy(SesionesDeEstudio $sesionesDeEstudio)
     {
-        dd([
-            'ID_Usuario_Autenticado' => auth()->id(),
-            'ID_Dueño_de_la_Sesion'  => $sesionesDeEstudio->a_user_id,
-            'Son_Iguales'            => auth()->id() == $sesionesDeEstudio->a_user_id
-        ]);
-        if ($sesionesDeEstudio->a_user_id !== auth()->id()) {
-            abort(403, 'No autorizado para eliminar esta sesión de estudio.');
-        }
+        $this->authorizeSesion($sesionesDeEstudio);
+
         $sesionesDeEstudio->delete();
-        return redirect(route('dashboard'));
+        return redirect()->route('sesionesdetareas.index');
+    }
+
+    private function resolveTareasIds(array $tareasIds, array $gruposIds): Collection
+    {
+        $tareasIds = collect($tareasIds)
+            ->filter()
+            ->map(fn ($id) => (int) $id);
+
+        $gruposIds = collect($gruposIds)
+            ->filter()
+            ->map(fn ($id) => (int) $id);
+
+        $tareasDeGrupos = Tareas::query()
+            ->where('a_user_id', Auth::id())
+            ->when($gruposIds->isNotEmpty(), fn ($query) => $query->whereIn('a_grupo_id', $gruposIds->all()))
+            ->pluck('id');
+
+        return $tareasIds
+            ->merge($tareasDeGrupos)
+            ->unique()
+            ->values();
+    }
+
+    private function calcularTiempoTotal(Collection $tareasIds): int
+    {
+        return (int) Tareas::query()
+            ->where('a_user_id', Auth::id())
+            ->whereIn('id', $tareasIds->all())
+            ->sum('a_horas');
+    }
+
+    private function appendTimerState(SesionesDeEstudio $sesion): SesionesDeEstudio
+    {
+        $sesion->a_tiempo_restante_calculado = $this->tiempoRestanteActual($sesion);
+        return $sesion;
+    }
+
+    private function tiempoRestanteActual(SesionesDeEstudio $sesion): int
+    {
+        $restante = (int) ($sesion->a_tiempo_restante ?? $sesion->a_tiempo_invertido ?? 0);
+
+        if ($sesion->a_estado === 'en_progreso' && $sesion->a_inicio_actual_at) {
+            $transcurrido = Carbon::parse($sesion->a_inicio_actual_at)->diffInSeconds(now());
+            return max(0, $restante - $transcurrido);
+        }
+
+        return max(0, $restante);
+    }
+
+    private function authorizeSesion(SesionesDeEstudio $sesion): void
+    {
+        if ($sesion->a_user_id !== Auth::id()) {
+            abort(403, 'No autorizado para acceder a esta sesión de estudio.');
+        }
     }
 }
