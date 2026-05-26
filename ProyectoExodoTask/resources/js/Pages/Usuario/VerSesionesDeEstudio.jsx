@@ -1,11 +1,17 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TiempoFormateado from "@/components/Formateartiempo";
 import { router, useForm } from "@inertiajs/react";
+import { useState } from "react";
 import { Eye, Trash2, PlayCircle, Timer } from "lucide-react";
 import { confirmarEliminarSesion } from "@/components/Alerts";
 
 export default function VerSesionesDeEstudio({ sesiones }) {
     const { delete: destroy } = useForm({});
+    const [expandedId, setExpandedId] = useState(null);
+
+    const toggleExpand = (id) => {
+        setExpandedId((prev) => (prev === id ? null : id));
+    };
 
     return (
         <AuthenticatedLayout
@@ -30,12 +36,13 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                         {sesiones.map((sesion) => (
                             <div
                                 key={sesion.id}
+                                onClick={() => toggleExpand(sesion.id)}
                                 className={`
                                     w-full rounded-xl px-4 py-3
                                     flex flex-col gap-3
                                     transition-all duration-200 ease-out
                                     shadow-sm hover:shadow
-                                    bg-white border
+                                    bg-white border cursor-pointer
                                     ${
                                         !sesion.a_finalizada
                                             ? "border-[#b91c1c]"
@@ -88,7 +95,8 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                     <div className="hidden sm:flex gap-1 w-fit">
                                         <button
                                             className="inline-flex items-center justify-center p-1.5 rounded bg-[#1e293b] hover:bg-slate-700 text-white transition-colors"
-                                            onClick={() => {
+                                            onClick={(e) => {
+                                                e.stopPropagation();
                                                 router.get(
                                                     route(
                                                         "sesionesdetareas.ejecutar",
@@ -101,7 +109,8 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                         </button>
                                         <button
                                             className="inline-flex items-center justify-center p-1.5 rounded bg-[#b91c1c] hover:bg-red-700 text-white transition-colors"
-                                            onClick={async () => {
+                                            onClick={async (e) => {
+                                                e.stopPropagation();
                                                 if (
                                                     await confirmarEliminarSesion()
                                                 ) {
@@ -175,35 +184,38 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                 <div className="flex sm:hidden flex-wrap gap-2 border-t border-gray-100 pt-2 mt-1 justify-end">
                                     <button
                                         className="inline-flex items-center justify-center p-2 rounded bg-[#1e293b] text-white"
-                                        onClick={() =>
+                                        onClick={(e) => {
+                                            e.stopPropagation();
                                             router.get(
                                                 route(
                                                     "sesionesdetareas.ejecutar",
                                                     sesion.id,
                                                 ),
-                                            )
-                                        }
+                                            );
+                                        }}
                                     >
                                         <Eye className="w-4 h-4" />
                                     </button>
 
                                     <button
                                         className="inline-flex items-center justify-center p-2 rounded bg-[#1e293b] text-white"
-                                        onClick={() =>
+                                        onClick={(e) => {
+                                            e.stopPropagation();
                                             router.get(
                                                 route(
                                                     "sesionesdetareas.ejecutar",
                                                     sesion.id,
                                                 ),
-                                            )
-                                        }
+                                            );
+                                        }}
                                     >
                                         <PlayCircle className="w-4 h-4" />
                                     </button>
 
                                     <button
                                         className="inline-flex items-center justify-center p-2 rounded bg-[#b91c1c] text-white"
-                                        onClick={async () => {
+                                        onClick={async (e) => {
+                                            e.stopPropagation();
                                             if (
                                                 await confirmarEliminarSesion()
                                             ) {
@@ -219,6 +231,39 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                         <Trash2 className="w-4 h-4" />
                                     </button>
                                 </div>
+                                {expandedId === sesion.id && (
+                                    <div className="mt-3 bg-gray-50 border border-gray-100 rounded-lg p-3">
+                                        <h4 className="text-sm text-gray-500 mb-2">
+                                            Tareas de la sesión
+                                        </h4>
+                                        {sesion.tareas &&
+                                        sesion.tareas.length ? (
+                                            <div className="space-y-2">
+                                                {sesion.tareas.map((t) => (
+                                                    <div
+                                                        key={t.id}
+                                                        className="flex items-center justify-between p-2 bg-white border rounded"
+                                                    >
+                                                        <span className="text-gray-800 truncate">
+                                                            {t.a_nombre}
+                                                        </span>
+                                                        <span className="text-gray-600">
+                                                            <TiempoFormateado
+                                                                segundos={
+                                                                    t.a_horas
+                                                                }
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className="text-sm text-gray-500">
+                                                No hay tareas asociadas
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
