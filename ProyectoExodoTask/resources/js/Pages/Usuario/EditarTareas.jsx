@@ -10,7 +10,7 @@ const EditarTareas = ({ tarea, auth }) => {
     const { data, setData, patch, errors, reset, processing } = useForm({
         a_nombre: tarea.a_nombre,
         a_descripcion: tarea.a_descripcion,
-        a_horas: tarea.a_horas,
+        a_horas: tarea.a_horas / 3600,
     });
     const submit = (e) => {
         e.preventDefault();
