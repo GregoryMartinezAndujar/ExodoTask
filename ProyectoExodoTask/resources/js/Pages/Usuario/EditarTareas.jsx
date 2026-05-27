@@ -6,11 +6,13 @@ import DangerButton from "@/components/DangerButton";
 import { Head } from "@inertiajs/react";
 import VolverAtras from "@/components/VolverAtras";
 
-const EditarTareas = ({ tarea, auth }) => {
+const EditarTareas = ({ tarea, auth, prioridades }) => {
     const { data, setData, patch, errors, reset, processing } = useForm({
         a_nombre: tarea.a_nombre,
         a_descripcion: tarea.a_descripcion,
         a_horas: tarea.a_horas / 3600,
+        a_fecha_limite: tarea.a_fecha_limite,
+        a_prioridad_id: tarea.a_prioridad_id ?? "",
     });
     const submit = (e) => {
         e.preventDefault();
@@ -83,6 +85,50 @@ const EditarTareas = ({ tarea, auth }) => {
                             className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-[#A90000]  focus:ring-opacity-50"
                         />
                         <InputError message={errors.a_horas} className="mt-1" />
+                    </div>
+
+                    {/* Fecha límite */}
+                    <div>
+                        <label className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
+                            Fecha límite
+                        </label>
+                        <input
+                            value={data.a_fecha_limite}
+                            onChange={(e) =>
+                                setData("a_fecha_limite", e.target.value)
+                            }
+                            type="date"
+                            className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-[#A90000] focus:ring-opacity-50"
+                        />
+                        <InputError
+                            message={errors.a_fecha_limite}
+                            className="mt-1"
+                        />
+                    </div>
+
+                    {/* Prioridad */}
+                    <div>
+                        <label className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
+                            Prioridad
+                        </label>
+                        <select
+                            value={data.a_prioridad_id}
+                            onChange={(e) =>
+                                setData("a_prioridad_id", e.target.value)
+                            }
+                            className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-[#A90000] focus:ring-opacity-50"
+                        >
+                            <option value="">Sin prioridad</option>
+                            {prioridades?.map((p) => (
+                                <option key={p.id} value={p.id}>
+                                    {p.a_nombre}
+                                </option>
+                            ))}
+                        </select>
+                        <InputError
+                            message={errors.a_prioridad_id}
+                            className="mt-1"
+                        />
                     </div>
 
                     {/* Botón */}

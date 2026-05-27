@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import VolverAtras from "@/components/VolverAtras";
 import { router } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Play, Pause, CheckCircle2, Check, X, ChevronDown } from "lucide-react";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -22,6 +22,13 @@ export default function EjecutarSesiones({ sesion }) {
     const estaEnCurso = sesion.a_estado === "en_progreso";
     const estaFinalizada = sesion.a_estado === "finalizada";
     const tiempoConsumido = Math.max(0, tiempoTotal - tiempoRestante);
+
+    const refTiempoRestante = useRef(tiempoRestante);
+    const refEstaEnCurso = useRef(estaEnCurso);
+    const refEstaFinalizada = useRef(estaFinalizada);
+    refTiempoRestante.current = tiempoRestante;
+    refEstaEnCurso.current = estaEnCurso;
+    refEstaFinalizada.current = estaFinalizada;
 
     function displayEstado(estado) {
         if (!estado) return "";
@@ -238,20 +245,18 @@ export default function EjecutarSesiones({ sesion }) {
     // Pause session automatically when the component unmounts (e.g., user navigates away / back button)
     useEffect(() => {
         return () => {
-            // If session was running and not finalized, try to persist the paused remaining time
-            if (estaEnCurso && !estaFinalizada) {
+            if (refEstaEnCurso.current && !refEstaFinalizada.current) {
                 const csrf = document
                     .querySelector('meta[name="csrf-token"]')
                     ?.getAttribute("content");
 
-                // Fire-and-forget; best effort to persist state before unload.
                 try {
-                    // Use navigator.sendBeacon when possible for background sending
                     const url = route("sesionesdetareas.accion", sesion.id);
                     const payload = new URLSearchParams();
                     payload.append("_method", "PATCH");
                     payload.append("accion", "pausar");
-                    payload.append("a_tiempo_restante", String(tiempoRestante));
+                    payload.append("a_tiempo_restante", String(refTiempoRestante.current));
+                    if (csrf) payload.append("_token", csrf);
 
                     if (navigator && navigator.sendBeacon) {
                         const blob = new Blob([payload.toString()], {
@@ -259,9 +264,8 @@ export default function EjecutarSesiones({ sesion }) {
                         });
                         navigator.sendBeacon(url, blob);
                     } else {
-                        // Fallback to synchronous XHR (best-effort)
                         const xhr = new XMLHttpRequest();
-                        xhr.open("POST", url, false); // sync
+                        xhr.open("POST", url, false);
                         if (csrf) xhr.setRequestHeader("X-CSRF-TOKEN", csrf);
                         xhr.setRequestHeader(
                             "Content-Type",
@@ -278,7 +282,7 @@ export default function EjecutarSesiones({ sesion }) {
                 }
             }
         };
-    }, [estaEnCurso, estaFinalizada, tiempoRestante, sesion.id]);
+    }, [sesion.id]);
 
     return (
         <AuthenticatedLayout

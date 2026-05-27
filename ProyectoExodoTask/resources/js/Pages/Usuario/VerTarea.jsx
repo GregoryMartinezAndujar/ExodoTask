@@ -1,14 +1,14 @@
 import React from "react";
-import { Clock, Calendar, Tag } from "lucide-react"; // Iconos sugeridos
+import { Clock, Calendar, Tag } from "lucide-react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TiempoFormateado from "@/components/Formateartiempo";
 import { useForm, Head } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import VolverAtras from "@/components/VolverAtras";
+import dayjs from "dayjs";
 
 export default function VerTarea({ tarea, auth, grupo }) {
-    // Lógica de urgencia: Si la fecha es hoy, usamos el tono de alerta
-    const esHoy = tarea.a_fecha_limite === "2026-03-30";
+    const esHoy = dayjs(tarea.a_fecha_limite).isSame(dayjs(), "day");
     const colorBorde = esHoy ? "border-[#FCA5A5]" : "border-gray-200";
     const volerAlDashboard = () => {
         router.get(route("dashboard"));

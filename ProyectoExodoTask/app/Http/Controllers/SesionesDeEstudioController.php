@@ -117,6 +117,16 @@ class SesionesDeEstudioController extends Controller
             'a_tiempo_restante' => 'required|integer|min:0',
         ]);
 
+        $estadosPermitidos = [
+            'reanudar' => ['pendiente', 'pausada'],
+            'pausar' => ['en_progreso'],
+            'finalizar' => ['en_progreso', 'pausada'],
+        ];
+
+        if (!in_array($sesion->a_estado, $estadosPermitidos[$validated['accion']] ?? [])) {
+            return abort(422, "No se puede {$validated['accion']} una sesión en estado '{$sesion->a_estado}'.");
+        }
+
         if ($validated['accion'] === 'reanudar') {
             $sesion->update([
                 'a_inicio_actual_at' => now(),

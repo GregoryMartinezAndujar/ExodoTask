@@ -382,7 +382,7 @@ const Tarea = ({
                             <Play className="w-4 h-4" />
                         </PrimaryButton>
 
-                        {ruta === "grupo.tarea" && (
+                        {ruta === "grupos.tareas" && (
                             <DangerButton
                                 className="text-sm p-1.5 flex items-center justify-center"
                                 onClick={async () => {

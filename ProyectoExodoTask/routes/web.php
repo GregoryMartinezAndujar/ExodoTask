@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\GrupoDeTareas;
 use App\Http\Controllers\GrupoDeTareasController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TareasController;

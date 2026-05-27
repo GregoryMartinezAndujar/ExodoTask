@@ -8,7 +8,6 @@ use App\Models\Prioridad;
 use App\Models\Tareas;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Psy\Util\Str;
 
 class TareasController extends Controller
 {
@@ -60,19 +59,21 @@ class TareasController extends Controller
         $tarea =  Tareas::where('id', $id)
             ->where('a_user_id', auth()->id())
             ->firstOrFail();
-        // para que no rompa la hora al terminar el cronometro
-        if (isset($request['a_horas'])) {
-            $request['a_horas'] = $request['a_horas'] * 60 * 60;
+
+        $validated = $request->validate([
+            'a_nombre' => 'sometimes|string|max:100',
+            'a_descripcion' => 'sometimes|string|max:200',
+            'a_horas' => 'sometimes|integer|min:0',
+            'a_completada' => 'sometimes|boolean',
+            'a_fecha_limite' => 'sometimes|date',
+            'a_horas_realizadas' => 'sometimes|integer|min:0',
+            'a_prioridad_id' => 'sometimes|integer|nullable|exists:prioridades,id',
+        ]);
+
+        if (isset($validated['a_horas'])) {
+            $validated['a_horas'] = $validated['a_horas'] * 60 * 60;
         }
-        $tarea->update($request->only([
-            'a_nombre',
-            'a_descripcion',
-            'a_horas',
-            'a_completada',
-            'a_fecha_limite',
-            'a_horas_realizadas',
-            'a_prioridad_id'
-        ]));
+        $tarea->update($validated);
 
         // Devuelve JSON cuando la petición es AJAX para que el frontend pueda manejar la respuesta
         $tarea->refresh();
@@ -107,8 +108,10 @@ class TareasController extends Controller
         $tarea = Tareas::where('id', $id)
             ->where('a_user_id', auth()->id())
             ->firstOrFail();
+        $prioridades = Prioridad::all();
         return Inertia::render('Usuario/EditarTareas', [
             'tarea' => $tarea,
+            'prioridades' => $prioridades,
             'currentRoute' => request()->route()->getName(),
         ]);
     }
