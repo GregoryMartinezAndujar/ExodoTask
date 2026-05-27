@@ -131,7 +131,7 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                                     "a_tareas_ids",
                                     Array.from(
                                         e.target.selectedOptions,
-                                        (opt) => opt.value,
+                                        (opt) => Number(opt.value),
                                     ),
                                 )
                             }
