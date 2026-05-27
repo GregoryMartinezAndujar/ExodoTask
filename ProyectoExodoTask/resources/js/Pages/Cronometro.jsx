@@ -15,7 +15,7 @@ export default function TimerFull({ tarea }) {
         a_horas_realizadas: tarea.a_horas_realizadas,
     });
 
-    let tiempoUsado = 0;
+    const [tiempoConsumido, setTiempoConsumido] = useState(0);
     function formatearTiempo(segundos) {
         if (segundos >= 3600) {
             return (segundos / 3600).toFixed(1) + " h";
@@ -73,6 +73,11 @@ export default function TimerFull({ tarea }) {
                                 size={230}
                                 strokeWidth={6}
                                 trailColor="#27272f"
+                                onUpdate={(remainingTime) =>
+                                    setTiempoConsumido(
+                                        durationInSeconds - remainingTime,
+                                    )
+                                }
                             >
                                 {({ remainingTime }) => {
                                     const hours = Math.floor(
@@ -82,8 +87,6 @@ export default function TimerFull({ tarea }) {
                                         (remainingTime % 3600) / 60,
                                     );
                                     const seconds = remainingTime % 60;
-                                    tiempoUsado =
-                                        durationInSeconds - remainingTime;
 
                                     return (
                                         <span
@@ -133,7 +136,7 @@ export default function TimerFull({ tarea }) {
                                 </span>
                                 <span className="text-xl font-normal text-[#b91c1c]">
                                     <TiempoFormateado
-                                        segundos={tarea.a_horas_realizadas}
+                                        segundos={tarea.a_horas_realizadas + tiempoConsumido}
                                     />
                                 </span>
                             </div>
@@ -170,7 +173,7 @@ export default function TimerFull({ tarea }) {
                                     patch(route("tareas.update", tarea.id), {
                                         onBefore: () => {
                                             data.a_horas_realizadas =
-                                                tiempoUsado +
+                                                tiempoConsumido +
                                                 data.a_horas_realizadas;
                                         },
                                     });
