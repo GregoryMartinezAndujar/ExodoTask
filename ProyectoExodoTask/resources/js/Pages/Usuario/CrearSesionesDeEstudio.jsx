@@ -4,7 +4,7 @@ import DangerButton from "@/components/DangerButton";
 import VolverAtras from "@/components/VolverAtras";
 import InputError from "@/components/InputError";
 import { CalendarPlus } from "lucide-react";
-import TiempoFormateado from "@/components/Formateartiempo";
+import TiempoFormateado, { formatearAHorasMinutos } from "@/components/Formateartiempo";
 
 export default function CrearSesionEstudio({ auth, tareas, grupos }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -158,7 +158,7 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                         <div className="flex items-center justify-between gap-2">
                             <span>Tiempo total estimado</span>
                             <span className="font-medium text-gray-900">
-                                <TiempoFormateado segundos={tiempoTotal} />
+                                {formatearAHorasMinutos(tiempoTotal)}
                             </span>
                         </div>
                         <div className="mt-1 text-xs text-gray-500">
@@ -191,7 +191,7 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                             <input
                                 type="text"
                                 className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
-                                value={`${tiempoTotal} segundos`}
+                                value={formatearAHorasMinutos(tiempoTotal)}
                                 readOnly
                             />
                             <InputError message={errors.a_tiempo_invertido} />
