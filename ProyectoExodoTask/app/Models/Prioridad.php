@@ -13,6 +13,7 @@ class Prioridad extends Model
     protected $table = 'prioridades';
     protected $fillable = [
         'a_nombre',
+        'a_orden',
     ];
 
     public function tareas()

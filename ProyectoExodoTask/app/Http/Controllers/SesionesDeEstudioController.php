@@ -124,7 +124,7 @@ class SesionesDeEstudioController extends Controller
                 'a_finalizada' => false,
             ]);
 
-            if ($request->ajax() || $request->wantsJson()) {
+            if (($request->ajax() || $request->wantsJson()) && !$request->header('X-Inertia')) {
                 $sesion->refresh();
                 return response()->json(['sesion' => $this->appendTimerState($sesion)]);
             }
@@ -140,7 +140,7 @@ class SesionesDeEstudioController extends Controller
                 'a_finalizada' => true,
             ]);
 
-            if ($request->ajax() || $request->wantsJson()) {
+            if (($request->ajax() || $request->wantsJson()) && !$request->header('X-Inertia')) {
                 $sesion->refresh();
                 return response()->json(['sesion' => $this->appendTimerState($sesion)]);
             }
@@ -155,7 +155,7 @@ class SesionesDeEstudioController extends Controller
             'a_finalizada' => false,
         ]);
 
-        if ($request->ajax() || $request->wantsJson()) {
+        if (($request->ajax() || $request->wantsJson()) && !$request->header('X-Inertia')) {
             $sesion->refresh();
             return response()->json(['sesion' => $this->appendTimerState($sesion)]);
         }

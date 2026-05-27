@@ -18,6 +18,7 @@ class PrioridadFactory extends Factory
     {
         return [
             'a_nombre' => $this->faker->word(),
+            'a_orden' => $this->faker->numberBetween(1, 5),
         ];
     }
 }

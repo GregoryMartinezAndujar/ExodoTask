@@ -17,7 +17,13 @@ class TareasController extends Controller
      */
     public function index()
     {
-        $tareas = Tareas::with('user:id,name')->where('a_user_id', auth()->id())->latest()->get();
+        $tareas = Tareas::with('user:id,name')
+            ->where('a_user_id', auth()->id())
+            ->select('tareas.*')
+            ->selectRaw('COALESCE((SELECT a_orden FROM prioridades WHERE prioridades.id = tareas.a_prioridad_id), 999) as prioridad_orden')
+            ->orderBy('prioridad_orden')
+            ->latest('tareas.created_at')
+            ->get();
         $prioridades = Prioridad::all();
         $grupos = GruposDeTareas::where('a_user_id', auth()->id())->get();
         return Inertia::render('Dashboard', [
@@ -70,7 +76,7 @@ class TareasController extends Controller
 
         // Devuelve JSON cuando la petición es AJAX para que el frontend pueda manejar la respuesta
         $tarea->refresh();
-        if ($request->ajax() || $request->wantsJson()) {
+        if (($request->ajax() || $request->wantsJson()) && !$request->header('X-Inertia')) {
             return response()->json(['tarea' => $tarea]);
         }
 
@@ -114,6 +120,10 @@ class TareasController extends Controller
             ->firstOrFail();
         $tareas = Tareas::where('a_grupo_id', $grupo->id)
             ->where('a_user_id', auth()->id())
+            ->select('tareas.*')
+            ->selectRaw('COALESCE((SELECT a_orden FROM prioridades WHERE prioridades.id = tareas.a_prioridad_id), 999) as prioridad_orden')
+            ->orderBy('prioridad_orden')
+            ->latest('tareas.created_at')
             ->get();
         $prioridades = Prioridad::all();
         return Inertia::render('Usuario/VerTaraesGrupo', [

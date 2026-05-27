@@ -17,13 +17,21 @@ export default function Dashboard({
     ).length;
 
     const [verSegunEstado, setVerSegunEstado] = useState(null);
+    const [verSegunPrioridad, setVerSegunPrioridad] = useState(null);
 
-    const tareasFiltradas =
-        verSegunEstado === true
-            ? tareas.filter((t) => t.a_completada === true)
-            : verSegunEstado === false
-              ? tareas.filter((t) => t.a_completada === false)
-              : tareas; // si es null, mostrar todas
+    const tareasFiltradas = tareas
+        .filter((t) =>
+            verSegunEstado === true
+                ? t.a_completada === true
+                : verSegunEstado === false
+                  ? t.a_completada === false
+                  : true,
+        )
+        .filter((t) =>
+            verSegunPrioridad === null
+                ? true
+                : t.a_prioridad_id === verSegunPrioridad,
+        );
     const tareasTotales = tareas.length;
     return (
         <AuthenticatedLayout
@@ -107,6 +115,33 @@ export default function Dashboard({
                         </p>
                     </div>
                 </div>
+            </div>
+
+            {/* Filtro por prioridad */}
+            <div className="flex flex-wrap gap-2 mb-4">
+                <button
+                    onClick={() => setVerSegunPrioridad(null)}
+                    className={`px-3 py-1.5 rounded-lg text-base font-medium transition border ${
+                        verSegunPrioridad === null
+                            ? "bg-gray-900 text-white border-gray-900"
+                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                    }`}
+                >
+                    Todas
+                </button>
+                {prioridades.map((p) => (
+                    <button
+                        key={p.id}
+                        onClick={() => setVerSegunPrioridad(p.id)}
+                        className={`px-3 py-1.5 rounded-lg text-base font-medium transition border ${
+                            verSegunPrioridad === p.id
+                                ? "bg-gray-900 text-white border-gray-900"
+                                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                        }`}
+                    >
+                        {p.a_nombre}
+                    </button>
+                ))}
             </div>
 
             <Head title="Página Principal" />

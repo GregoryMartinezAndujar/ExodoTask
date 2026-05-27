@@ -50,7 +50,9 @@ class DatabaseSeeder extends Seeder
         
         TareasSesiones::factory(10)->create();
 
-        Prioridad::factory(5)->create();
+        Prioridad::create(['a_nombre' => 'Alta', 'a_orden' => 1]);
+        Prioridad::create(['a_nombre' => 'Media', 'a_orden' => 2]);
+        Prioridad::create(['a_nombre' => 'Baja', 'a_orden' => 3]);
 
     }
 }
