@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import TiempoFormateado from "@/components/Formateartiempo";
-import { router, useForm } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import { useState } from "react";
 import { Trash2, Timer } from "lucide-react";
 import { confirmarEliminarSesion } from "@/components/Alerts";
@@ -24,6 +24,7 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                 </div>
             }
         >
+            <Head title="Sesiones de Estudio" />
             <div className="w-full max-w-7xl mx-auto p-4">
                 {sesiones.length === 0 ? (
                     <div className="p-6 bg-white shadow-sm rounded-xl border border-gray-200 text-center">

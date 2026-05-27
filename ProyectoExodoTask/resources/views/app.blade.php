@@ -6,6 +6,10 @@
 
         <title inertia>{{ config('app.name')}}</title>
 
+        <link rel="icon" type="image/jpeg" href="/favicon.jpg">
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="apple-touch-icon" href="/images/Logo_imgupscaler.ai_Mejorador_2K.jpg">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

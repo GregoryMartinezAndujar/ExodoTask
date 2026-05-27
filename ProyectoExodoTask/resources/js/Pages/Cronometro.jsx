@@ -2,7 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import VolverAtras from "@/components/VolverAtras";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useState } from "react";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import TiempoFormateado from "@/components/Formateartiempo";
 
 export default function TimerFull({ tarea }) {
@@ -28,6 +28,7 @@ export default function TimerFull({ tarea }) {
 
     return (
         <AuthenticatedLayout>
+            <Head title="Cronómetro" />
             {/* Contenedor panorámico que aprovecha el ancho de la página */}
             <div className="max-w-6xl mx-auto w-full px-4 py-8 sm:px-6 lg:px-8 min-h-screen">
                 {/* Botón superior - Texto con peso normal */}

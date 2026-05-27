@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import VolverAtras from "@/components/VolverAtras";
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause, CheckCircle2, Check, X, ChevronDown } from "lucide-react";
 import axios from "axios";
@@ -303,6 +303,7 @@ export default function EjecutarSesiones({ sesion }) {
                 </div>
             }
         >
+            <Head title="Ejecutar Sesión" />
             <div className="max-w-6xl mx-auto w-full px-2 py-1 sm:px-6 lg:px-8 h-full flex flex-col">
                 <div className="mb-1 md:mb-2">
                     <div className="text-slate-400 hover:text-slate-100 transition-colors text-sm font-normal inline-block">
