@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { router } from "@inertiajs/react";
 import Swal from "sweetalert2";
 import { Plus, Trash2, Check } from "lucide-react";
+import Tooltip from "./Tooltip";
 
 export default function NotasTarea({ notas, tareaId }) {
     const [nuevoTexto, setNuevoTexto] = useState("");
@@ -57,12 +58,14 @@ export default function NotasTarea({ notas, tareaId }) {
                     placeholder="Añadir una nota..."
                     className="flex-1 border-gray-300 rounded-lg shadow-sm px-3 py-2 text-sm focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                 />
+                <Tooltip text="Añadir nota">
                 <button
                     type="submit"
                     className="px-3 py-2 bg-[#A90000] text-white rounded-lg hover:bg-red-700 transition text-sm flex items-center gap-1"
                 >
                     <Plus className="w-4 h-4" />
                 </button>
+                </Tooltip>
             </form>
 
             <div className="space-y-2">
@@ -74,6 +77,7 @@ export default function NotasTarea({ notas, tareaId }) {
                         key={nota.id}
                         className="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 group"
                     >
+                        <Tooltip text="Marcar/desmarcar nota">
                         <button
                             onClick={() => toggleCompletada(nota)}
                             className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition ${
@@ -84,6 +88,7 @@ export default function NotasTarea({ notas, tareaId }) {
                         >
                             {nota.a_completada && <Check className="w-3 h-3" />}
                         </button>
+                        </Tooltip>
 
                         <span
                             className={`flex-1 text-sm ${
@@ -95,12 +100,14 @@ export default function NotasTarea({ notas, tareaId }) {
                             {nota.a_text}
                         </span>
 
+                        <Tooltip text="Eliminar nota">
                         <button
                             onClick={() => eliminarNota(nota)}
                             className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-600 transition p-1"
                         >
                             <Trash2 className="w-4 h-4" />
                         </button>
+                        </Tooltip>
                     </div>
                 ))}
             </div>

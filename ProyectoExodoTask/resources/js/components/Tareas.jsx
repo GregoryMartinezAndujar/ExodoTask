@@ -9,6 +9,7 @@ import Dropdown from "./Dropdown";
 import "dayjs/locale/es";
 import CheckButton from "./CheckButton";
 import TiempoFormateado from "./Formateartiempo";
+import Tooltip from "./Tooltip";
 import {
     Trash2,
     Play,
@@ -150,6 +151,7 @@ const Tarea = ({
                 <div className="hidden sm:flex gap-1 w-fit">
                     {(ruta === "dashboard" || ruta === "grupos.tareas") && (
                         <>
+                            <Tooltip text={data.a_completada ? "Desmarcar como completada" : "Marcar como completada"}>
                             <CheckButton
                                 className={`text-sm py-1.5 flex items-center gap-1  ${
                                     data.a_completada
@@ -194,7 +196,9 @@ const Tarea = ({
                                     <CheckCircle className="w-4 h-4" />
                                 )}
                             </CheckButton>
+                            </Tooltip>
 
+                            <Tooltip text="Editar tarea">
                             <PrimaryButton
                                 className="text-sm py-1.5"
                                 onClick={() =>
@@ -203,8 +207,10 @@ const Tarea = ({
                             >
                                 <Pencil className="w-4 h-4" />
                             </PrimaryButton>
+                            </Tooltip>
 
                             {!tarea.a_completada && (
+                                <Tooltip text="Iniciar cronómetro">
                                 <PrimaryButton
                                     className="text-sm py-1.5 flex items-center gap-1"
                                     onClick={() =>
@@ -218,7 +224,9 @@ const Tarea = ({
                                 >
                                     <Play className="w-4 h-4" />
                                 </PrimaryButton>
+                                </Tooltip>
                             )}
+                            <Tooltip text="Ver detalle">
                             <PrimaryButton
                                 onClick={() =>
                                     router.get(
@@ -228,7 +236,9 @@ const Tarea = ({
                             >
                                 <Eye className="w-4 h-4" />
                             </PrimaryButton>
+                            </Tooltip>
                             {grupos.length == 0 && ruta === "grupos.tareas" && (
+                                <Tooltip text="Eliminar del grupo">
                                 <DangerButton
                                     className="text-sm py-1.5"
                                     onClick={async () => {
@@ -244,8 +254,10 @@ const Tarea = ({
                                 >
                                     <ListMinus className="w-4 h-4" />
                                 </DangerButton>
+                                </Tooltip>
                             )}
 
+                            <Tooltip text="Eliminar tarea">
                             <DangerButton
                                 className="text-sm py-1.5 bg-[#A90000] hover:bg-red-700 flex items-center gap-1"
                                 onClick={async () => {
@@ -258,6 +270,7 @@ const Tarea = ({
                             >
                                 <Trash2 className="w-4 h-4" />
                             </DangerButton>
+                            </Tooltip>
                         </>
                     )}
                 </div>
@@ -327,8 +340,9 @@ const Tarea = ({
 
             {/* BOTONES MÓVIL (ABAJO DEL TODO) */}
             <div className="flex sm:hidden flex-wrap  gap-2">
-                {(ruta === "grupos.tareas" || ruta === "dashboard") && (
+                    {(ruta === "grupos.tareas" || ruta === "dashboard") && (
                     <>
+                        <Tooltip text={data.a_completada ? "Desmarcar como completada" : "Marcar como completada"}>
                         <PrimaryButton
                             className="text-sm p-1.5 flex items-center justify-center"
                             onClick={async () => {
@@ -363,7 +377,9 @@ const Tarea = ({
                                 <Check className="w-4 h-4" />
                             )}
                         </PrimaryButton>
+                        </Tooltip>
 
+                        <Tooltip text="Editar tarea">
                         <PrimaryButton
                             className="text-sm p-1.5 flex items-center justify-center"
                             onClick={() =>
@@ -372,7 +388,9 @@ const Tarea = ({
                         >
                             <Pencil className="w-4 h-4" />
                         </PrimaryButton>
+                        </Tooltip>
 
+                        <Tooltip text="Iniciar cronómetro">
                         <PrimaryButton
                             className="text-sm p-1.5 flex items-center justify-center"
                             onClick={() =>
@@ -381,8 +399,10 @@ const Tarea = ({
                         >
                             <Play className="w-4 h-4" />
                         </PrimaryButton>
+                        </Tooltip>
 
                         {ruta === "grupos.tareas" && (
+                            <Tooltip text="Eliminar del grupo">
                             <DangerButton
                                 className="text-sm p-1.5 flex items-center justify-center"
                                 onClick={async () => {
@@ -398,8 +418,10 @@ const Tarea = ({
                             >
                                 <UserMinus className="w-4 h-4" />
                             </DangerButton>
+                            </Tooltip>
                         )}
 
+                        <Tooltip text="Ver detalle">
                         <PrimaryButton
                             onClick={() =>
                                 router.get(route("tareas.verTarea", tarea.id))
@@ -407,8 +429,10 @@ const Tarea = ({
                         >
                             <Eye className="w-4 h-4" />
                         </PrimaryButton>
+                        </Tooltip>
 
                         {grupos.length === 0 && ruta === "grupos.tareas" && (
+                            <Tooltip text="Eliminar del grupo">
                             <DangerButton
                                 className="text-sm py-1.5"
                                 onClick={async () => {
@@ -424,8 +448,10 @@ const Tarea = ({
                             >
                                 <ListMinus className="w-4 h-4" />
                             </DangerButton>
+                            </Tooltip>
                         )}
 
+                        <Tooltip text="Eliminar tarea">
                         <DangerButton
                             className="text-sm p-1.5 bg-[#A90000] hover:bg-red-700 flex items-center justify-center"
                             onClick={async () => {
@@ -436,6 +462,7 @@ const Tarea = ({
                         >
                             <Trash2 className="w-4 h-4" />
                         </DangerButton>
+                        </Tooltip>
                     </>
                 )}
             </div>
