@@ -60,7 +60,7 @@ export default function DeleteUserForm({ className = '' }) {
                 </p>
             </header>
 
-            <DangerButton onClick={confirmUserDeletion}>
+            <DangerButton type="button" onClick={confirmUserDeletion}>
                 Delete Account
             </DangerButton>
 

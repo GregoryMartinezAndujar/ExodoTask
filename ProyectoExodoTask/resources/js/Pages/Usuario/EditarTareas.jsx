@@ -16,6 +16,7 @@ const EditarTareas = ({ tarea, auth, prioridades }) => {
     });
     const submit = (e) => {
         e.preventDefault();
+        setData("a_prioridad_id", data.a_prioridad_id === "" ? null : data.a_prioridad_id);
         patch(route("tareas.update", tarea.id), {
             onSuccess: () => reset(),
         });

@@ -41,7 +41,7 @@ class TareasController extends Controller
         $validated = $request->validate([
             'a_nombre' => 'required|string|max:100',
             'a_descripcion' => 'required|string|max:200',
-            'a_horas' => 'required|integer',
+            'a_horas' => 'required|numeric',
             'a_fecha_limite' => 'required|date',
         ]);
         $validated['a_horas'] = $validated['a_horas'] * 60 * 60;
@@ -60,13 +60,17 @@ class TareasController extends Controller
             ->where('a_user_id', auth()->id())
             ->firstOrFail();
 
+        if ($request->has('a_prioridad_id') && $request->a_prioridad_id === '') {
+            $request->merge(['a_prioridad_id' => null]);
+        }
+
         $validated = $request->validate([
             'a_nombre' => 'sometimes|string|max:100',
             'a_descripcion' => 'sometimes|string|max:200',
-            'a_horas' => 'sometimes|integer|min:0',
+            'a_horas' => 'sometimes|numeric|min:0',
             'a_completada' => 'sometimes|boolean',
             'a_fecha_limite' => 'sometimes|date',
-            'a_horas_realizadas' => 'sometimes|integer|min:0',
+            'a_horas_realizadas' => 'sometimes|numeric|min:0',
             'a_prioridad_id' => 'sometimes|integer|nullable|exists:prioridades,id',
         ]);
 

@@ -2,7 +2,7 @@ export default function CheckButton({
     className = "",
     disabled,
     children,
-    type = "button",
+    type = "submit",
     ...props
 }) {
     return (
