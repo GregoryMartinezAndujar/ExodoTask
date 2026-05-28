@@ -164,6 +164,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
             {/* OVERLAY — Mobile */}
             <div
+                aria-hidden="true"
                 className={`
                     fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden 
                     transition-opacity
@@ -172,6 +173,7 @@ export default function AuthenticatedLayout({ header, children }) {
                 onClick={() => setOpen(false)}
             />
             <aside
+                id="mobile-sidebar"
                 className={`
         fixed top-0 left-0 h-full w-64 overflow-y-auto
         bg-[#050509] p-6 z-50 
@@ -185,6 +187,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     <h2 className="text-lg text-slate-100">Menú</h2>
                     <button
                         onClick={() => setOpen(false)}
+                        aria-label="Cerrar menú"
                         className="text-slate-100 text-2xl"
                     >
                         ✕
@@ -304,7 +307,13 @@ export default function AuthenticatedLayout({ header, children }) {
             <div className="flex-1 flex flex-col">
                 {/* HEADER — Mobile */}
                 <div className="md:hidden p-4 bg-[#050509] border-b border-[#27272f] flex items-center justify-between">
-                    <button onClick={() => setOpen(true)} className="text-3xl text-slate-100">
+                    <button
+                        onClick={() => setOpen(true)}
+                        aria-label="Abrir menú"
+                        aria-controls="mobile-sidebar"
+                        aria-expanded={open}
+                        className="text-3xl text-slate-100"
+                    >
                         ☰
                     </button>
                     <h2 className="text-lg text-slate-100">ExodoTask</h2>
