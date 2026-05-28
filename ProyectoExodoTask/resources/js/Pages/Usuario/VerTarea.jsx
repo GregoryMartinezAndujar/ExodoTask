@@ -5,6 +5,7 @@ import TiempoFormateado from "@/components/Formateartiempo";
 import { useForm, Head } from "@inertiajs/react";
 import { router } from "@inertiajs/react";
 import VolverAtras from "@/components/VolverAtras";
+import NotasTarea from "@/components/NotasTarea";
 import dayjs from "dayjs";
 
 export default function VerTarea({ tarea, auth, grupo }) {
@@ -98,6 +99,11 @@ export default function VerTarea({ tarea, auth, grupo }) {
                         {tarea.a_descripcion ||
                             "No hay una descripción detallada para esta tarea."}
                     </p>
+                </div>
+
+                {/* Notas */}
+                <div className="border-t border-gray-100 pt-8">
+                    <NotasTarea notas={tarea.notas || []} tareaId={tarea.id} />
                 </div>
             </div>
         </AuthenticatedLayout>

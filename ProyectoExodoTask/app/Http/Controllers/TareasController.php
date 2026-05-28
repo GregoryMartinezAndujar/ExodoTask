@@ -164,7 +164,7 @@ class TareasController extends Controller
 
     public function verTarea(String $tareaId)
     {
-        $tarea = Tareas::where('id', $tareaId)
+        $tarea = Tareas::with('notas')->where('id', $tareaId)
             ->where('a_user_id', auth()->id())
             ->firstOrFail();
         $grupo = GruposDeTareas::where('id', $tarea->a_grupo_id)->first();

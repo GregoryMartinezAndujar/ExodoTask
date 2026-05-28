@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TareasController;
 use App\Http\Controllers\SesionesDeEstudioController;
 use App\Http\Controllers\TareasSesionesController;
+use App\Http\Controllers\NotasTareasController;
 use App\Models\Tareas;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -54,5 +55,10 @@ Route::get('/sesionesdetareas/{sesion}', [SesionesDeEstudioController::class, 's
 Route::patch('/sesionesdetareas/{sesion}/accion', [SesionesDeEstudioController::class, 'transition'])->middleware(['auth', 'verified'])->name('sesionesdetareas.accion');
 Route::resource('tareas-sesiones', TareasSesionesController::class)->only(['index', 'update', 'destroy', 'store', 'create', 'edit'])->middleware(['auth', 'verified']);
 
+
+// Rutas de notas (anidadas dentro de tareas)
+Route::post('/tareas/{tarea}/notas', [NotasTareasController::class, 'store'])->name('notas.store');
+Route::patch('/tareas/{tarea}/notas/{nota}', [NotasTareasController::class, 'update'])->name('notas.update');
+Route::delete('/tareas/{tarea}/notas/{nota}', [NotasTareasController::class, 'destroy'])->name('notas.destroy');
 
 require __DIR__ . '/auth.php';

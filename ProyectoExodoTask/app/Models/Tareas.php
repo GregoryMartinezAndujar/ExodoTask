@@ -35,7 +35,7 @@ class Tareas extends Model
     }
     public function notas()
     {
-        return $this->hasMany(NotasTareas::class);
+        return $this->hasMany(NotasTareas::class, 'a_tarea_id');
     }
     public function prioridad()
     {
