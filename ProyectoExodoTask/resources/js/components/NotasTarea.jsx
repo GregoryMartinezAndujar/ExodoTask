@@ -51,7 +51,9 @@ export default function NotasTarea({ notas, tareaId }) {
             </h3>
 
             <form onSubmit={agregarNota} className="flex gap-2 mb-4">
+                <label htmlFor="nota-input" className="sr-only">Nueva nota</label>
                 <input
+                    id="nota-input"
                     value={nuevoTexto}
                     onChange={(e) => setNuevoTexto(e.target.value)}
                     type="text"
@@ -61,6 +63,7 @@ export default function NotasTarea({ notas, tareaId }) {
                 <Tooltip text="Añadir nota">
                 <button
                     type="submit"
+                    aria-label="Añadir nota"
                     className="px-3 py-2 bg-[#A90000] text-white rounded-lg hover:bg-red-700 transition text-sm flex items-center gap-1"
                 >
                     <Plus className="w-4 h-4" />
@@ -79,6 +82,8 @@ export default function NotasTarea({ notas, tareaId }) {
                     >
                         <Tooltip text="Marcar/desmarcar nota">
                         <button
+                            type="button"
+                            aria-label={nota.a_completada ? "Desmarcar nota" : "Marcar nota como completada"}
                             onClick={() => toggleCompletada(nota)}
                             className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition ${
                                 nota.a_completada
@@ -102,6 +107,8 @@ export default function NotasTarea({ notas, tareaId }) {
 
                         <Tooltip text="Eliminar nota">
                         <button
+                            type="button"
+                            aria-label="Eliminar nota"
                             onClick={() => eliminarNota(nota)}
                             className="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-red-600 transition p-1"
                         >

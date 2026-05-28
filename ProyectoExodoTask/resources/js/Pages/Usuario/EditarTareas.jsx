@@ -43,7 +43,11 @@ const EditarTareas = ({ tarea, auth, prioridades }) => {
                 >
                     {/* Nombre */}
                     <div>
+                        <label htmlFor="edit-nombre" className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
+                            Nombre
+                        </label>
                         <input
+                            id="edit-nombre"
                             value={data.a_nombre}
                             onChange={(e) =>
                                 setData("a_nombre", e.target.value)
@@ -60,7 +64,11 @@ const EditarTareas = ({ tarea, auth, prioridades }) => {
 
                     {/* Descripción */}
                     <div>
+                        <label htmlFor="edit-descripcion" className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
+                            Descripción
+                        </label>
                         <textarea
+                            id="edit-descripcion"
                             value={data.a_descripcion}
                             onChange={(e) =>
                                 setData("a_descripcion", e.target.value)
@@ -77,7 +85,11 @@ const EditarTareas = ({ tarea, auth, prioridades }) => {
 
                     {/* Horas */}
                     <div>
+                        <label htmlFor="edit-horas" className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
+                            Horas estimadas
+                        </label>
                         <input
+                            id="edit-horas"
                             value={data.a_horas}
                             onChange={(e) => setData("a_horas", e.target.value)}
                             type="number"
@@ -89,10 +101,11 @@ const EditarTareas = ({ tarea, auth, prioridades }) => {
 
                     {/* Fecha límite */}
                     <div>
-                        <label className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
+                        <label htmlFor="edit-fecha" className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
                             Fecha límite
                         </label>
                         <input
+                            id="edit-fecha"
                             value={data.a_fecha_limite}
                             onChange={(e) =>
                                 setData("a_fecha_limite", e.target.value)
@@ -108,10 +121,11 @@ const EditarTareas = ({ tarea, auth, prioridades }) => {
 
                     {/* Prioridad */}
                     <div>
-                        <label className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
+                        <label htmlFor="edit-prioridad" className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
                             Prioridad
                         </label>
                         <select
+                            id="edit-prioridad"
                             value={data.a_prioridad_id}
                             onChange={(e) =>
                                 setData("a_prioridad_id", e.target.value)

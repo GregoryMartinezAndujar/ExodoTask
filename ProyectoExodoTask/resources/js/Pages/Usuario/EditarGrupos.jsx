@@ -61,7 +61,11 @@ export default function Index({ auth, tareas, currentRoute, grupo }) {
                 >
                     {/* Nombre */}
                     <div>
+                        <label htmlFor="editar-grupo-nombre" className="text-xs text-gray-700 uppercase tracking-wide mb-1 block">
+                            Nombre del grupo
+                        </label>
                         <input
+                            id="editar-grupo-nombre"
                             value={data.a_nombre}
                             onChange={(e) =>
                                 setData("a_nombre", e.target.value)

@@ -8,6 +8,7 @@ import { useForm } from "@inertiajs/react";
 import { eliminarGrupo } from "./Alerts";
 import { FolderKanban, Clock3, Timer } from "lucide-react";
 import TiempoFormateado from "./Formateartiempo";
+import Tooltip from "./Tooltip";
 dayjs.extend(relativeTime);
 
 const VerGrupos = ({ grupo, tareas }) => {
@@ -86,6 +87,7 @@ const VerGrupos = ({ grupo, tareas }) => {
                     </small>
 
                     <div className="flex flex-wrap gap-2 md:justify-end">
+                        <Tooltip text="Ver tareas del grupo">
                         <PrimaryButton
                             className="text-white"
                             onClick={() =>
@@ -94,7 +96,9 @@ const VerGrupos = ({ grupo, tareas }) => {
                         >
                             Ver tareas
                         </PrimaryButton>
+                        </Tooltip>
 
+                        <Tooltip text="Editar grupo">
                         <PrimaryButton
                             className="text-white"
                             onClick={() =>
@@ -103,7 +107,9 @@ const VerGrupos = ({ grupo, tareas }) => {
                         >
                             Editar
                         </PrimaryButton>
+                        </Tooltip>
 
+                        <Tooltip text="Eliminar grupo">
                         <DangerButton
                             className="text-white"
                             onClick={async () => {
@@ -119,6 +125,7 @@ const VerGrupos = ({ grupo, tareas }) => {
                         >
                             Eliminar
                         </DangerButton>
+                        </Tooltip>
                     </div>
                 </div>
             </div>

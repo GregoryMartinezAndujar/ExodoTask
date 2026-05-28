@@ -2,10 +2,12 @@ export default function DangerButton({
     className = "",
     disabled,
     children,
+    type = "button",
     ...props
 }) {
     return (
         <button
+            type={type}
             {...props}
             className={
                 `inline-flex items-center rounded-md border border-transparent bg-[#A90000] px-4 py-2 text-xs  uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-red-700 ${

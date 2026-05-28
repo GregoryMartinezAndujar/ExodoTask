@@ -112,15 +112,16 @@ export default function Login({ status, canResetPassword }) {
                             {/* REMEMBER */}
                             <div className="flex items-center">
                                 <Checkbox
+                                    id="remember"
                                     name="remember"
                                     checked={data.remember}
                                     onChange={(e) =>
                                         setData("remember", e.target.checked)
                                     }
                                 />
-                                <span className="ms-2 text-lg text-gray-600">
+                                <label htmlFor="remember" className="ms-2 text-lg text-gray-600">
                                     Recordarme
-                                </span>
+                                </label>
                             </div>
 
                             {/* BOTÓN LOGIN */}

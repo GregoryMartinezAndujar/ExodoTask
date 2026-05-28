@@ -4,6 +4,7 @@ import { Head, router, useForm } from "@inertiajs/react";
 import { useState } from "react";
 import { Trash2, Timer } from "lucide-react";
 import { confirmarEliminarSesion } from "@/components/Alerts";
+import Tooltip from "@/components/Tooltip";
 
 export default function VerSesionesDeEstudio({ sesiones }) {
     const { delete: destroy } = useForm({});
@@ -37,7 +38,16 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                         {sesiones.map((sesion) => (
                             <div
                                 key={sesion.id}
+                                role="button"
+                                tabIndex={0}
+                                aria-expanded={expandedId === sesion.id}
                                 onClick={() => toggleExpand(sesion.id)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        toggleExpand(sesion.id);
+                                    }
+                                }}
                                 className={`
                                     w-full rounded-xl px-3 py-2 sm:px-4 sm:py-3
                                     flex flex-col gap-3
@@ -94,7 +104,10 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                     </div>
 
                                     <div className="hidden sm:flex gap-1 w-fit">
+                                        <Tooltip text="Iniciar sesión">
                                         <button
+                                            type="button"
+                                            aria-label="Iniciar sesión"
                                             className="inline-flex items-center justify-center p-1.5 rounded bg-[#1e293b] hover:bg-slate-700 text-white transition-colors"
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -108,7 +121,11 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                         >
                                             <Timer className="w-4 h-4" />
                                         </button>
+                                        </Tooltip>
+                                        <Tooltip text="Eliminar sesión">
                                         <button
+                                            type="button"
+                                            aria-label="Eliminar sesión"
                                             className="inline-flex items-center justify-center p-1.5 rounded bg-[#b91c1c] hover:bg-red-700 text-white transition-colors"
                                             onClick={async (e) => {
                                                 e.stopPropagation();
@@ -126,6 +143,7 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>
+                                        </Tooltip>
                                     </div>
                                 </div>
 
@@ -183,7 +201,10 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                 </div>
 
                                 <div className="flex sm:hidden items-center gap-2 border-t border-gray-100 pt-2 mt-1 justify-end">
+                                    <Tooltip text="Iniciar sesión">
                                     <button
+                                        type="button"
+                                        aria-label="Iniciar sesión"
                                         className="inline-flex items-center justify-center p-2 rounded bg-[#1e293b] hover:bg-slate-700 text-white transition-colors"
                                         onClick={(e) => {
                                             e.stopPropagation();
@@ -197,7 +218,11 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                     >
                                         <Timer className="w-4 h-4" />
                                     </button>
+                                    </Tooltip>
+                                    <Tooltip text="Eliminar sesión">
                                     <button
+                                        type="button"
+                                        aria-label="Eliminar sesión"
                                         className="inline-flex items-center justify-center p-2 rounded bg-[#b91c1c] hover:bg-red-700 text-white transition-colors"
                                         onClick={async (e) => {
                                             e.stopPropagation();
@@ -215,6 +240,7 @@ export default function VerSesionesDeEstudio({ sesiones }) {
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>
+                                    </Tooltip>
                                 </div>
                                 {expandedId === sesion.id && (
                                     <div className="mt-3 bg-gray-50 border border-gray-100 rounded-lg p-3">

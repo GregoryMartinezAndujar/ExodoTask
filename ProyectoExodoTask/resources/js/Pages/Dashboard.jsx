@@ -48,10 +48,12 @@ export default function Dashboard({
         >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
                 {/* Completadas */}
-                <div
+                <button
+                    type="button"
                     onClick={() => setVerSegunEstado(true)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setVerSegunEstado(true); }}
                     className="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm border border-gray-200 
-                   active:scale-[0.98] transition sm:p-4"
+                   active:scale-[0.98] transition sm:p-4 text-left"
                 >
                     <div
                         className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center 
@@ -68,13 +70,15 @@ export default function Dashboard({
                             Completadas
                         </p>
                     </div>
-                </div>
+                </button>
 
                 {/* Pendientes */}
-                <div
+                <button
+                    type="button"
                     onClick={() => setVerSegunEstado(false)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setVerSegunEstado(false); }}
                     className="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm border border-gray-200 
-                   active:scale-[0.98] transition sm:p-4"
+                   active:scale-[0.98] transition sm:p-4 text-left"
                 >
                     <div
                         className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center 
@@ -91,13 +95,15 @@ export default function Dashboard({
                             Pendientes
                         </p>
                     </div>
-                </div>
+                </button>
 
                 {/* Totales */}
-                <div
+                <button
+                    type="button"
                     onClick={() => setVerSegunEstado(null)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setVerSegunEstado(null); }}
                     className="flex items-center gap-3 bg-white p-3 rounded-lg shadow-sm border border-gray-200 
-                   active:scale-[0.98] transition sm:p-4"
+                   active:scale-[0.98] transition sm:p-4 text-left"
                 >
                     <div
                         className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center 
@@ -114,7 +120,7 @@ export default function Dashboard({
                             Tareas Totales
                         </p>
                     </div>
-                </div>
+                </button>
             </div>
 
             {/* Filtro por prioridad */}

@@ -52,10 +52,11 @@ export default function Index({ auth }) {
                     <div className="border-t border-gray-200" />
 
                     <div className="space-y-1.5">
-                        <label className="text-sm text-gray-700 uppercase tracking-wide">
+                        <label htmlFor="a_nombre" className="text-sm text-gray-700 uppercase tracking-wide">
                             Nombre
                         </label>
                         <input
+                            id="a_nombre"
                             value={data.a_nombre}
                             onChange={(e) =>
                                 setData("a_nombre", e.target.value)
@@ -71,10 +72,11 @@ export default function Index({ auth }) {
                     </div>
 
                     <div className="space-y-1.5">
-                        <label className="text-sm text-gray-700 uppercase tracking-wide">
+                        <label htmlFor="a_descripcion" className="text-sm text-gray-700 uppercase tracking-wide">
                             Descripción
                         </label>
                         <textarea
+                            id="a_descripcion"
                             value={data.a_descripcion}
                             onChange={(e) =>
                                 setData("a_descripcion", e.target.value)
@@ -91,10 +93,11 @@ export default function Index({ auth }) {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="space-y-1.5">
-                            <label className="text-sm text-gray-700 uppercase tracking-wide">
+                            <label htmlFor="a_horas" className="text-sm text-gray-700 uppercase tracking-wide">
                                 Horas estimadas
                             </label>
                             <input
+                                id="a_horas"
                                 value={data.a_horas}
                                 onChange={(e) => {
                                     let tiempo = e.target.value;
@@ -111,10 +114,11 @@ export default function Index({ auth }) {
                         </div>
 
                         <div className="space-y-1.5">
-                            <label className="text-sm text-gray-700 uppercase tracking-wide">
+                            <label htmlFor="a_fecha_limite" className="text-sm text-gray-700 uppercase tracking-wide">
                                 Fecha límite
                             </label>
                             <input
+                                id="a_fecha_limite"
                                 value={data.a_fecha_limite}
                                 onChange={(e) =>
                                     setData("a_fecha_limite", e.target.value)

@@ -4,17 +4,13 @@ export default function VolverAtras({ className = "" }) {
     const volver = () => window.history.back();
 
     return (
-        <ArrowBigLeftDashIcon
-            size={32}
+        <button
+            type="button"
             onClick={volver}
-            className={`
-                cursor-pointer text-slate-600
-                transition-all duration-200 ease-out
-                hover:text-slate-900
-                hover:-translate-x-1 hover:scale-110
-                active:scale-95
-                ${className}
-            `}
-        />
+            aria-label="Volver atrás"
+            className={`inline-flex items-center text-slate-600 hover:text-slate-900 transition-all duration-200 ease-out hover:-translate-x-1 hover:scale-110 active:scale-95 ${className}`}
+        >
+            <ArrowBigLeftDashIcon size={32} />
+        </button>
     );
 }

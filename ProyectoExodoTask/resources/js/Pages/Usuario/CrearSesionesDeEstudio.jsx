@@ -72,10 +72,11 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div className="space-y-1">
-                            <label className="text-xs text-gray-700 uppercase tracking-wide">
+                            <label htmlFor="sesion-grupos" className="text-xs text-gray-700 uppercase tracking-wide">
                                 Grupos
                             </label>
                             <select
+                                id="sesion-grupos"
                                 multiple
                                 className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                                 value={data.a_grupos_ids}
@@ -102,10 +103,11 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs text-gray-700 uppercase tracking-wide">
+                            <label htmlFor="sesion-fecha" className="text-xs text-gray-700 uppercase tracking-wide">
                                 Fecha
                             </label>
                             <input
+                                id="sesion-fecha"
                                 type="date"
                                 className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                                 value={data.a_fecha ?? ""}
@@ -118,11 +120,12 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-xs text-gray-700 uppercase tracking-wide">
+                        <label htmlFor="sesion-tareas" className="text-xs text-gray-700 uppercase tracking-wide">
                             Tareas sueltas
                         </label>
 
                         <select
+                            id="sesion-tareas"
                             multiple
                             className="w-full border-gray-300 rounded-lg h-24 sm:h-20 shadow-sm px-2 py-1.5 text-sm sm:text-base focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                             value={data.a_tareas_ids}
@@ -169,10 +172,11 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div className="space-y-1">
-                            <label className="text-xs text-gray-700 uppercase tracking-wide">
+                            <label htmlFor="sesion-nombre" className="text-xs text-gray-700 uppercase tracking-wide">
                                 Nombre
                             </label>
                             <input
+                                id="sesion-nombre"
                                 type="text"
                                 className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                                 value={data.a_nombre}
@@ -185,10 +189,11 @@ export default function CrearSesionEstudio({ auth, tareas, grupos }) {
                         </div>
 
                         <div className="space-y-1">
-                            <label className="text-xs text-gray-700 uppercase tracking-wide">
+                            <label htmlFor="sesion-duracion" className="text-xs text-gray-700 uppercase tracking-wide">
                                 Duración calculada
                             </label>
                             <input
+                                id="sesion-duracion"
                                 type="text"
                                 className="w-full border-gray-300 rounded-lg shadow-sm px-3 py-2 focus:border-[#A90000] focus:ring focus:ring-[#A90000]/30"
                                 value={formatearAHorasMinutos(tiempoTotal)}

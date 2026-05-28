@@ -153,6 +153,7 @@ const Tarea = ({
                         <>
                             <Tooltip text={data.a_completada ? "Desmarcar como completada" : "Marcar como completada"}>
                             <CheckButton
+                                aria-label={data.a_completada ? "Desmarcar como completada" : "Marcar como completada"}
                                 className={`text-sm py-1.5 flex items-center gap-1  ${
                                     data.a_completada
                                         ? "  bg-[#FCA5A5] text-red-600 hover:bg-red-700"
@@ -200,6 +201,7 @@ const Tarea = ({
 
                             <Tooltip text="Editar tarea">
                             <PrimaryButton
+                                aria-label="Editar tarea"
                                 className="text-sm py-1.5"
                                 onClick={() =>
                                     router.get(route("tareas.edit", tarea.id))
@@ -212,6 +214,7 @@ const Tarea = ({
                             {!tarea.a_completada && (
                                 <Tooltip text="Iniciar cronómetro">
                                 <PrimaryButton
+                                    aria-label="Iniciar cronómetro"
                                     className="text-sm py-1.5 flex items-center gap-1"
                                     onClick={() =>
                                         router.get(
@@ -228,6 +231,7 @@ const Tarea = ({
                             )}
                             <Tooltip text="Ver detalle">
                             <PrimaryButton
+                                aria-label="Ver detalle"
                                 onClick={() =>
                                     router.get(
                                         route("tareas.verTarea", tarea.id),
@@ -240,6 +244,7 @@ const Tarea = ({
                             {grupos.length == 0 && ruta === "grupos.tareas" && (
                                 <Tooltip text="Eliminar del grupo">
                                 <DangerButton
+                                    aria-label="Eliminar del grupo"
                                     className="text-sm py-1.5"
                                     onClick={async () => {
                                         if (await eliminarTareaDelGrupo()) {
@@ -259,6 +264,7 @@ const Tarea = ({
 
                             <Tooltip text="Eliminar tarea">
                             <DangerButton
+                                aria-label="Eliminar tarea"
                                 className="text-sm py-1.5 bg-[#A90000] hover:bg-red-700 flex items-center gap-1"
                                 onClick={async () => {
                                     if (await eliminarTarea()) {
@@ -344,6 +350,7 @@ const Tarea = ({
                     <>
                         <Tooltip text={data.a_completada ? "Desmarcar como completada" : "Marcar como completada"}>
                         <PrimaryButton
+                            aria-label={data.a_completada ? "Desmarcar como completada" : "Marcar como completada"}
                             className="text-sm p-1.5 flex items-center justify-center"
                             onClick={async () => {
                                 if (!data.a_completada) {
@@ -381,6 +388,7 @@ const Tarea = ({
 
                         <Tooltip text="Editar tarea">
                         <PrimaryButton
+                            aria-label="Editar tarea"
                             className="text-sm p-1.5 flex items-center justify-center"
                             onClick={() =>
                                 router.get(route("tareas.edit", tarea.id))
@@ -392,6 +400,7 @@ const Tarea = ({
 
                         <Tooltip text="Iniciar cronómetro">
                         <PrimaryButton
+                            aria-label="Iniciar cronómetro"
                             className="text-sm p-1.5 flex items-center justify-center"
                             onClick={() =>
                                 router.get(route("tareas.edit", tarea.id))
@@ -404,6 +413,7 @@ const Tarea = ({
                         {ruta === "grupos.tareas" && (
                             <Tooltip text="Eliminar del grupo">
                             <DangerButton
+                                aria-label="Eliminar del grupo"
                                 className="text-sm p-1.5 flex items-center justify-center"
                                 onClick={async () => {
                                     if (await eliminarTareaDelGrupo()) {
@@ -423,6 +433,7 @@ const Tarea = ({
 
                         <Tooltip text="Ver detalle">
                         <PrimaryButton
+                            aria-label="Ver detalle"
                             onClick={() =>
                                 router.get(route("tareas.verTarea", tarea.id))
                             }
@@ -434,6 +445,7 @@ const Tarea = ({
                         {grupos.length === 0 && ruta === "grupos.tareas" && (
                             <Tooltip text="Eliminar del grupo">
                             <DangerButton
+                                aria-label="Eliminar del grupo"
                                 className="text-sm py-1.5"
                                 onClick={async () => {
                                     if (await eliminarTareaDelGrupo()) {
@@ -453,6 +465,7 @@ const Tarea = ({
 
                         <Tooltip text="Eliminar tarea">
                         <DangerButton
+                            aria-label="Eliminar tarea"
                             className="text-sm p-1.5 bg-[#A90000] hover:bg-red-700 flex items-center justify-center"
                             onClick={async () => {
                                 if (await eliminarTarea()) {
