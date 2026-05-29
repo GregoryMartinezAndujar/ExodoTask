@@ -54,7 +54,7 @@ export default function TimerFull({ tarea }) {
                 >
                     {/* COLUMNA IZQUIERDA: EL CRONÓMETRO */}
                     <div className="md:col-span-5 flex flex-col items-center justify-center w-full">
-                        <div className="w-full max-w-[300px] aspect-square bg-[#0b0b12] rounded-full flex items-center justify-center border border-[#27272f] shadow-inner p-6">
+                        <div className="w-full max-w-[200px] sm:max-w-[300px] aspect-square bg-[#0b0b12] rounded-full flex items-center justify-center border border-[#27272f] shadow-inner p-4 sm:p-6">
                             <CountdownCircleTimer
                                 key={key}
                                 isPlaying={isPlaying}
@@ -71,7 +71,7 @@ export default function TimerFull({ tarea }) {
                                     durationInSeconds * 0.25,
                                     0,
                                 ]}
-                                size={230}
+                                size={180}
                                 strokeWidth={6}
                                 trailColor="#27272f"
                                 onUpdate={(remainingTime) =>
@@ -92,7 +92,7 @@ export default function TimerFull({ tarea }) {
                                     return (
                                         <span
                                             className="
-                                                text-4xl sm:text-5xl
+                                                text-2xl sm:text-4xl lg:text-5xl
                                                 font-light text-slate-100
                                                 tracking-tighter tabular-nums
                                             "

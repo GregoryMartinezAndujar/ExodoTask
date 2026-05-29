@@ -89,7 +89,7 @@ const VerGrupos = ({ grupo, tareas }) => {
                     <div className="flex flex-wrap gap-2 md:justify-end">
                         <Tooltip text="Ver tareas del grupo">
                         <PrimaryButton
-                            className="text-white"
+                            className="text-white text-xs sm:text-sm px-2 sm:px-4 py-1.5 sm:py-2"
                             onClick={() =>
                                 router.get(route("grupos.tareas", grupo.id))
                             }
@@ -100,7 +100,7 @@ const VerGrupos = ({ grupo, tareas }) => {
 
                         <Tooltip text="Editar grupo">
                         <PrimaryButton
-                            className="text-white"
+                            className="text-white text-xs sm:text-sm px-2 sm:px-4 py-1.5 sm:py-2"
                             onClick={() =>
                                 router.get(route("editar.grupo", grupo.id))
                             }
@@ -111,7 +111,7 @@ const VerGrupos = ({ grupo, tareas }) => {
 
                         <Tooltip text="Eliminar grupo">
                         <DangerButton
-                            className="text-white"
+                            className="text-white text-xs sm:text-sm px-2 sm:px-4 py-1.5 sm:py-2"
                             onClick={async () => {
                                 if (await eliminarGrupo()) {
                                     destroy(

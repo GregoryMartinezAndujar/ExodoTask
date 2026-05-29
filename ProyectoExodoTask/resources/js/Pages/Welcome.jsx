@@ -38,7 +38,7 @@ export default function Welcome({ auth }) {
                 </nav>
 
                 <section className="flex flex-col items-center px-6 py-20 text-center lg:py-32">
-                    <ApplicationLogo className="mb-8 h-32 w-32 rounded-full shadow-[0_0_60px_rgba(185,28,28,0.35)] transition-transform duration-300 hover:scale-105" />
+                    <ApplicationLogo className="mb-8 h-32 w-32 md:h-60 md:w-60 rounded-full shadow-[0_0_60px_rgba(185,28,28,0.35)]" />
 
                     <h1 className="text-4xl font-bold text-white lg:text-6xl">
                         Gestiona tus tareas

@@ -4,6 +4,7 @@ import InputError from "@/components/InputError";
 import { useForm, Head } from "@inertiajs/react";
 import DangerButton from "@/components/DangerButton";
 import Tareas from "@/components/Tareas";
+import VolverAtras from "@/components/VolverAtras";
 export default function Index({ auth, tareas, currentRoute, grupos }) {
     const { data, setData, post, processing, reset, errors } = useForm({
         a_nombre: "",
@@ -46,6 +47,7 @@ export default function Index({ auth, tareas, currentRoute, grupos }) {
 
             {/* CONTENEDOR RESPONSIVE */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <VolverAtras className="mb-2" />
                 {/* FORMULARIO RESPONSIVE */}
                 <form
                     onSubmit={submit}

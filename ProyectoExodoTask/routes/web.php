@@ -61,4 +61,8 @@ Route::post('/tareas/{tarea}/notas', [NotasTareasController::class, 'store'])->n
 Route::patch('/tareas/{tarea}/notas/{nota}', [NotasTareasController::class, 'update'])->name('notas.update');
 Route::delete('/tareas/{tarea}/notas/{nota}', [NotasTareasController::class, 'destroy'])->name('notas.destroy');
 
+Route::get('/style-guide', function () {
+    return Inertia::render('StyleGuide');
+})->name('style.guide');
+
 require __DIR__ . '/auth.php';

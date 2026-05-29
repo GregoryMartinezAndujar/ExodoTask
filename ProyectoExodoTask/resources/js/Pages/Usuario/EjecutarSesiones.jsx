@@ -330,7 +330,7 @@ export default function EjecutarSesiones({ sesion }) {
                     <div className="md:col-span-5 flex flex-col items-center justify-center w-full self-center">
                         <div className="w-full max-w-[160px] md:max-w-[220px] lg:max-w-[300px] aspect-square bg-[#0b0b12] rounded-full flex items-center justify-center border border-[#27272f] shadow-inner p-2 md:p-4">
                             <div className="flex flex-col items-center justify-center text-center">
-                                <span className="hidden md:block text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-slate-400 font-normal mb-1 md:mb-2">
+                                <span className="hidden md:block text-[11px] md:text-[10px] uppercase tracking-[0.3em] text-slate-400 font-normal mb-1 md:mb-2">
                                     Sesión de estudio
                                 </span>
                                 <span className="text-xl md:text-3xl lg:text-4xl font-light text-slate-100 tracking-tighter tabular-nums leading-none">
@@ -356,7 +356,7 @@ export default function EjecutarSesiones({ sesion }) {
 
                         <div className="grid grid-cols-2 gap-1 md:gap-2">
                             <div className="bg-[#0b0b12] border border-[#27272f] p-2 md:p-3 rounded-xl md:rounded-2xl">
-                                <span className="text-[10px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
+                                <span className="text-[11px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
                                     Tiempo total
                                 </span>
                                 <span className="text-xs md:text-lg font-normal text-slate-200">
@@ -365,7 +365,7 @@ export default function EjecutarSesiones({ sesion }) {
                             </div>
 
                             <div className="bg-[#0b0b12] border border-[#27272f] p-2 md:p-3 rounded-xl md:rounded-2xl">
-                                <span className="text-[10px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
+                                <span className="text-[11px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
                                     Restante
                                 </span>
                                 <span className="text-xs md:text-lg font-normal text-[#b91c1c]">
@@ -374,7 +374,7 @@ export default function EjecutarSesiones({ sesion }) {
                             </div>
 
                             <div className="bg-[#0b0b12] border border-[#27272f] p-2 md:p-3 rounded-xl md:rounded-2xl">
-                                <span className="text-[10px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
+                                <span className="text-[11px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
                                     Consumido
                                 </span>
                                 <span className="text-xs md:text-lg font-normal text-slate-200">
@@ -383,7 +383,7 @@ export default function EjecutarSesiones({ sesion }) {
                             </div>
 
                             <div className="bg-[#0b0b12] border border-[#27272f] p-2 md:p-3 rounded-xl md:rounded-2xl">
-                                <span className="text-[10px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
+                                <span className="text-[11px] md:text-xs font-normal text-slate-400 block mb-0.5 md:mb-1">
                                     Estado
                                 </span>
                                 <span className="text-xs md:text-lg font-normal text-slate-200 capitalize">
@@ -401,7 +401,7 @@ export default function EjecutarSesiones({ sesion }) {
                                 className="md:hidden flex items-center justify-between w-full"
                             >
                                 <div className="text-left">
-                                    <span className="text-[10px] font-normal text-slate-400 block mb-0.5">
+                                    <span className="text-[11px] font-normal text-slate-400 block mb-0.5">
                                         Tareas incluidas
                                     </span>
                                     <h4 className="text-xs font-normal text-white tracking-tight">
@@ -454,7 +454,7 @@ export default function EjecutarSesiones({ sesion }) {
                                                 </span>
                                             </div>
 
-                                            <span className="text-[10px] md:text-xs text-slate-400 whitespace-nowrap">
+                                            <span className="text-[11px] md:text-xs text-slate-400 whitespace-nowrap">
                                                 {formatearTiempo(tarea.a_horas)}
                                             </span>
                                         </div>
@@ -467,11 +467,11 @@ export default function EjecutarSesiones({ sesion }) {
                             </div>
                         </div>
 
-                        <div className={`${tareasOpen ? "hidden" : "flex"} md:flex flex-col md:flex-row gap-1 md:gap-2 pt-1 md:pt-2 border-t border-[#27272f]`}>
+                        <div className="flex flex-col md:flex-row gap-1 md:gap-2 pt-1 md:pt-2 border-t border-[#27272f]">
                             <button
                                 onClick={reanudar}
                                 disabled={estaEnCurso || estaFinalizada}
-                                className="flex-1 px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs bg-[#b91c1c] hover:bg-[#a11818] text-white font-normal shadow-lg shadow-[#b91c1c]/20 transition-all active:scale-[0.98] disabled:opacity-50"
+                                className="flex-1 px-3 py-2 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[11px] md:text-xs bg-[#b91c1c] hover:bg-[#a11818] text-white font-normal shadow-lg shadow-[#b91c1c]/20 transition-all active:scale-[0.98] disabled:opacity-50"
                             >
                                 <Play className="w-2.5 h-2.5 md:w-3 md:h-3 inline-block mr-0.5 md:mr-1" />
                                 Reanudar
@@ -480,7 +480,7 @@ export default function EjecutarSesiones({ sesion }) {
                             <button
                                 onClick={pausar}
                                 disabled={!estaEnCurso || estaFinalizada}
-                                className="flex-1 px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs bg-[#27272f] hover:bg-[#32323c] text-slate-100 font-normal transition-all active:scale-[0.98] disabled:opacity-50"
+                                className="flex-1 px-3 py-2 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[11px] md:text-xs bg-[#27272f] hover:bg-[#32323c] text-slate-100 font-normal transition-all active:scale-[0.98] disabled:opacity-50"
                             >
                                 <Pause className="w-2.5 h-2.5 md:w-3 md:h-3 inline-block mr-0.5 md:mr-1" />
                                 Pausar
@@ -489,7 +489,7 @@ export default function EjecutarSesiones({ sesion }) {
                             <button
                                 onClick={confirmarFinalizar}
                                 disabled={estaFinalizada}
-                                className="flex-1 px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs border border-[#27272f] hover:bg-[#27272f]/30 text-slate-400 hover:text-slate-200 font-normal transition-all active:scale-[0.98] disabled:opacity-50"
+                                className="flex-1 px-3 py-2 md:px-4 md:py-2 rounded-lg md:rounded-xl text-[11px] md:text-xs border border-[#27272f] hover:bg-[#27272f]/30 text-slate-400 hover:text-slate-200 font-normal transition-all active:scale-[0.98] disabled:opacity-50"
                             >
                                 <CheckCircle2 className="w-2.5 h-2.5 md:w-3 md:h-3 inline-block mr-0.5 md:mr-1" />
                                 Finalizar

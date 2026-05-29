@@ -212,11 +212,15 @@ export default function AuthenticatedLayout({ header, children }) {
                 <nav className="flex-1 px-3 space-y-2 ">
                     {/* Principal */}
                     <div>
+                        <p className="px-4 mb-2 text-2xl uppercase tracking-wider text-slate-200">
+                            Principal
+                        </p>
+
                         <NavLink
                             href={route("dashboard")}
                             active={route().current("dashboard")}
                         >
-                            <span className="flex w-full items-center gap-3 px-2 py-1 ">
+                            <span className="flex w-full items-center gap-3 px-2 py-1">
                                 <CheckSquare className="w-5 h-5" />
                                 Ver Tareas
                             </span>
@@ -244,7 +248,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
                     {/* Crear */}
                     <div>
-                        <p className="px-4 mb-2 text-2xl  uppercase tracking-wider text-slate-200">
+                        <p className="px-4 mb-2 text-2xl uppercase tracking-wider text-slate-200">
                             Crear
                         </p>
 
@@ -279,7 +283,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
                     {/* Cuenta */}
                     <div>
-                        <p className="px-4 mb-2 text-2xl  uppercase tracking-wider text-slate-200">
+                        <p className="px-4 mb-2 text-2xl uppercase tracking-wider text-slate-200">
                             Cuenta
                         </p>
 
@@ -327,7 +331,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     </header>
                 )}
 
-                <main className="flex-1 overflow-y-auto p-6">{children}</main>
+                <main className="flex-1 overflow-y-auto p-4 md:p-6">{children}</main>
             </div>
         </div>
     );

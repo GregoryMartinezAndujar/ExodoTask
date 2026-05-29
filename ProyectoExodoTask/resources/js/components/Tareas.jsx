@@ -349,9 +349,13 @@ const Tarea = ({
                     {(ruta === "grupos.tareas" || ruta === "dashboard") && (
                     <>
                         <Tooltip text={data.a_completada ? "Desmarcar como completada" : "Marcar como completada"}>
-                        <PrimaryButton
+                        <CheckButton
                             aria-label={data.a_completada ? "Desmarcar como completada" : "Marcar como completada"}
-                            className="text-sm p-1.5 flex items-center justify-center"
+                            className={`text-sm p-2 flex items-center justify-center ${
+                                data.a_completada
+                                    ? "bg-[#FCA5A5] text-red-600 hover:bg-red-700"
+                                    : "bg-green-400 hover:bg-green-700"
+                            }`}
                             onClick={async () => {
                                 if (!data.a_completada) {
                                     if (await completarTarea()) {
@@ -383,13 +387,13 @@ const Tarea = ({
                             ) : (
                                 <Check className="w-4 h-4" />
                             )}
-                        </PrimaryButton>
+                        </CheckButton>
                         </Tooltip>
 
                         <Tooltip text="Editar tarea">
                         <PrimaryButton
                             aria-label="Editar tarea"
-                            className="text-sm p-1.5 flex items-center justify-center"
+                            className="text-sm p-2 flex items-center justify-center"
                             onClick={() =>
                                 router.get(route("tareas.edit", tarea.id))
                             }
@@ -401,9 +405,9 @@ const Tarea = ({
                         <Tooltip text="Iniciar cronómetro">
                         <PrimaryButton
                             aria-label="Iniciar cronómetro"
-                            className="text-sm p-1.5 flex items-center justify-center"
+                            className="text-sm p-2 flex items-center justify-center"
                             onClick={() =>
-                                router.get(route("tareas.edit", tarea.id))
+                                router.get(route("tareas.cronometro", tarea.id))
                             }
                         >
                             <Play className="w-4 h-4" />
@@ -414,7 +418,7 @@ const Tarea = ({
                             <Tooltip text="Eliminar del grupo">
                             <DangerButton
                                 aria-label="Eliminar del grupo"
-                                className="text-sm p-1.5 flex items-center justify-center"
+                                className="text-sm p-2 flex items-center justify-center"
                                 onClick={async () => {
                                     if (await eliminarTareaDelGrupo()) {
                                         router.get(
@@ -434,6 +438,7 @@ const Tarea = ({
                         <Tooltip text="Ver detalle">
                         <PrimaryButton
                             aria-label="Ver detalle"
+                            className="text-sm p-2 flex items-center justify-center"
                             onClick={() =>
                                 router.get(route("tareas.verTarea", tarea.id))
                             }
@@ -442,31 +447,10 @@ const Tarea = ({
                         </PrimaryButton>
                         </Tooltip>
 
-                        {grupos.length === 0 && ruta === "grupos.tareas" && (
-                            <Tooltip text="Eliminar del grupo">
-                            <DangerButton
-                                aria-label="Eliminar del grupo"
-                                className="text-sm py-1.5"
-                                onClick={async () => {
-                                    if (await eliminarTareaDelGrupo()) {
-                                        router.get(
-                                            route(
-                                                "tareas.eliminarDelGrupo",
-                                                tarea.id,
-                                            ),
-                                        );
-                                    }
-                                }}
-                            >
-                                <ListMinus className="w-4 h-4" />
-                            </DangerButton>
-                            </Tooltip>
-                        )}
-
                         <Tooltip text="Eliminar tarea">
                         <DangerButton
                             aria-label="Eliminar tarea"
-                            className="text-sm p-1.5 bg-[#A90000] hover:bg-red-700 flex items-center justify-center"
+                            className="text-sm p-2 bg-[#A90000] hover:bg-red-700 flex items-center justify-center"
                             onClick={async () => {
                                 if (await eliminarTarea()) {
                                     destroy(route("tareas.destroy", tarea.id));
