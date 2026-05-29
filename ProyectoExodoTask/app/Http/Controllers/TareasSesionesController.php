@@ -47,7 +47,7 @@ class TareasSesionesController extends Controller
             'notas' => $request->notas,
         ]);
 
-        // Relación N:M → insertar en tabla pivote
+        // Relacion N:M, insertar en tabla pivote
         $sesion->tareas()->attach($request->tareas_ids);
 
         return redirect()->route('sesionesdeestudio.index')->with('success', 'Sesión de estudio creada exitosamente.');

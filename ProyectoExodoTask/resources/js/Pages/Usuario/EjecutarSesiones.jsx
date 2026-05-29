@@ -32,7 +32,7 @@ export default function EjecutarSesiones({ sesion }) {
 
     function displayEstado(estado) {
         if (!estado) return "";
-        // Map known internal states to user-friendly labels
+        
         switch (estado) {
             case "finalizada":
                 return "Finalizada";
@@ -43,7 +43,7 @@ export default function EjecutarSesiones({ sesion }) {
             case "pendiente":
                 return "Sin iniciar";
             default:
-                // Fallback: replace underscores with spaces and capitalize first letter
+                
                 const s = estado.replace(/_/g, " ");
                 return s.charAt(0).toUpperCase() + s.slice(1);
         }
@@ -91,7 +91,7 @@ export default function EjecutarSesiones({ sesion }) {
             if (!ok) return;
         }
 
-        // Optimistic update
+        
         setTareasLocal((prev) =>
             prev.map((t) =>
                 t.id === tarea.id ? { ...t, a_completada: !t.a_completada } : t,
@@ -114,7 +114,7 @@ export default function EjecutarSesiones({ sesion }) {
                 },
             );
         } catch (err) {
-            // Revert on error
+            
             setTareasLocal((prev) =>
                 prev.map((t) =>
                     t.id === tarea.id
@@ -144,7 +144,7 @@ export default function EjecutarSesiones({ sesion }) {
     }, [estaEnCurso, estaFinalizada]);
 
     const pausar = () => {
-        // Prefer AJAX so backend can return JSON and avoid full redirects
+        
         const csrf = document
             .querySelector('meta[name="csrf-token"]')
             ?.getAttribute("content");
@@ -242,7 +242,7 @@ export default function EjecutarSesiones({ sesion }) {
         }
     };
 
-    // Pause session automatically when the component unmounts (e.g., user navigates away / back button)
+    
     useEffect(() => {
         return () => {
             if (refEstaEnCurso.current && !refEstaFinalizada.current) {
@@ -278,7 +278,7 @@ export default function EjecutarSesiones({ sesion }) {
                         xhr.send(payload.toString());
                     }
                 } catch (e) {
-                    // swallow errors on unmount
+                    
                 }
             }
         };
