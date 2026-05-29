@@ -19,8 +19,9 @@ export default function EjecutarSesiones({ sesion }) {
             sesion.a_tiempo_invertido,
     );
 
-    const estaEnCurso = sesion.a_estado === "en_progreso";
-    const estaFinalizada = sesion.a_estado === "finalizada";
+    const [estado, setEstado] = useState(sesion.a_estado);
+    const estaEnCurso = estado === "en_progreso";
+    const estaFinalizada = estado === "finalizada";
     const tiempoConsumido = Math.max(0, tiempoTotal - tiempoRestante);
 
     const refTiempoRestante = useRef(tiempoRestante);
@@ -164,6 +165,7 @@ export default function EjecutarSesiones({ sesion }) {
                     },
                 },
             )
+            .then(() => setEstado("pausada"))
             .catch((err) => {
                 Swal.fire({
                     title: "Error",
@@ -196,6 +198,7 @@ export default function EjecutarSesiones({ sesion }) {
                     },
                 },
             )
+            .then(() => setEstado("en_progreso"))
             .catch((err) => {
                 Swal.fire({
                     title: "Error",
@@ -229,6 +232,7 @@ export default function EjecutarSesiones({ sesion }) {
                         },
                     },
                 )
+                .then(() => setEstado("finalizada"))
                 .catch((err) => {
                     Swal.fire({
                         title: "Error",

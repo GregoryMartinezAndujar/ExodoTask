@@ -177,27 +177,33 @@ class SesionesDeEstudioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SesionesDeEstudio $sesionesDeEstudio)
+    public function edit($id)
     {
-        //
+        $sesion = SesionesDeEstudio::where('id', $id)
+            ->where('a_user_id', Auth::id())
+            ->firstOrFail();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SesionesDeEstudio $sesionesDeEstudio)
+    public function update(Request $request, $id)
     {
-        //
+        $sesion = SesionesDeEstudio::where('id', $id)
+            ->where('a_user_id', Auth::id())
+            ->firstOrFail();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SesionesDeEstudio $sesionesDeEstudio)
+    public function destroy($id)
     {
-        $this->authorizeSesion($sesionesDeEstudio);
+        $sesion = SesionesDeEstudio::where('id', $id)
+            ->where('a_user_id', Auth::id())
+            ->firstOrFail();
 
-        $sesionesDeEstudio->delete();
+        $sesion->delete();
         return redirect()->route('sesionesdetareas.index');
     }
 
