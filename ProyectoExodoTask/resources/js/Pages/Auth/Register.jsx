@@ -31,7 +31,7 @@ export default function Register() {
                     </h1>
 
                     <div className="opacity-90">
-                        <ApplicationLogo />
+                        <ApplicationLogo className="w-[600px] h-[600px] rounded-full shadow-[0_0_40px_rgba(0,0,0,0.25)]" />
                     </div>
                 </div>
 
